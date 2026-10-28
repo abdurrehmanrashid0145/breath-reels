@@ -50,27 +50,27 @@ function makePalette(r, hueIdx, scheme) {
   };
 }
 
-function lineFor(r, used, phase, vars) {
-  const pool = BANK.script[phase].filter(l => !used.has(l));
-  const line = pick(r, pool.length ? pool : BANK.script[phase]);
-  used.add(line);
+// A slot is a string or a list of alternatives; {t1}..{t4} become a tier's spoken name + aura, {n1}..{n4} just its name.
+function lineFor(r, style, phase, vars) {
+  const v = BANK.scriptStyles[style][phase];
+  const line = Array.isArray(v) ? pick(r, v) : v;
   return line.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
 }
 
 // Voiceover timeline. Cue times scale with the hold length (defaults: 60 s hold, 66 s reel).
-function autoScript(r, hold, duration, tiers) {
-  const used = new Set();
-  const vars = { t1: tiers[0].say, t2: tiers[1].say, t3: tiers[2].say, t4: tiers[3].say };
+function autoScript(r, style, hold, duration, tiers) {
+  const vars = {};
+  tiers.forEach((t, i) => { vars['t' + (i + 1)] = t.say; vars['n' + (i + 1)] = t.say.split(',')[0]; });
   const s = hold / 60;
   const cues = [
     [0.3, 'intro'], [4, 'inhale'], [10.5, 'safety'], [15, 'lvl0'],
     [20, 'up1'], [26, 'lvl1'], [33, 'lvl1b'],
     [40, 'up2'], [46, 'lvl2'], [51.5, 'boss'],
   ];
-  const out = cues.map(([t, ph]) => ({ t: +(t * s).toFixed(2), say: lineFor(r, used, ph, vars) }));
+  const out = cues.map(([t, ph]) => ({ t: +(t * s).toFixed(2), say: lineFor(r, style, ph, vars) }));
   out.push({ t: hold - 3, say: 'Three.' }, { t: hold - 2, say: 'Two.' }, { t: hold - 1, say: 'One.' });
-  out.push({ t: hold + 0.1, say: lineFor(r, used, 'exhale', vars) });
-  if (duration - hold > 4) out.push({ t: hold + 3.4, say: lineFor(r, used, 'cta', vars) });
+  out.push({ t: hold + 0.1, say: lineFor(r, style, 'exhale', vars) });
+  if (duration - hold > 4) out.push({ t: hold + 3.4, say: lineFor(r, style, 'cta', vars) });
   return out;
 }
 
@@ -111,6 +111,7 @@ function resolve(user = {}) {
   };
 
   const voice = rand(user.voice, () => pick(r, BANK.voices));
+  const scriptStyle = rand(user.scriptStyle, () => pick(r, Object.keys(BANK.scriptStyles)));
 
   return {
     seed,
@@ -136,7 +137,8 @@ function resolve(user = {}) {
     footerLeft: user.footerLeft ?? '',
     handle: user.handle ?? '',
     ball: { mode: 'step', step: 1, ...(user.ball || {}) },
-    script: user.script && user.script !== 'auto' ? user.script : autoScript(r, hold, duration, tiers),
+    scriptStyle,
+    script: user.script && user.script !== 'auto' ? user.script : autoScript(r, scriptStyle, hold, duration, tiers),
     voice: { name: voice, speed: user.voiceSpeed ?? +(1.05 + r() * 0.12).toFixed(2), enabled: user.voiceover !== false },
     sound: { enabled: true, music: null, musicVolume: 0.3, sfxVolume: 0.55, ...(user.sound || {}) },
   };

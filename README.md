@@ -40,7 +40,7 @@ script with timings. About 2.5 minutes per reel on a 4-core machine.
 | Cards | `glass`, `neon`, `solid`; lung icons `filled` or `outline`; corner radius |
 | Ball | emoji set (changes per level), glow colour |
 | Words | title, subtitle, header pill, tier set, status texts |
-| Voice | 10 Kokoro voices, speed 1.05–1.17, script mixed from `bank.json` |
+| Voice | 10 Kokoro voices, speed 1.05–1.17, one of 3 roast script styles (`roast`, `coach`, `brainrot`) |
 
 ## Config
 
@@ -73,7 +73,7 @@ Every field is optional; leave it out (or set `"random"`) to randomise it.
 }
 ```
 
-- `script`: `"auto"` (default) builds the voiceover from `bank.json`; or pass your own `{ t, say }` list. Lines that run long push the next one back.
+- `script`: `"auto"` (default) builds the voiceover from a `scriptStyles` entry in `bank.json` (pick one with `scriptStyle`); or pass your own `{ t, say }` list. Lines that run long push the next one back.
 - `voiceover: false` turns the voice off; `sound.enabled: false` turns the effects off.
 - `sound.music`: optional path to a royalty-free track, mixed under the effects and ducked under the voice.
 - `palette`: pass `{ "colors": [3 hex], "blobs": [3 hex] }` to use your own colours.

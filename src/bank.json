@@ -287,77 +287,48 @@
   "af_jessica",
   "af_sky"
  ],
- "script": {
-  "intro": [
-   "Yo! Welcome to the lung aura check.",
-   "Okay, stop scrolling. It's time for the breath hold aura check.",
-   "Let's go! Time to find out if your lungs got aura.",
-   "POV: the algorithm just challenged your lungs. Let's see what you got.",
-   "Alright chat, lung aura check. No cheating."
-  ],
-  "inhale": [
-   "Big breath in... and hold it. Timer starts now!",
-   "Deep breath in. Now hold. Let's go!",
-   "Breathe in nice and slow... and lock in.",
-   "Fill those lungs up... and hold. We're live."
-  ],
-  "safety": [
-   "Real talk, if you feel dizzy, just breathe. No ego.",
-   "And hey, breathe whenever you need to.",
-   "Quick rule: don't force it. Breathing is always allowed."
-  ],
-  "lvl0": [
-   "Okay, {t1}. We're just warming up.",
-   "Easy part. Your lungs are still loading.",
-   "Calm. Relaxed. Totally not panicking."
-  ],
-  "up1": [
-   "Level up! {t2}.",
-   "Let's go! You just hit {t2}.",
-   "Ayy, {t2}. The side quest is working."
-  ],
-  "lvl1": [
-   "Your diaphragm got main character energy right now.",
-   "Bro purchased the air DLC.",
-   "Stay delulu. Pretend you're underwater.",
-   "Lowkey impressive. Your lungs are cooking.",
-   "Trust the process. Do not breathe."
-  ],
-  "lvl1b": [
-   "Oxygen is overrated anyway.",
-   "Halfway there. Keep that aura.",
-   "No cap, this is respectable.",
-   "You're doing amazing, sweetie."
-  ],
-  "up2": [
-   "No way! {t3}!",
-   "Sigma moment. {t3}.",
-   "Okay this is crazy. {t3}."
-  ],
-  "lvl2": [
-   "Sigma lungs before GTA six.",
-   "The aura is getting illegal.",
-   "Bro is built like a wind turbine.",
-   "Your lungs are straight up mogging.",
-   "Let him cook. Let him cook."
-  ],
-  "boss": [
-   "Final boss incoming. Stay locked in!",
-   "Almost there. This is peak. Nobody breathe.",
-   "The final boss music is playing. Hold it!",
-   "Last few seconds. Main character ending!"
-  ],
-  "exhale": [
-   "Breathe out! Max aura unlocked. We are so back!",
-   "And exhale! Quest complete. You ate that.",
-   "Breathe out. GG, aura secured.",
-   "Let it out! Final boss defeated. Absolute cinema."
-  ],
-  "cta": [
-   "Comment your aura level.",
-   "Comment the level you reached. Be honest.",
-   "Send this to your NPC friend.",
-   "Follow for more useless side quests."
-  ]
+ "scriptStyles": {
+  "roast": {
+   "intro": "Bet you can't hold your breath for sixty seconds. Prove me wrong.",
+   "inhale": "Breathe in... no, a real breath, not that NPC sip. Hold.",
+   "safety": "If you get dizzy, breathe. I'm roasting you, not ending you.",
+   "lvl0": "{t1}. Stamina of a phone on two percent.",
+   "up1": "{t2}. Wow. A participation trophy.",
+   "lvl1": "You're making a face right now. Yeah, that one. Everyone can see it.",
+   "lvl1b": "Halfway. Your lungs are texting your nose, you up?",
+   "up2": "{t3}?! Okay, who's holding the phone for you?",
+   "lvl2": "Your cheeks look like a chipmunk that just saw the wifi bill.",
+   "boss": "Final boss. Breathe now and your ancestors are disappointed.",
+   "exhale": "Breathe out. Max aura. Fine, I'll admit it. You ate.",
+   "cta": "You cheated, didn't you? Comment your time."
+  },
+  "coach": {
+   "intro": "Alright, NPC. Let's see if those lungs are real or just decoration.",
+   "inhale": "Big breath in. Bigger. That's it? Fine. Hold.",
+   "safety": "Dizzy? Breathe. Even I'm not that toxic.",
+   "lvl0": "I've seen a paper bag with better lung capacity.",
+   "up1": "{t2}. Don't let it go to your head.",
+   "lvl1": "Stop blinking so much. It's using oxygen.",
+   "lvl1b": "Halfway. You're shaking like a chihuahua in the snow.",
+   "up2": "{t3}?! Okay... I see you.",
+   "lvl2": "Your face is the colour of a red flag right now.",
+   "boss": "Final boss. Breathe now and you're an NPC forever.",
+   "exhale": "Breathe out. Max aura. I'm not crying, you're crying.",
+   "cta": "Comment your time. And don't lie, I'll know."
+  },
+  "brainrot": {
+   "intro": "Skibidi breath check. Sixty seconds or you lose all your aura.",
+   "inhale": "Inhale like it's the last slice of pizza... and hold.",
+   "safety": "Seeing stars? Breathe. Stars are free, aura is not.",
+   "lvl0": "{n1} detected. Your diaphragm is on airplane mode.",
+   "up1": "{t2}. Your lungs just got rizz.",
+   "lvl1": "Somewhere, a fish is watching you and laughing.",
+   "lvl1b": "Halfway. Your nose is filing for unemployment.",
+   "up2": "{t3}! Your lungs are mogging your personality.",
+   "lvl2": "Don't think about yawning. You just thought about yawning.",
+   "boss": "Final boss. Ohio level difficulty. Lock in!",
+   "exhale": "Breathe out! Max aura. GTA six could never.",
+   "cta": "Comment your time. Liars lose aura."
+  }
  }
 }
