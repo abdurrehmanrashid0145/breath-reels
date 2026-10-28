@@ -1,0 +1,14 @@
+{
+  "name": "breath-reels",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Config-driven generator for Gen Z breath-hold 'aura check' reels",
+  "scripts": {
+    "render": "node src/render.js",
+    "make": "node src/make.js",
+    "stills": "node src/render.js --stills"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}

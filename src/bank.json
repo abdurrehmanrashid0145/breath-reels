@@ -1,0 +1,376 @@
+{
+ "titles": [
+  [
+   "BREATH-HOLD",
+   "AURA CHECK"
+  ],
+  [
+   "LUNG CAPACITY",
+   "AURA CHECK"
+  ],
+  [
+   "BREATH-HOLD",
+   "VIBE CHECK"
+  ],
+  [
+   "SIGMA LUNG",
+   "AURA TEST"
+  ],
+  [
+   "HOLD YOUR BREATH",
+   "AURA FARM"
+  ]
+ ],
+ "subtitles": [
+  "THE MOST UNNECESSARY SIDE QUEST",
+  "A COMPLETELY USELESS SIDE QUEST",
+  "LOWKEY THE HARDEST GAME OF 2026",
+  "NO THOUGHTS. JUST LUNGS.",
+  "FREE AURA. NO CAP."
+ ],
+ "tierSets": [
+  [
+   {
+    "name": "NPC LUNGS",
+    "aura": "-15 AURA",
+    "note": "BUFFERING...",
+    "say": "NPC lungs, minus fifteen aura"
+   },
+   {
+    "name": "DELULU MODE",
+    "aura": "+20 AURA",
+    "note": "SIDE QUEST ACTIVE",
+    "say": "delulu mode, plus twenty aura"
+   },
+   {
+    "name": "SIGMA AIR",
+    "aura": "+420 AURA",
+    "note": "SUSPICIOUSLY OP",
+    "say": "sigma air, plus four twenty aura"
+   },
+   {
+    "name": "FINAL BOSS",
+    "aura": "MAX AURA",
+    "note": "UNLOCKED?",
+    "say": "final boss, max aura"
+   }
+  ],
+  [
+   {
+    "name": "NPC LUNGS",
+    "aura": "-10 AURA",
+    "note": "LOADING...",
+    "say": "NPC lungs, minus ten aura"
+   },
+   {
+    "name": "MAIN CHARACTER",
+    "aura": "+50 AURA",
+    "note": "PLOT ARMOR ON",
+    "say": "main character, plus fifty aura"
+   },
+   {
+    "name": "SIGMA GRINDSET",
+    "aura": "+420 AURA",
+    "note": "LOCKED IN",
+    "say": "sigma grindset, plus four twenty aura"
+   },
+   {
+    "name": "AURA GOD",
+    "aura": "∞ AURA",
+    "note": "IS THIS LEGAL?",
+    "say": "aura god, infinite aura"
+   }
+  ],
+  [
+   {
+    "name": "BRAINROT TIER",
+    "aura": "-67 AURA",
+    "note": "SKIBIDI DETECTED",
+    "say": "brainrot tier, minus sixty seven aura"
+   },
+   {
+    "name": "DELULU MODE",
+    "aura": "+20 AURA",
+    "note": "TRUST THE PROCESS",
+    "say": "delulu mode, plus twenty aura"
+   },
+   {
+    "name": "RIZZ LUNGS",
+    "aura": "+999 AURA",
+    "note": "UNSPOKEN RIZZ",
+    "say": "rizz lungs, plus nine nine nine aura"
+   },
+   {
+    "name": "FINAL BOSS",
+    "aura": "MAX AURA",
+    "note": "HIM / HER",
+    "say": "final boss, max aura"
+   }
+  ],
+  [
+   {
+    "name": "TUTORIAL LUNGS",
+    "aura": "+0 AURA",
+    "note": "JUST VIBING",
+    "say": "tutorial lungs, zero aura"
+   },
+   {
+    "name": "LOCKED IN",
+    "aura": "+100 AURA",
+    "note": "NO DISTRACTIONS",
+    "say": "locked in, plus one hundred aura"
+   },
+   {
+    "name": "MOGGING",
+    "aura": "+500 AURA",
+    "note": "LUNGS ON TOP",
+    "say": "mogging, plus five hundred aura"
+   },
+   {
+    "name": "GOATED",
+    "aura": "MAX AURA",
+    "note": "ABSOLUTE CINEMA",
+    "say": "goated, max aura"
+   }
+  ],
+  [
+   {
+    "name": "DIAL-UP LUNGS",
+    "aura": "-20 AURA",
+    "note": "CONNECTING...",
+    "say": "dial up lungs, minus twenty aura"
+   },
+   {
+    "name": "WIFI LUNGS",
+    "aura": "+40 AURA",
+    "note": "ONE BAR",
+    "say": "wifi lungs, plus forty aura"
+   },
+   {
+    "name": "5G LUNGS",
+    "aura": "+420 AURA",
+    "note": "FULL SIGNAL",
+    "say": "five G lungs, plus four twenty aura"
+   },
+   {
+    "name": "FIBER OPTIC",
+    "aura": "MAX AURA",
+    "note": "ZERO LAG",
+    "say": "fiber optic lungs, max aura"
+   }
+  ]
+ ],
+ "levels": [
+  "NPC",
+  "DELULU",
+  "SIGMA",
+  "LEGEND"
+ ],
+ "pills": [
+  "SOUND ON",
+  "VOLUME UP",
+  "HEADPHONES ON",
+  "SIDE QUEST",
+  "DAILY CHALLENGE",
+  "NO CAP ZONE"
+ ],
+ "footers": [
+  {
+   "from": 0,
+   "text": "BREATHE ANYTIME  ·  NOT A LUNG TEST"
+  },
+  {
+   "from": 20,
+   "text": "DON'T FORCE IT  ·  NOT A LUNG TEST"
+  },
+  {
+   "from": 60,
+   "text": "RESET + RELAX  ·  NOT A LUNG TEST"
+  }
+ ],
+ "accents": [
+  "#a6f06e",
+  "#7dffcf",
+  "#ffe066",
+  "#7fd8ff",
+  "#ff9fe0",
+  "#ffb86b",
+  "#c4a5ff",
+  "#6bffb8",
+  "#ff7a7a",
+  "#5ce1ff"
+ ],
+ "tierColors": [
+  "#a2a8ea",
+  "#f27a7c",
+  "#a073f2",
+  "#55e3ab"
+ ],
+ "statuses": [
+  [
+   "WARMING UP",
+   "LOCKED IN",
+   "COOKING",
+   "LEGENDARY"
+  ],
+  [
+   "BUFFERING",
+   "DELULU",
+   "SIGMA",
+   "FINAL BOSS"
+  ],
+  [
+   "NPC ARC",
+   "MAIN CHARACTER",
+   "AURA FARMING",
+   "UNSTOPPABLE"
+  ],
+  [
+   "LOADING",
+   "VIBING",
+   "MOGGING",
+   "GOATED"
+  ]
+ ],
+ "doneStatus": [
+  "WE ARE SO BACK",
+  "AURA SECURED",
+  "QUEST COMPLETE",
+  "GG"
+ ],
+ "timerLabels": [
+  "SECONDS HELD",
+  "BREATH HELD",
+  "HOLD TIME",
+  "AURA TIMER"
+ ],
+ "ballFaces": [
+  [
+   "😊",
+   "😤",
+   "🥵",
+   "😵",
+   "😮‍💨"
+  ],
+  [
+   "😎",
+   "😳",
+   "😤",
+   "🗿",
+   "🥳"
+  ],
+  [
+   "🙂",
+   "😬",
+   "🫠",
+   "💀",
+   "😮‍💨"
+  ],
+  [
+   "😇",
+   "🤨",
+   "😤",
+   "🔥",
+   "😌"
+  ],
+  [
+   "🤓",
+   "😮",
+   "😰",
+   "👑",
+   "😮‍💨"
+  ],
+  [
+   "😁",
+   "🫣",
+   "😖",
+   "🤯",
+   "🎉"
+  ]
+ ],
+ "voices": [
+  "am_puck",
+  "am_fenrir",
+  "am_michael",
+  "am_eric",
+  "am_liam",
+  "af_heart",
+  "af_bella",
+  "af_nicole",
+  "af_jessica",
+  "af_sky"
+ ],
+ "script": {
+  "intro": [
+   "Yo! Welcome to the lung aura check.",
+   "Okay, stop scrolling. It's time for the breath hold aura check.",
+   "Let's go! Time to find out if your lungs got aura.",
+   "POV: the algorithm just challenged your lungs. Let's see what you got.",
+   "Alright chat, lung aura check. No cheating."
+  ],
+  "inhale": [
+   "Big breath in... and hold it. Timer starts now!",
+   "Deep breath in. Now hold. Let's go!",
+   "Breathe in nice and slow... and lock in.",
+   "Fill those lungs up... and hold. We're live."
+  ],
+  "safety": [
+   "Real talk, if you feel dizzy, just breathe. No ego.",
+   "And hey, this is a meme. Breathe whenever you need to.",
+   "Quick rule: don't force it. Breathing is always allowed."
+  ],
+  "lvl0": [
+   "Okay, {t1}. We're just warming up.",
+   "Easy part. Your lungs are still loading.",
+   "Calm. Relaxed. Totally not panicking."
+  ],
+  "up1": [
+   "Level up! {t2}.",
+   "Let's go! You just hit {t2}.",
+   "Ayy, {t2}. The side quest is working."
+  ],
+  "lvl1": [
+   "Your diaphragm got main character energy right now.",
+   "Bro purchased the air DLC.",
+   "Stay delulu. Pretend you're underwater.",
+   "Lowkey impressive. Your lungs are cooking.",
+   "Trust the process. Do not breathe."
+  ],
+  "lvl1b": [
+   "Oxygen is overrated anyway.",
+   "Halfway there. Keep that aura.",
+   "No cap, this is respectable.",
+   "You're doing amazing, sweetie."
+  ],
+  "up2": [
+   "No way! {t3}!",
+   "Sigma moment. {t3}.",
+   "Okay this is crazy. {t3}."
+  ],
+  "lvl2": [
+   "Sigma lungs before GTA six.",
+   "The aura is getting illegal.",
+   "Bro is built like a wind turbine.",
+   "Your lungs are straight up mogging.",
+   "Let him cook. Let him cook."
+  ],
+  "boss": [
+   "Final boss incoming. Stay locked in!",
+   "Almost there. This is peak. Nobody breathe.",
+   "The final boss music is playing. Hold it!",
+   "Last few seconds. Main character ending!"
+  ],
+  "exhale": [
+   "Breathe out! Max aura unlocked. We are so back!",
+   "And exhale! Quest complete. You ate that.",
+   "Breathe out. GG, aura secured.",
+   "Let it out! Final boss defeated. Absolute cinema."
+  ],
+  "cta": [
+   "Comment your aura level.",
+   "Comment the level you reached. Be honest.",
+   "Send this to your NPC friend.",
+   "Follow for more useless side quests."
+  ]
+ }
+}
