@@ -12,7 +12,7 @@ Needs Node 18+, Python 3.9+ and ffmpeg.
 ```bash
 npm install
 npx playwright install chromium
-bash scripts/setup-voice.sh     # Kokoro TTS model (~350 MB), free and offline
+bash scripts/setup-voice.sh     # Python venv + Kokoro TTS model (~350 MB), free and offline
 ```
 
 The voice model goes to `~/.cache/breath-reels/tts` (override with `BREATH_REELS_TTS`).
