@@ -133,7 +133,7 @@ function resolve(user = {}) {
     tiers,
     levels: user.levels ?? BANK.levels,
     footers: user.footers ?? BANK.footers,
-    footerLeft: user.footerLeft ?? 'MEME CHALLENGE  //  NOT A MEDICAL TEST',
+    footerLeft: user.footerLeft ?? '',
     handle: user.handle ?? '',
     ball: { mode: 'step', step: 1, ...(user.ball || {}) },
     script: user.script && user.script !== 'auto' ? user.script : autoScript(r, hold, duration, tiers),

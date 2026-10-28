@@ -174,20 +174,7 @@
   "DAILY CHALLENGE",
   "NO CAP ZONE"
  ],
- "footers": [
-  {
-   "from": 0,
-   "text": "BREATHE ANYTIME  ·  NOT A LUNG TEST"
-  },
-  {
-   "from": 20,
-   "text": "DON'T FORCE IT  ·  NOT A LUNG TEST"
-  },
-  {
-   "from": 60,
-   "text": "RESET + RELAX  ·  NOT A LUNG TEST"
-  }
- ],
+ "footers": [],
  "accents": [
   "#a6f06e",
   "#7dffcf",
@@ -316,7 +303,7 @@
   ],
   "safety": [
    "Real talk, if you feel dizzy, just breathe. No ego.",
-   "And hey, this is a meme. Breathe whenever you need to.",
+   "And hey, breathe whenever you need to.",
    "Quick rule: don't force it. Breathing is always allowed."
   ],
   "lvl0": [

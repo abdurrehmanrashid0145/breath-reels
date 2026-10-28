@@ -351,7 +351,8 @@ function render(t) {
   $('#tstatus').style.color = C.tiers[L].color;
   $('#tfill').style.width = (pr * 100) + '%';
 
-  let f = C.footers[0].text;
+  // optional footer lines, e.g. [{ "from": 0, "text": "..." }]
+  let f = '';
   for (const k of C.footers) if (t >= k.from) f = k.text;
   $('#footC').textContent = f;
 }

@@ -37,7 +37,7 @@ ffmpeg -version                    # must exist
 
 ## Rules
 
-- Keep the safety voice line and the "NOT A MEDICAL TEST" footers in every reel.
+- Keep the safety voice line ("if you feel dizzy, just breathe") in every reel. Do not add on-screen disclaimer footers such as "NOT A MEDICAL TEST"; the user removed them on purpose.
 - Sound and voice are generated locally and are royalty-free. Only set `sound.music` to a track the user confirms is licensed for reuse.
 - Trending platform audio can't be added by code; tell the user to add it in-app if they want it.
 - To grow the content pool permanently, add entries to `src/bank.json` (script lines per phase, titles, subtitles, tier sets with a spoken `say`, emoji sets, pills, statuses).

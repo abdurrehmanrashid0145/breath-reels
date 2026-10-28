@@ -2,7 +2,7 @@
 
 Config-driven generator for vertical (1080×1920) Gen Z "breath-hold aura check" reels:
 four lung tiers, an emoji ball that moves while you hold your breath, aura pop-ups,
-a hype voiceover and a generated, royalty-free sound bed. Every reel is randomised
+a hype voiceover and a generated, royalty-free sound bed. No on-screen disclaimers; optional `footerLeft` / `footers` config fields add footer text if you want it. Every reel is randomised
 from its seed, so no two look or sound the same.
 
 ## Setup
