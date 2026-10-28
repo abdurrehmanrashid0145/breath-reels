@@ -26,21 +26,21 @@ npm run render -- configs/example.json           # a specific config
 npm run stills -- configs/example.json           # 4 PNG previews instead of a video
 ```
 
-Videos land in `out/`, each with a `.json` holding the resolved config and the spoken
+`make` plans the whole batch so no two reels share a voiceover line, palette, layout, title or tier ladder, and keeps usage counts in `.history.json` so later batches prefer unused material. Videos land in `out/`, each with a `.json` holding the resolved config and the spoken
 script with timings. About 2.5 minutes per reel on a 4-core machine.
 
 ## What gets randomised
 
 | Thing | Options |
 |---|---|
-| Layout | `track-left`, `track-right`, `track-center`, `ring` |
+| Layout | `track-left`, `track-right`, `track-center`, `ring`, `ring-top`, `zigzag` |
 | Palette | 36 hues × 4 schemes (`analogous`, `complement`, `triad`, `split`) |
 | Background | `blobs`, `spotlight`, `stripes`, `aurora`, `dots` + grid/dots/none pattern |
 | Type | title and body fonts from Lato, Montserrat, Poppins, Bebas |
 | Cards | `glass`, `neon`, `solid`; lung icons `filled` or `outline`; corner radius |
 | Ball | emoji set (changes per level), glow colour |
-| Words | title, subtitle, header pill, tier set, status texts |
-| Voice | 10 Kokoro voices, speed 1.05–1.17, one of 3 roast script styles (`roast`, `coach`, `brainrot`) |
+| Words | 30 titles, 30 subtitles, 15 tier ladders, pills, statuses |
+| Voice | 9 Kokoro voices; ~460 roast lines in `src/scripts.json`, one per moment of the reel |
 
 ## Config
 
@@ -73,7 +73,7 @@ Every field is optional; leave it out (or set `"random"`) to randomise it.
 }
 ```
 
-- `script`: `"auto"` (default) builds the voiceover from a `scriptStyles` entry in `bank.json` (pick one with `scriptStyle`); or pass your own `{ t, say }` list. Lines that run long push the next one back.
+- `script`: `"auto"` (default) builds the voiceover from `src/scripts.json`; or pass your own `{ t, say }` list. Lines that run long push the next one back.
 - `voiceover: false` turns the voice off; `sound.enabled: false` turns the effects off.
 - `sound.music`: optional path to a royalty-free track, mixed under the effects and ducked under the voice.
 - `palette`: pass `{ "colors": [3 hex], "blobs": [3 hex] }` to use your own colours.

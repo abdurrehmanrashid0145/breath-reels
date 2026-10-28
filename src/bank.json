@@ -19,6 +19,106 @@
   [
    "HOLD YOUR BREATH",
    "AURA FARM"
+  ],
+  [
+   "LUNG CHECK",
+   "YOU'RE COOKED"
+  ],
+  [
+   "HOLD IT IN",
+   "OR GET COOKED"
+  ],
+  [
+   "NPC OR LEGEND?",
+   "LUNG TEST"
+  ],
+  [
+   "60 SECONDS",
+   "NO AIR"
+  ],
+  [
+   "BREATH-HOLD",
+   "HUMBLING"
+  ],
+  [
+   "ARE YOUR LUNGS",
+   "EVEN REAL?"
+  ],
+  [
+   "HOLD YOUR BREATH",
+   "IF YOU CAN"
+  ],
+  [
+   "LUNG AURA",
+   "SPEEDRUN"
+  ],
+  [
+   "BREATH CHECK",
+   "NO CAP"
+  ],
+  [
+   "DON'T BREATHE",
+   "CHALLENGE"
+  ],
+  [
+   "AURA FARMING",
+   "LUNG EDITION"
+  ],
+  [
+   "SIGMA BREATH",
+   "TEST"
+  ],
+  [
+   "HOLD IT",
+   "LIKE A LEGEND"
+  ],
+  [
+   "LUNGS",
+   "ON TRIAL"
+  ],
+  [
+   "BREATH-HOLD",
+   "RIZZ CHECK"
+  ],
+  [
+   "CAN YOU",
+   "HOLD 60?"
+  ],
+  [
+   "THE LUNG",
+   "EXAM"
+  ],
+  [
+   "BREATHE",
+   "AND YOU LOSE"
+  ],
+  [
+   "MAIN CHARACTER",
+   "LUNG TEST"
+  ],
+  [
+   "LUNG",
+   "RANKED MODE"
+  ],
+  [
+   "NO AIR",
+   "NO AURA"
+  ],
+  [
+   "BREATH-HOLD",
+   "BOSS FIGHT"
+  ],
+  [
+   "THE AURA",
+   "LUNG TEST"
+  ],
+  [
+   "HOLD YOUR",
+   "BREATH, NPC"
+  ],
+  [
+   "LUNGS",
+   "GET COOKED"
   ]
  ],
  "subtitles": [
@@ -26,7 +126,32 @@
   "A COMPLETELY USELESS SIDE QUEST",
   "LOWKEY THE HARDEST GAME OF 2026",
   "NO THOUGHTS. JUST LUNGS.",
-  "FREE AURA. NO CAP."
+  "FREE AURA. NO CAP.",
+  "YOU'VE BEEN SCROLLING FOR 3 HOURS. HOLD THIS.",
+  "FINALLY A CARDIO YOU CAN DO IN BED",
+  "MOST PEOPLE QUIT AT LEVEL 1",
+  "YOUR SCREEN TIME COULD NEVER",
+  "PROVE YOU'RE NOT AN NPC",
+  "THE ONLY WORKOUT YOU'LL DO TODAY",
+  "HUMBLING SPEEDRUN, ANY%",
+  "90% FOLD BEFORE SIGMA",
+  "LUNGS VS. YOUR EGO",
+  "THIS WILL EXPOSE YOU",
+  "NO BREATHING. NO EXCUSES.",
+  "CERTIFIED HUMBLING EXPERIENCE",
+  "YOUR LUNGS VS. THE ALGORITHM",
+  "SIDE QUEST: DON'T BREATHE",
+  "GYM? NO. THIS.",
+  "WE'RE ALL WATCHING YOUR FACE",
+  "BREATHE AND YOU'RE AN NPC",
+  "LEVEL UP OR LOG OFF",
+  "THE TOMATO FACE CHALLENGE",
+  "ZERO OXYGEN. MAX AURA.",
+  "PUT THE PHONE DOWN. JK. HOLD.",
+  "NOT FOR WEAK LUNGS",
+  "ONLY REAL ONES FINISH",
+  "HOLD OR GET HUMBLED",
+  "AURA IS EARNED, NOT BREATHED"
  ],
  "tierSets": [
   [
@@ -158,6 +283,266 @@
     "note": "ZERO LAG",
     "say": "fiber optic lungs, max aura"
    }
+  ],
+  [
+   {
+    "name": "3AM SCROLLER",
+    "aura": "-30 AURA",
+    "note": "SCREEN TIME: 9H",
+    "say": "three A M scroller, minus thirty aura"
+   },
+   {
+    "name": "READ RECEIPTS",
+    "aura": "+15 AURA",
+    "note": "SEEN 2:14AM",
+    "say": "read receipts, plus fifteen aura"
+   },
+   {
+    "name": "PHONE AT 1%",
+    "aura": "+300 AURA",
+    "note": "LIVING ON THE EDGE",
+    "say": "phone at one percent, plus three hundred aura"
+   },
+   {
+    "name": "TOUCH GRASS",
+    "aura": "MAX AURA",
+    "note": "OUTSIDE UNLOCKED",
+    "say": "touch grass, max aura"
+   }
+  ],
+  [
+   {
+    "name": "VAPE LUNGS",
+    "aura": "-50 AURA",
+    "note": "MANGO FLAVOUR",
+    "say": "vape lungs, minus fifty aura"
+   },
+   {
+    "name": "GROUP PROJECT",
+    "aura": "+10 AURA",
+    "note": "DID ALL THE WORK",
+    "say": "group project, plus ten aura"
+   },
+   {
+    "name": "GYM CRUSH",
+    "aura": "+400 AURA",
+    "note": "MADE EYE CONTACT",
+    "say": "gym crush, plus four hundred aura"
+   },
+   {
+    "name": "TOUCHED GRASS",
+    "aura": "MAX AURA",
+    "note": "RARE EVENT",
+    "say": "touched grass, max aura"
+   }
+  ],
+  [
+   {
+    "name": "DRY TEXTER",
+    "aura": "-25 AURA",
+    "note": "K.",
+    "say": "dry texter, minus twenty five aura"
+   },
+   {
+    "name": "LEFT ON READ",
+    "aura": "+5 AURA",
+    "note": "COPING",
+    "say": "left on read, plus five aura"
+   },
+   {
+    "name": "DOUBLE TEXTER",
+    "aura": "+250 AURA",
+    "note": "NO FEAR",
+    "say": "double texter, plus two fifty aura"
+   },
+   {
+    "name": "UNBOTHERED",
+    "aura": "MAX AURA",
+    "note": "PHONE ON SILENT",
+    "say": "unbothered, max aura"
+   }
+  ],
+  [
+   {
+    "name": "FISH LUNGS",
+    "aura": "-40 AURA",
+    "note": "OUT OF WATER",
+    "say": "fish lungs, minus forty aura"
+   },
+   {
+    "name": "PUFFERFISH",
+    "aura": "+30 AURA",
+    "note": "CHEEKS ACTIVATED",
+    "say": "pufferfish, plus thirty aura"
+   },
+   {
+    "name": "SCUBA MODE",
+    "aura": "+420 AURA",
+    "note": "NO TANK NEEDED",
+    "say": "scuba mode, plus four twenty aura"
+   },
+   {
+    "name": "MEGALODON",
+    "aura": "MAX AURA",
+    "note": "APEX PREDATOR",
+    "say": "megalodon, max aura"
+   }
+  ],
+  [
+   {
+    "name": "UNEMPLOYED",
+    "aura": "-20 AURA",
+    "note": "OPEN TO WORK",
+    "say": "unemployed, minus twenty aura"
+   },
+   {
+    "name": "INTERN",
+    "aura": "+10 AURA",
+    "note": "UNPAID",
+    "say": "intern, plus ten aura"
+   },
+   {
+    "name": "MIDDLE MANAGER",
+    "aura": "+200 AURA",
+    "note": "PER MY LAST EMAIL",
+    "say": "middle manager, plus two hundred aura"
+   },
+   {
+    "name": "CEO OF LUNGS",
+    "aura": "MAX AURA",
+    "note": "STOCKS UP",
+    "say": "C E O of lungs, max aura"
+   }
+  ],
+  [
+   {
+    "name": "TUTORIAL",
+    "aura": "-5 AURA",
+    "note": "PRESS A TO BREATHE",
+    "say": "tutorial, minus five aura"
+   },
+   {
+    "name": "SIDE QUEST",
+    "aura": "+50 AURA",
+    "note": "OPTIONAL PAIN",
+    "say": "side quest, plus fifty aura"
+   },
+   {
+    "name": "RANKED",
+    "aura": "+500 AURA",
+    "note": "SWEATY LOBBY",
+    "say": "ranked, plus five hundred aura"
+   },
+   {
+    "name": "WORLD RECORD",
+    "aura": "MAX AURA",
+    "note": "SPEEDRUN VERIFIED",
+    "say": "world record, max aura"
+   }
+  ],
+  [
+   {
+    "name": "SKIBIDI",
+    "aura": "-67 AURA",
+    "note": "BRAIN NOT FOUND",
+    "say": "skibidi, minus sixty seven aura"
+   },
+   {
+    "name": "OHIO",
+    "aura": "+33 AURA",
+    "note": "ONLY IN OHIO",
+    "say": "Ohio, plus thirty three aura"
+   },
+   {
+    "name": "FANUM TAX",
+    "aura": "+300 AURA",
+    "note": "TAKING YOUR AIR",
+    "say": "fanum tax, plus three hundred aura"
+   },
+   {
+    "name": "GYATT LUNGS",
+    "aura": "MAX AURA",
+    "note": "UNREAL",
+    "say": "gyatt lungs, max aura"
+   }
+  ],
+  [
+   {
+    "name": "COUCH POTATO",
+    "aura": "-35 AURA",
+    "note": "HORIZONTAL",
+    "say": "couch potato, minus thirty five aura"
+   },
+   {
+    "name": "STAIRS ENJOYER",
+    "aura": "+25 AURA",
+    "note": "ONE FLIGHT",
+    "say": "stairs enjoyer, plus twenty five aura"
+   },
+   {
+    "name": "GYM RAT",
+    "aura": "+350 AURA",
+    "note": "PRE-WORKOUT",
+    "say": "gym rat, plus three fifty aura"
+   },
+   {
+    "name": "OLYMPIAN",
+    "aura": "MAX AURA",
+    "note": "GOLD MEDAL",
+    "say": "olympian, max aura"
+   }
+  ],
+  [
+   {
+    "name": "ZERO RIZZ",
+    "aura": "-45 AURA",
+    "note": "HEY... WYD",
+    "say": "zero rizz, minus forty five aura"
+   },
+   {
+    "name": "MID RIZZ",
+    "aura": "+20 AURA",
+    "note": "GOT A MAYBE",
+    "say": "mid rizz, plus twenty aura"
+   },
+   {
+    "name": "W RIZZ",
+    "aura": "+500 AURA",
+    "note": "NUMBER SECURED",
+    "say": "W rizz, plus five hundred aura"
+   },
+   {
+    "name": "UNSPOKEN RIZZ",
+    "aura": "MAX AURA",
+    "note": "JUST A LOOK",
+    "say": "unspoken rizz, max aura"
+   }
+  ],
+  [
+   {
+    "name": "LOW BATTERY",
+    "aura": "-15 AURA",
+    "note": "5% LEFT",
+    "say": "low battery, minus fifteen aura"
+   },
+   {
+    "name": "CHARGING",
+    "aura": "+40 AURA",
+    "note": "SLOW CHARGE",
+    "say": "charging, plus forty aura"
+   },
+   {
+    "name": "FULLY CHARGED",
+    "aura": "+400 AURA",
+    "note": "100%",
+    "say": "fully charged, plus four hundred aura"
+   },
+   {
+    "name": "OVERCLOCKED",
+    "aura": "MAX AURA",
+    "note": "TOO POWERFUL",
+    "say": "overclocked, max aura"
+   }
   ]
  ],
  "levels": [
@@ -172,7 +557,17 @@
   "HEADPHONES ON",
   "SIDE QUEST",
   "DAILY CHALLENGE",
-  "NO CAP ZONE"
+  "NO CAP ZONE",
+  "HUMBLING MODE",
+  "NO BREATHING",
+  "TRY NOT TO BREATHE",
+  "RANKED MODE",
+  "COOKED MODE",
+  "AURA ON THE LINE",
+  "FINAL BOSS INSIDE",
+  "HARD MODE",
+  "DON'T SKIP",
+  "LOCK IN"
  ],
  "footers": [],
  "accents": [
@@ -217,19 +612,83 @@
    "VIBING",
    "MOGGING",
    "GOATED"
+  ],
+  [
+   "UNEMPLOYED",
+   "COPING",
+   "SUSPICIOUS",
+   "WHO IS THIS"
+  ],
+  [
+   "COOKED",
+   "STILL COOKED",
+   "OVERCOOKED",
+   "WELL DONE"
+  ],
+  [
+   "TUTORIAL",
+   "TRYING",
+   "SWEATING",
+   "HIM"
+  ],
+  [
+   "NPC",
+   "EXTRA",
+   "SIDEKICK",
+   "MAIN CHARACTER"
+  ],
+  [
+   "CRYING",
+   "COPING",
+   "SEETHING",
+   "MOGGING"
+  ],
+  [
+   "MID",
+   "LESS MID",
+   "KINDA HIM",
+   "ACTUALLY HIM"
+  ],
+  [
+   "SHAKING",
+   "TWITCHING",
+   "TOMATO",
+   "LEGEND"
+  ],
+  [
+   "DOOMED",
+   "HOPEFUL",
+   "LOCKED IN",
+   "UNHINGED"
   ]
  ],
  "doneStatus": [
   "WE ARE SO BACK",
   "AURA SECURED",
   "QUEST COMPLETE",
-  "GG"
+  "GG",
+  "TOUCH GRASS NOW",
+  "YOU ATE",
+  "ABSOLUTE CINEMA",
+  "HIM CONFIRMED",
+  "AURA RESTORED",
+  "BREATHE, LEGEND",
+  "NOT AN NPC",
+  "SURVIVED",
+  "HUMBLED BUT ALIVE",
+  "COOKED BUT ICONIC",
+  "MAX AURA",
+  "GOATED"
  ],
  "timerLabels": [
   "SECONDS HELD",
   "BREATH HELD",
   "HOLD TIME",
-  "AURA TIMER"
+  "AURA TIMER",
+  "NO AIR FOR",
+  "SURVIVED",
+  "SECONDS OF PAIN",
+  "TIME WITHOUT AIR"
  ],
  "ballFaces": [
   [
@@ -273,6 +732,69 @@
    "😖",
    "🤯",
    "🎉"
+  ],
+  [
+   "😐",
+   "😮",
+   "😤",
+   "🫨",
+   "🥳"
+  ],
+  [
+   "🥲",
+   "😬",
+   "😣",
+   "🤬",
+   "😮‍💨"
+  ],
+  [
+   "🙃",
+   "🫢",
+   "😵‍💫",
+   "🐐",
+   "🥂"
+  ],
+  [
+   "🐟",
+   "🐡",
+   "🦈",
+   "🐋",
+   "🌊"
+  ],
+  [
+   "😏",
+   "😳",
+   "🥶",
+   "💪",
+   "😎"
+  ],
+  [
+   "🤡",
+   "😰",
+   "🥵",
+   "👹",
+   "🙏"
+  ],
+  [
+   "😶",
+   "😑",
+   "😫",
+   "🗿",
+   "🫡"
+  ],
+  [
+   "😺",
+   "🙀",
+   "😾",
+   "🦁",
+   "😹"
+  ],
+  [
+   "🥱",
+   "😯",
+   "🤐",
+   "⚡",
+   "😮‍💨"
   ]
  ],
  "voices": [
@@ -283,52 +805,7 @@
   "am_liam",
   "af_heart",
   "af_bella",
-  "af_nicole",
   "af_jessica",
   "af_sky"
- ],
- "scriptStyles": {
-  "roast": {
-   "intro": "Bet you can't hold your breath for sixty seconds. Prove me wrong.",
-   "inhale": "Breathe in... no, a real breath, not that NPC sip. Hold.",
-   "safety": "If you get dizzy, breathe. I'm roasting you, not ending you.",
-   "lvl0": "{t1}. Stamina of a phone on two percent.",
-   "up1": "{t2}. Wow. A participation trophy.",
-   "lvl1": "You're making a face right now. Yeah, that one. Everyone can see it.",
-   "lvl1b": "Halfway. Your lungs are texting your nose, you up?",
-   "up2": "{t3}?! Okay, who's holding the phone for you?",
-   "lvl2": "Your cheeks look like a chipmunk that just saw the wifi bill.",
-   "boss": "Final boss. Breathe now and your ancestors are disappointed.",
-   "exhale": "Breathe out. Max aura. Fine, I'll admit it. You ate.",
-   "cta": "You cheated, didn't you? Comment your time."
-  },
-  "coach": {
-   "intro": "Alright, NPC. Let's see if those lungs are real or just decoration.",
-   "inhale": "Big breath in. Bigger. That's it? Fine. Hold.",
-   "safety": "Dizzy? Breathe. Even I'm not that toxic.",
-   "lvl0": "I've seen a paper bag with better lung capacity.",
-   "up1": "{t2}. Don't let it go to your head.",
-   "lvl1": "Stop blinking so much. It's using oxygen.",
-   "lvl1b": "Halfway. You're shaking like a chihuahua in the snow.",
-   "up2": "{t3}?! Okay... I see you.",
-   "lvl2": "Your face is the colour of a red flag right now.",
-   "boss": "Final boss. Breathe now and you're an NPC forever.",
-   "exhale": "Breathe out. Max aura. I'm not crying, you're crying.",
-   "cta": "Comment your time. And don't lie, I'll know."
-  },
-  "brainrot": {
-   "intro": "Skibidi breath check. Sixty seconds or you lose all your aura.",
-   "inhale": "Inhale like it's the last slice of pizza... and hold.",
-   "safety": "Seeing stars? Breathe. Stars are free, aura is not.",
-   "lvl0": "{n1} detected. Your diaphragm is on airplane mode.",
-   "up1": "{t2}. Your lungs just got rizz.",
-   "lvl1": "Somewhere, a fish is watching you and laughing.",
-   "lvl1b": "Halfway. Your nose is filing for unemployment.",
-   "up2": "{t3}! Your lungs are mogging your personality.",
-   "lvl2": "Don't think about yawning. You just thought about yawning.",
-   "boss": "Final boss. Ohio level difficulty. Lock in!",
-   "exhale": "Breathe out! Max aura. GTA six could never.",
-   "cta": "Comment your time. Liars lose aura."
-  }
- }
+ ]
 }

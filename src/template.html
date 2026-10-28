@@ -148,8 +148,11 @@ function trackLayout(side) {
 }
 
 const RING = { cx: 360, cy: 532, r: 222 };
-function ringLayout() {
+// ring: tiers row under the ring; ring-top: tiers row above it
+function ringLayout(top) {
+  if (top) Object.assign(RING, { cy: 728, r: 206 });
   const { cx, cy, r } = RING, stage = $('#stage');
+  const tiersTop = top ? 258 : 822;
   const circ = 2 * Math.PI * r;
   stage.appendChild(el('div', 'abs', 'left:0; top:0; width:720px; height:1280px', `
     <svg width="720" height="1280" style="position:absolute;left:0;top:0">
@@ -169,7 +172,7 @@ function ringLayout() {
     <div style="font-size:15px; font-weight:700; color:rgba(255,255,255,.7)">${C.timerLabel}</div>`));
   C.tiers.forEach((t, i) => {
     const cs = cardStyle(t.color);
-    const card = el('div', cs.cls, cs.css + `left:${44 + i * 160}px; top:822px; width:152px; height:186px;`);
+    const card = el('div', cs.cls, cs.css + `left:${44 + i * 160}px; top:${tiersTop}px; width:152px; height:186px;`);
     card.id = 'tier' + i;
     card.innerHTML = `
       <div class="abs" style="left:26px; top:14px">${lungSVG(t.color, i, C.style.icons, 100, 80)}</div>
@@ -180,6 +183,40 @@ function ringLayout() {
   return p => {
     const a = -Math.PI / 2 + p * 2 * Math.PI;
     return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+  };
+}
+
+
+// zigzag: the ball runs a zigzag path, touching each tier from alternating sides
+function zigzagLayout() {
+  const stage = $('#stage');
+  const pts = TIER_Y.map((y, i) => ({ x: i % 2 ? 628 : 92, y }));
+  stage.appendChild(el('div', 'card s-glass', `left:44px; top:262px; width:632px; height:750px; background:rgba(8,6,20,.35)`));
+  stage.appendChild(el('div', 'abs', 'left:0; top:0; width:720px; height:1280px', `
+    <svg width="720" height="1280" style="position:absolute;left:0;top:0">
+      <defs><linearGradient id="zg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.trackColors[0]}"/><stop offset="1" stop-color="${C.trackColors[1]}"/></linearGradient></defs>
+      <polyline points="${pts.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="url(#zg)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"
+        style="filter:drop-shadow(0 0 8px ${C.trackColors[1]})"/>
+    </svg>`));
+  C.tiers.forEach((t, i) => {
+    const right = i % 2 === 1;
+    const cs = cardStyle(t.color);
+    const box = `left:${right ? 150 : 210}px; top:${TIER_Y[i] - 70}px; width:360px; height:140px;`;
+    stage.appendChild(el('div', 'card', box + 'background:rgb(10,8,24)'));   // opaque backing hides the path
+    const card = el('div', cs.cls, cs.css + box);
+    card.id = 'tier' + i;
+    const tx = right ? 22 : 126;
+    card.innerHTML = `
+      <div class="abs name fit" style="left:${tx}px; top:22px; width:216px; font-size:19px; color:${t.color}">${String(i + 1).padStart(2, '0')}&nbsp; ${t.name}</div>
+      <div class="abs aura title fit" style="left:${tx}px; top:54px; width:216px; font-size:28px">${t.aura}</div>
+      <div class="abs note fit" style="left:${tx + 1}px; top:96px; width:210px; font-size:12px">${t.note}</div>
+      <div class="abs" style="${right ? 'right' : 'left'}:16px; top:26px">${lungSVG(t.color, i, C.style.icons, 100, 80)}</div>`;
+    stage.appendChild(card);
+    stage.appendChild(el('div', 'tick', `left:${pts[i].x}px; top:${pts[i].y}px`));
+  });
+  return p => {
+    const f = clamp(p, 0, 1) * 3, k = Math.min(2, Math.floor(f)), u = f - k;
+    return { x: pts[k].x + (pts[k + 1].x - pts[k].x) * u, y: pts[k].y + (pts[k + 1].y - pts[k].y) * u };
   };
 }
 
@@ -213,7 +250,7 @@ function buildTimerBlock() {
   b.className = 'card s-glass';
   b.style.cssText = `left:44px; top:1036px; width:632px; height:156px; border-color:${alpha(C.pillColor, .5)}; box-shadow:0 0 22px ${alpha(C.pillColor, .14)}`;
   b.innerHTML = `
-    <div class="abs lab" style="left:26px; top:20px">${C.layout === 'ring' ? 'CURRENT LEVEL' : C.timerLabel}</div>
+    <div class="abs lab" style="left:26px; top:20px">${C.layout.startsWith('ring') ? 'CURRENT LEVEL' : C.timerLabel}</div>
     <div class="abs big title fit" id="tbig" style="left:24px; top:44px; width:280px; color:${C.accent}"></div>
     <div class="abs lab" style="right:26px; top:20px">STATUS</div>
     <div class="abs status title fit" id="tstatus" style="right:26px; top:54px; width:330px"></div>
@@ -267,7 +304,9 @@ function init(cfg) {
   root.setProperty('--radius', C.style.radius + 'px');
   buildBackground();
   buildHeader();
-  ballAt = C.layout === 'ring' ? ringLayout() : trackLayout(C.layout.replace('track-', ''));
+  ballAt = C.layout.startsWith('ring') ? ringLayout(C.layout === 'ring-top')
+    : C.layout === 'zigzag' ? zigzagLayout()
+    : trackLayout(C.layout.replace('track-', ''));
   buildTimerBlock();
   $('#frame').style.display = C.style.frame ? '' : 'none';
   $('#sweep').style.display = C.style.sweep ? '' : 'none';
@@ -321,8 +360,9 @@ function render(t) {
     pop.textContent = C.tiers[L].aura;
     pop.style.color = C.tiers[L].color;
     pop.style.textShadow = `0 0 16px ${alpha(C.tiers[L].color, .7)}`;
-    const dx = C.layout === 'track-right' ? -120 : C.layout === 'ring' ? 0 : C.layout === 'track-center' ? 0 : 130;
-    const dy = C.layout === 'ring' ? -70 : -40;
+    const isRing = C.layout.startsWith('ring');
+    const dx = isRing || C.layout === 'track-center' ? 0 : x > 360 ? -120 : 130;
+    const dy = isRing ? -70 : -40;
     pop.style.left = clamp(x + dx, 120, 600) + 'px';
     pop.style.top = (y + dy - ps * 60) + 'px';
     pop.style.opacity = clamp(Math.min(ps / 0.15, (1.4 - ps) / 0.4), 0, 1);
@@ -341,7 +381,7 @@ function render(t) {
 
   // timer / status
   const secs = String(Math.floor(Math.min(t, 99))).padStart(2, '0') + 's';
-  if (C.layout === 'ring') {
+  if (C.layout.startsWith('ring')) {
     $('#ringnum').textContent = secs;
     $('#ringlvl').textContent = `LVL ${String(L + 1).padStart(2, '0')} // ${C.levels[L]}`;
     $('#arc').setAttribute('stroke-dashoffset', 2 * Math.PI * RING.r * (1 - pr));

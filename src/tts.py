@@ -27,6 +27,8 @@ def main():
         audio, sr = kok.create(line["say"], voice=job["voice"], speed=job["speed"], lang="en-us")
         audio = trim(audio, sr)
         start = max(line["t"], cursor + 0.12)
+        # never let the last line get cut off by the end of the reel
+        start = max(cursor + 0.05, min(start, job["duration"] - len(audio) / sr - 0.05))
         s = int(start * sr)
         e = min(len(out), s + len(audio))
         out[s:e] += audio[: e - s]
