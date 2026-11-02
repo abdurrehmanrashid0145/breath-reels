@@ -209,7 +209,7 @@ function layout(top) {
   bar.style.cssText = `left:${L.barX - 14}px; width:28px; top:${L.top}px; height:${len}px`;
   L.nodes = C.nodeFrac.map(f => L.top + len * f);
   L.start = L.top + len * C.startFrac;
-  const size = Math.min(240, len * 0.27);
+  const size = Math.min(205, len * 0.23);
   E.nodes.forEach((n, i) => { n.style.left = L.barX + 'px'; n.style.top = L.nodes[i] + 'px'; E.rings[i].style.left = L.barX + 'px'; E.rings[i].style.top = L.nodes[i] + 'px'; });
   E.lungs.forEach((l, i) => {
     l.style.cssText = `left:${L.lungX - size / 2}px; top:${L.nodes[i] - size / 2}px; width:${size}px; height:${size}px`;
