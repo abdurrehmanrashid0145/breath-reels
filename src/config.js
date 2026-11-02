@@ -48,8 +48,9 @@ const between = (r, a, b) => a + r() * (b - a);
 const NODE_FRAC = [0.17, 0.44, 0.71, 0.97];
 const START_FRAC = 0.03;
 const DROP = 1.0;
+// Same moments as the viral reel: dings at ~12, 27, 41.7 and 56.5 s of a 57 s hold.
 function nodeTimes(hold) {
-  return NODE_FRAC.map(f => +(DROP + (hold - DROP) * (f - START_FRAC) / (NODE_FRAC[3] - START_FRAC)).toFixed(2));
+  return [12, 27, 41.7, 56.5].map(t => +(t * hold / 57).toFixed(2));
 }
 
 // Picks the least-used option so far (random among ties) and counts it, so a
@@ -74,16 +75,15 @@ function fill(line, tiers) {
   return line.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
 }
 
-// Sparse voiceover: a handful of punchy lines with gaps, level-ups land as the ball hits lungs 2 and 3.
+// Voiceover modelled on the viral reel: a few short, calm lines that ask for likes,
+// comments and shares, a "you can breathe" line, encouragement near the end, "Congrats!" on the last lung.
+const CUES = [[0.3, 'intro'], [4.7, 'like'], [8.8, 'comment'], [16.1, 'share'], [21.9, 'breathe'],
+  [31.2, 'mid'], [34.6, 'follow'], [46.9, 'push'], [49.2, 'almost']];
 function autoScript(r, choose, hold, duration, tiers) {
-  const T = nodeTimes(hold), s = hold / 55;
+  const s = hold / 57;
   const line = slot => fill(choose(r, 'script.' + slot, SCRIPTS[slot]), tiers);
-  const cues = [[0.3, 'intro'], [4.0 * s, 'inhale'], [T[0] + 0.5, 'safety'], [15.5 * s, 'lvl0'], [T[1] + 0.2, 'up1'],
-    [31 * s, 'lvl1b'], [T[2] + 0.2, 'up2'], [46.5 * s, 'boss']];
-  const out = cues.map(([t, slot]) => ({ t: +t.toFixed(2), say: line(slot) }));
-  out.push({ t: hold - 3, say: 'Three.' }, { t: hold - 2, say: 'Two.' }, { t: hold - 1, say: 'One.' });
-  out.push({ t: hold - 0.3, say: line('exhale') });
-  if (duration - hold > 4) out.push({ t: hold + 3.4, say: line('cta') });
+  const out = CUES.map(([t, slot]) => ({ t: +(t * s).toFixed(2), say: line(slot) }));
+  out.push({ t: nodeTimes(hold)[3] + 0.15, say: line('done') });
   return out;
 }
 
@@ -94,8 +94,8 @@ function resolve(user = {}, choose = plainPicker()) {
   const fresh = (v, dim, options) => rand(v, () => choose(r, dim, options));
   const idx = n => [...Array(n).keys()];
 
-  const duration = user.duration ?? 62;
-  const hold = user.hold ?? 55;
+  const duration = user.duration ?? 60;
+  const hold = user.hold ?? 57;
 
   const shade = fresh(user.shade, 'shade', idx(BANK.shades.length));
   const sh = BANK.shades[shade];
@@ -136,7 +136,7 @@ function resolve(user = {}, choose = plainPicker()) {
     tiers,
     handle: user.handle ?? '',
     script: user.script && user.script !== 'auto' ? user.script : autoScript(r, choose, hold, duration, tiers),
-    voice: { name: voice, speed: user.voiceSpeed ?? +(1.05 + r() * 0.12).toFixed(2), enabled: user.voiceover !== false },
+    voice: { name: voice, speed: user.voiceSpeed ?? +(1.0 + r() * 0.08).toFixed(2), enabled: user.voiceover !== false },
     sound: { enabled: true, music: null, musicVolume: 0.3, sfxVolume: 0.6, volume: 1, ...(user.sound || {}) },
   };
 }

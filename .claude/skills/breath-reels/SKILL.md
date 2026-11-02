@@ -5,12 +5,12 @@ description: Make viral-style "HOLD YOUR BREATH" lung reels (vertical MP4, blue 
 
 # Hold-your-breath lung reels
 
-This repo renders 1080×1920, 62 s reels copied from a format that got 27M views on Facebook:
+This repo renders 1080×1920, 60 s reels copied from a format that got 27M views on Facebook:
 bright blue medical background (grid, ECG line, hexagon icons), one huge comic title
 ("HOLD YOUR BREATH"), a plain white bar with four dots, a yellow emoji ball that slides
 down the bar, and four big lungs beside it going from wrecked smoker lungs (top) to cute
-flexing lungs (bottom). Each lung pops with a "ding" when the ball reaches it (~9, 25, 40, 55 s).
-A short, sparse Gen Z roast voiceover runs over it. Keep the look minimal: the format works
+flexing lungs (bottom). Each lung pops with a "ding" when the ball reaches it (~12, 27, 41.7, 56.5 s, same as the original).
+A calm, sparse voiceover (same structure as the original) runs over it. Keep the look minimal: the format works
 because it reads at a glance. Do not add timers, tier cards, captions or other UI.
 
 ## Setup (once per machine or session)
@@ -40,16 +40,16 @@ ffmpeg -version                    # must exist
 ## Writing voiceover lines
 
 Lines live in `src/scripts.json`, one array per moment. The planner picks them up automatically.
-- Tone: **roast the viewer hard** (stamina, screen time, dry texting, attention span, NPC energy, the face they're making) with Gen Z / brainrot slang (aura, delulu, sigma, NPC, rizz, mogging, cooked, locked in, Ohio, fanum tax, "you ate"). Savage but playful: never about real appearance, weight, race, gender, disability or health conditions; no slurs; no medical claims.
-- Moments (55 s hold): `intro` 0.3 hook, `inhale` 4 "breathe in like... hold", `safety` ~9.5 as the ball hits lung 1 (**always a joke version of "dizzy? just breathe"**), `lvl0` 15.5, `up1` ~25 as the ball hits lung 2, `lvl1b` 31 (starts with "Halfway."), `up2` ~40 at lung 3, `boss` 46.5 (starts with "Final boss."), then "Three." "Two." "One.", `exhale` at 54.7 (starts with "Breathe out."), `cta` 58.4.
-- `{t2}`/`{t3}` become a tier's spoken name + aura (from `bank.json` `tierSets`), `{n1}` just its name. Level-up lines start with `{t2}` / `{t3}`.
-- Respect `maxWords` in `scripts.json` (intro 13, exhale 11, cta 8 are tight). Roughly 3 words per second. Write for the ear: numbers as words, no "gooo" spellings, "C E O" for spelled-out letters.
+- Tone: copy the original. Short, calm, friendly lines that push engagement (like, comment which lungs you have, send to a friend, follow, save) plus encouragement. **No roasting**: the user switched away from roast scripts on 2026-11-02 to match the viral reel.
+- Moments (57 s hold, 60 s reel): `intro` 0.3 "Let's test your lungs. Ready? Hold!", `like` 4.7, `comment` 8.8, `share` 16.1, `breathe` 21.9 (**always tells the viewer they can breathe if they need to**; this is the safety line), `mid` 31.2 calm tip or "halfway", `follow` 34.6, `push` 46.9 "Come on, just a little more", `almost` 49.2 "almost at the finish line", `done` on the last lung "Congrats!". Silence between lines is intentional.
+- Respect `maxWords` in `scripts.json` (`comment` 7, `push` 6, `almost` 8, `done` 3 are tight). About 3 words per second.
+- Write for the ear: numbers as words, no odd spellings.
 - For a one-off custom reel: `make --count 1 --no-render`, edit `script` in the written config, then `npm run render -- <config>`.
 
 ## Rules
 
-- Keep the spoken safety line in every reel. No on-screen disclaimers such as "NOT A MEDICAL TEST"; the user removed them on purpose.
+- Keep the `breathe` line (it lets viewers breathe) in every reel. No on-screen disclaimers such as "NOT A MEDICAL TEST"; the user removed them on purpose.
 - Don't promote other people's apps (the original viral reel had an App Store ad; we leave it out).
 - Sound and voice are generated locally and royalty-free. Only set `sound.music` to a track the user confirms is licensed. Trending platform audio has to be added in-app.
 - To grow the pools, add to `src/bank.json` (`titles`: 1 or 2 lines, all caps; `shades`: background blues; `ballFaces`: 5 yellow faces each; `titleColors`) and voiceover lines to `src/scripts.json`.
-- Current pools: 20 titles, 12 blue shades, 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, ~370 voiceover lines.
+- Current pools: 20 titles, 12 blue shades, 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, 141 voiceover lines.

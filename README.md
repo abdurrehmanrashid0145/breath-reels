@@ -2,7 +2,7 @@
 
 Makes vertical (1080×1920) "HOLD YOUR BREATH" reels in the style of the viral lung-test reels:
 a bright blue medical background, a big comic title, a white bar with an emoji ball sliding down it,
-and four lungs going from wrecked to strong. A short roast voiceover and a "ding" each time the ball
+and four lungs going from wrecked to strong. A short, calm voiceover and a "ding" each time the ball
 reaches a lung. Everything is generated locally and royalty-free. Every reel is randomised from its seed.
 
 ## Setup
@@ -27,11 +27,11 @@ npm run stills -- configs/example.json           # 4 PNG previews instead of a v
 Videos land in `out/<date>/`, each with a `.json` holding the resolved config and the spoken lines with timings.
 About 2.5–4.5 minutes per reel.
 
-## The reel (62 s)
+## The reel (60 s, timed like the viral original)
 
-- 0–1 s: the ball pops in at the top of the bar.
-- The ball slides down and hits lung 1 (~9 s), lung 2 (~25 s), lung 3 (~40 s) and lung 4 (55 s). Each lung pops and dings.
-- Countdown "Three, two, one", exhale line at 55 s, then a short call to action.
+- 0–1 s: the ball pops in at the top of the bar. "Let's test your lungs. Ready? Hold!"
+- The ball slides down and hits lung 1 (12 s), lung 2 (27 s), lung 3 (41.7 s) and lung 4 (56.5 s). Each lung pops and dings.
+- In between, a few calm lines: like, comment which lungs you have, send to a friend, you can breathe if you need to, follow, "just a little more", "almost there", then "Congrats!" on the last lung.
 
 ## What gets randomised
 
@@ -42,7 +42,7 @@ About 2.5–4.5 minutes per reel.
 | Bar side | left or right |
 | Ball | 12 sets of yellow emoji faces (one per lung reached) |
 | Lungs | 3 generated picture sets in `assets/lungs/` (cartoon SVG fallback) |
-| Voice | 9 Kokoro voices; roast lines in `src/scripts.json`, one per moment |
+| Voice | 9 Kokoro voices; voiceover lines in `src/scripts.json`, one per moment |
 
 ## Your own lung pictures
 
@@ -57,8 +57,8 @@ Every field is optional; leave it out (or `"random"`) to randomise it.
 {
   "seed": 42,
   "output": "out/my-reel.mp4",
-  "duration": 62,
-  "hold": 55,
+  "duration": 60,
+  "hold": 57,
   "title": ["HOLD YOUR BREATH", "AURA CHECK"],
   "titleFont": "Bangers",
   "side": "right",
