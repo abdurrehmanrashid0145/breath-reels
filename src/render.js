@@ -28,8 +28,9 @@ async function openPage(browser, cfg) {
   await page.goto(TEMPLATE);
   await page.evaluate(c => init(c), cfg);
   await page.evaluate(async () => {
-    for (const f of ['Lato', 'Montserrat', 'Poppins', 'Bebas']) for (const w of [400, 700, 900]) await document.fonts.load(`${w} 20px ${f}`);
-    await document.fonts.load('50px Emoji', '😊🔥');
+    for (const f of ['Bangers', 'Luckiest', 'Titan', 'Lilita']) await document.fonts.load(`20px ${f}`);
+    await document.fonts.load('50px Emoji', '😮😌');
+    await Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })));
     await document.fonts.ready;
     fitText();
   });
@@ -126,7 +127,7 @@ async function renderReel(browser, cfg, workers) {
   return out;
 }
 
-async function renderStills(browser, cfg, times = [1.5, 21.5, 46.5, cfg.hold + 1.5]) {
+async function renderStills(browser, cfg, times = [0.5, 9.2, 30, cfg.hold + 1.5]) {
   const page = await openPage(browser, cfg);
   const base = path.resolve(ROOT, cfg.output).replace(/\.mp4$/, '');
   fs.mkdirSync(path.dirname(base), { recursive: true });

@@ -2,7 +2,7 @@
   "name": "breath-reels",
   "version": "1.0.0",
   "private": true,
-  "description": "Config-driven generator for Gen Z breath-hold 'aura check' reels",
+  "description": "Config-driven generator for viral-style hold-your-breath lung reels",
   "scripts": {
     "render": "node src/render.js",
     "make": "node src/make.js",

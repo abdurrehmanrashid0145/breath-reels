@@ -1,5 +1,5 @@
-// Procedural, royalty-free soundtrack: ambient pad, a tick on every ball step,
-// a chime on each level-up, a heartbeat that speeds up near the end, an exhale
+// Procedural, royalty-free soundtrack: quiet ambient pad, a pop when the ball
+// appears, a ding each time it reaches a lung, a heartbeat that speeds up near the end, an exhale
 // whoosh when the hold ends and a soft resolve chord. Writes a 16-bit stereo WAV.
 const fs = require('fs');
 const { rng } = require('./config');
@@ -37,7 +37,7 @@ function generate(cfg, file) {
     const bright = t < H ? 0.08 - 0.05 * Math.min(1, t / H) : 0.12;
     lpL += (l - lpL) * bright; lpR += (rr - lpR) * bright;
     const env = Math.min(1, t / 2.5) * Math.min(1, (cfg.duration - t) / 2);
-    L[i] += lpL * 0.045 * env; R[i] += lpR * 0.045 * env;
+    L[i] += lpL * 0.03 * env; R[i] += lpR * 0.03 * env;
   }
 
   const add = (t0, fn, len, gain = 1, pan = 0) => {
@@ -48,21 +48,14 @@ function generate(cfg, file) {
     }
   };
 
-  // --- ticks on every ball step (every 1 s in smooth mode) ---
-  const step = cfg.ball.mode === 'smooth' ? 1 : cfg.ball.step;
-  for (let t = step, k = 1; t < H - 0.01; t += step, k++) {
-    const f = k % 2 ? 1750 : 1320;
-    const g = (k * step) % 10 === 0 ? 0.32 : 0.2;
-    add(t, x => (Math.sin(2 * Math.PI * f * x) * Math.exp(-x * 90) + (r() * 2 - 1) * Math.exp(-x * 400) * 0.4), 0.08, g, k % 2 ? 0.15 : -0.15);
-  }
-
-  // --- level-up chimes ---
+  // --- pop as the ball appears, then a bright "ding" each time it reaches a lung ---
+  add(0.05, x => Math.sin(2 * Math.PI * (300 + 900 * x * 6) * x) * Math.exp(-x * 18), 0.25, 0.25);
   const bell = f => x => (Math.sin(2 * Math.PI * f * x) + 0.4 * Math.sin(2 * Math.PI * f * 2.76 * x) * Math.exp(-x * 4) + 0.2 * Math.sin(2 * Math.PI * f * 5.4 * x) * Math.exp(-x * 8)) * Math.exp(-x * 2.2);
-  for (let lv = 1; lv <= 3; lv++) {
-    const t = (H / 3) * lv;
-    const root = chord[0] + 24 + lv * 2;
-    [0, 4, 7, 12].slice(0, lv + 1).forEach((iv, j) => add(t + j * 0.09, bell(midi(root + iv)), 2.2, 0.09, (j - 1.5) * 0.3));
-  }
+  cfg.nodeTimes.forEach((t, lv) => {
+    const root = chord[0] + 36 + lv * 2;
+    add(t, bell(midi(root)), 1.8, 0.22, -0.1);
+    add(t + 0.11, bell(midi(root + 7)), 1.8, 0.2, 0.1);
+  });
 
   // --- heartbeat in the final quarter, speeding up ---
   let t = H * 0.75;

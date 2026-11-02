@@ -1,17 +1,35 @@
 // Turns a (possibly partial) reel config into a fully resolved one.
 // Anything set to "random" or left out is picked using the seed, so the same
-// seed always gives the same reel and a new seed gives a different look,
-// layout and script.
+// seed always gives the same reel and a new seed gives a different one.
 const fs = require('fs');
 const path = require('path');
 
+const ROOT = path.join(__dirname, '..');
 const BANK = JSON.parse(fs.readFileSync(path.join(__dirname, 'bank.json'), 'utf8'));
+const SCRIPTS = JSON.parse(fs.readFileSync(path.join(__dirname, 'scripts.json'), 'utf8'));
 
-const LAYOUTS = ['track-left', 'track-right', 'track-center', 'ring', 'ring-top', 'zigzag'];
-const BACKGROUNDS = ['blobs', 'spotlight', 'stripes', 'aurora', 'dots'];
-const CARD_STYLES = ['glass', 'neon', 'solid'];
-const FONTS = ['Lato', 'Montserrat', 'Poppins', 'Bebas'];
-const SCHEMES = { analogous: [0, 30, -30], complement: [0, 180, 30], triad: [0, 120, 240], split: [0, 150, 210] };
+const FONTS = ['Bangers', 'Luckiest', 'Titan', 'Lilita'];
+const SIDES = ['left', 'right'];
+const ICONS = ['heart', 'plus', 'lung', 'pulse'];
+
+// Lung picture sets: assets/lungs/<name>/1.png..4.png (worst to best). "cartoon" is the built-in SVG set.
+function lungSets() {
+  const dir = path.join(ROOT, 'assets', 'lungs');
+  let sets = [];
+  try {
+    sets = fs.readdirSync(dir).filter(d => {
+      const files = fs.readdirSync(path.join(dir, d));
+      return [1, 2, 3, 4].every(i => files.some(f => new RegExp(`^${i}\\.(png|webp|jpe?g|svg)$`, 'i').test(f)));
+    });
+  } catch {}
+  return sets.length ? sets.sort() : ['cartoon'];
+}
+function lungImages(set) {
+  if (set === 'cartoon') return null;
+  const dir = path.join(ROOT, 'assets', 'lungs', set);
+  const files = fs.readdirSync(dir);
+  return [1, 2, 3, 4].map(i => '../assets/lungs/' + set + '/' + files.find(f => new RegExp(`^${i}\\.(png|webp|jpe?g|svg)$`, 'i').test(f)));
+}
 
 function rng(seed) {
   let s = seed >>> 0;
@@ -24,54 +42,25 @@ function rng(seed) {
   };
 }
 const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
-function shuffle(r, arr) {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
-}
+const between = (r, a, b) => a + r() * (b - a);
 
-function hsl(h, s, l) {
-  h = ((h % 360) + 360) % 360; s /= 100; l /= 100;
-  const k = n => (n + h / 30) % 12, a = s * Math.min(l, 1 - l);
-  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-  return '#' + [f(0), f(8), f(4)].map(x => Math.round(x * 255).toString(16).padStart(2, '0')).join('');
+// Ball path: where the nodes sit on the bar (fraction of its length) and where the ball starts.
+const NODE_FRAC = [0.17, 0.44, 0.71, 0.97];
+const START_FRAC = 0.03;
+const DROP = 1.0;
+function nodeTimes(hold) {
+  return NODE_FRAC.map(f => +(DROP + (hold - DROP) * (f - START_FRAC) / (NODE_FRAC[3] - START_FRAC)).toFixed(2));
 }
-
-// 36 base hues x 4 colour schemes = 144 palettes; `hue` (0-35) and `scheme` can be fixed in config.
-function makePalette(r, hueIdx, scheme) {
-  const h = hueIdx * 10;
-  const off = SCHEMES[scheme];
-  return {
-    name: `hue${hueIdx}-${scheme}`,
-    hue: h,
-    angle: Math.floor(r() * 360),
-    colors: [hsl(h, 65, 9), hsl(h + off[1] / 3, 60, 17), hsl(h - 15, 70, 6)],
-    blobs: off.map(o => hsl(h + o, 90, 55)),
-  };
-}
-
-const SCRIPTS = JSON.parse(fs.readFileSync(path.join(__dirname, 'scripts.json'), 'utf8'));
-const CUES = [
-  [0.3, 'intro'], [4.6, 'inhale'], [10.5, 'safety'], [15, 'lvl0'],
-  [20, 'up1'], [26, 'lvl1'], [33, 'lvl1b'],
-  [40, 'up2'], [46, 'lvl2'], [51.5, 'boss'],
-];
 
 // Picks the least-used option so far (random among ties) and counts it, so a
 // batch never repeats anything until a pool runs out, and later batches
 // prefer things earlier ones didn't use. `counts` is { dim: { key: n } }.
 function freshPicker(counts = {}) {
-  const batchHues = [];
-  const hueGap = h => Math.min(...batchHues.map(b => Math.min(Math.abs(h - b), 36 - Math.abs(h - b))));
   return (r, dim, options) => {
     const c = (counts[dim] = counts[dim] || {});
     const key = o => (typeof o === 'string' ? o : JSON.stringify(o));
     const min = Math.min(...options.map(o => c[key(o)] || 0));
-    let pool = options.filter(o => (c[key(o)] || 0) === min);
-    // hues: also keep reels in the same batch far apart on the colour wheel
-    if (dim === 'hue' && batchHues.length) { const best = Math.max(...pool.map(hueGap)); pool = pool.filter(h => hueGap(h) >= best - 2); }
-    const choice = pick(r, pool);
-    if (dim === 'hue') batchHues.push(choice);
+    const choice = pick(r, options.filter(o => (c[key(o)] || 0) === min));
     c[key(choice)] = (c[key(choice)] || 0) + 1;
     return choice;
   };
@@ -85,11 +74,13 @@ function fill(line, tiers) {
   return line.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
 }
 
-// Voiceover timeline. Cue times scale with the hold length (defaults: 60 s hold, 66 s reel).
+// Sparse voiceover: a handful of punchy lines with gaps, level-ups land as the ball hits lungs 2 and 3.
 function autoScript(r, choose, hold, duration, tiers) {
-  const s = hold / 60;
+  const T = nodeTimes(hold), s = hold / 55;
   const line = slot => fill(choose(r, 'script.' + slot, SCRIPTS[slot]), tiers);
-  const out = CUES.map(([t, slot]) => ({ t: +(t * s).toFixed(2), say: line(slot) }));
+  const cues = [[0.3, 'intro'], [4.0 * s, 'inhale'], [T[0] + 0.5, 'safety'], [15.5 * s, 'lvl0'], [T[1] + 0.2, 'up1'],
+    [31 * s, 'lvl1b'], [T[2] + 0.2, 'up2'], [46.5 * s, 'boss']];
+  const out = cues.map(([t, slot]) => ({ t: +t.toFixed(2), say: line(slot) }));
   out.push({ t: hold - 3, say: 'Three.' }, { t: hold - 2, say: 'Two.' }, { t: hold - 1, say: 'One.' });
   out.push({ t: hold - 0.3, say: line('exhale') });
   if (duration - hold > 4) out.push({ t: hold + 3.4, say: line('cta') });
@@ -103,37 +94,28 @@ function resolve(user = {}, choose = plainPicker()) {
   const fresh = (v, dim, options) => rand(v, () => choose(r, dim, options));
   const idx = n => [...Array(n).keys()];
 
-  const duration = user.duration ?? 66;
-  const hold = user.hold ?? 60;
+  const duration = user.duration ?? 62;
+  const hold = user.hold ?? 55;
 
-  const scheme = fresh(user.scheme, 'scheme', Object.keys(SCHEMES));
-  const hueIdx = fresh(user.hue, 'hue', idx(36));
-  const palette = typeof user.palette === 'object' ? { angle: 135, ...user.palette } : makePalette(r, hueIdx, scheme);
-
-  const accent = fresh(user.accent, 'accent', BANK.accents);
-  const pillColor = rand(user.pillColor, () => pick(r, BANK.accents.filter(a => a !== accent)));
+  const shade = fresh(user.shade, 'shade', idx(BANK.shades.length));
+  const sh = BANK.shades[shade];
+  const bg = {
+    hue: sh.hue, sat: sh.sat, light: sh.light,
+    angle: Math.round(between(r, 150, 210)),
+    spotX: Math.round(between(r, 10, 90)), spotY: Math.round(between(r, 5, 60)),
+    grid: pick(r, [60, 66, 72, 80, 90]), gx: Math.round(r() * 60), gy: Math.round(r() * 60),
+    icon: fresh(user.icon, 'icon', ICONS),
+    ecg: idx(1 + Math.floor(r() * 2)).map(i => ({ y: Math.round(i === 0 ? between(r, 150, 330) : between(r, 900, 1120)), amp: Math.round(between(r, 50, 90)), o: +between(r, 0.45, 0.75).toFixed(2), speed: Math.round(between(r, 18, 40)) })),
+    icons: idx(7).map(i => ({ x: Math.round(between(r, 10, 650)), y: Math.round(180 + i * 150 + between(r, -40, 40)), s: Math.round(between(r, 40, 72)), o: +between(r, 0.35, 0.7).toFixed(2), ph: +(r() * 6.28).toFixed(2) })),
+    motes: idx(10).map(() => ({ x: Math.round(r() * 720), y: Math.round(r() * 1280), r: Math.round(between(r, 4, 10)), v: +between(r, 4, 12).toFixed(1) })),
+    ...(user.bg || {}),
+  };
 
   let tiers = fresh(user.tiers, 'tiers', idx(BANK.tierSets.length));
   if (typeof tiers === 'number') tiers = BANK.tierSets[tiers];
-  // tier colours: the classic set, or four hues spread around the palette
-  const tierHue = r() < 0.5 ? null : palette.hue ?? 0;
-  tiers = tiers.map((t, i) => ({ color: tierHue === null ? BANK.tierColors[i] : hsl(tierHue + 60 + i * 75, 85, 68), say: t.name.toLowerCase(), ...t }));
+  tiers = tiers.map(t => ({ say: t.name.toLowerCase(), ...t }));
 
-  const titleFont = fresh(user.titleFont, 'titleFont', FONTS);
-  const style = {
-    titleFont,
-    bodyFont: rand(user.bodyFont, () => pick(r, FONTS.filter(f => f !== 'Bebas'))),
-    header: fresh(user.header, 'header', ['card', 'open']),
-    cards: fresh(user.cards, 'cards', CARD_STYLES),
-    icons: rand(user.icons, () => pick(r, ['filled', 'filled', 'outline'])),
-    background: fresh(user.background, 'background', BACKGROUNDS),
-    pattern: rand(user.pattern, () => pick(r, ['grid', 'dots', 'none'])),
-    radius: rand(user.radius, () => pick(r, [12, 18, 24, 30])),
-    frame: rand(user.frame, () => r() < 0.6),
-    sweep: rand(user.sweep, () => r() < 0.6),
-    dimInactive: rand(user.dimInactive, () => r() < 0.5),
-  };
-
+  const lungs = fresh(user.lungs, 'lungs', lungSets());
   const voice = fresh(user.voice, 'voice', BANK.voices);
 
   return {
@@ -142,28 +124,21 @@ function resolve(user = {}, choose = plainPicker()) {
     width: 1080, height: 1920,
     fps: user.fps ?? 30,
     duration, hold,
-    layout: fresh(user.layout, 'layout', LAYOUTS),
-    style,
-    palette, accent, pillColor,
-    trackColors: user.trackColors ?? [hsl((palette.hue ?? 260) + 20, 100, 90), hsl((palette.hue ?? 260) + 20, 90, 72)],
-    ballGlow: rand(user.ballGlow, () => pick(r, BANK.accents)),
-    ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),
+    nodeFrac: NODE_FRAC, startFrac: START_FRAC, dropTime: DROP, nodeTimes: nodeTimes(hold),
+    shade, bg,
+    side: fresh(user.side, 'side', SIDES),
+    mirrorLungs: user.mirrorLungs ?? false,
+    titleFont: fresh(user.titleFont, 'titleFont', FONTS),
+    titleColor: rand(user.titleColor, () => pick(r, BANK.titleColors)),
     title: fresh(user.title, 'title', BANK.titles),
-    subtitle: fresh(user.subtitle, 'subtitle', BANK.subtitles),
-    pill: fresh(user.pill, 'pill', BANK.pills),
-    timerLabel: fresh(user.timerLabel, 'timerLabel', BANK.timerLabels),
-    statuses: fresh(user.statuses, 'statuses', BANK.statuses),
-    doneStatus: fresh(user.doneStatus, 'doneStatus', BANK.doneStatus),
+    lungs, lungImages: user.lungImages ?? lungImages(lungs),
+    ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),
     tiers,
-    levels: user.levels ?? BANK.levels,
-    footers: user.footers ?? BANK.footers,
-    footerLeft: user.footerLeft ?? '',
     handle: user.handle ?? '',
-    ball: { mode: 'step', step: 1, ...(user.ball || {}) },
     script: user.script && user.script !== 'auto' ? user.script : autoScript(r, choose, hold, duration, tiers),
     voice: { name: voice, speed: user.voiceSpeed ?? +(1.05 + r() * 0.12).toFixed(2), enabled: user.voiceover !== false },
-    sound: { enabled: true, music: null, musicVolume: 0.3, sfxVolume: 0.55, ...(user.sound || {}) },
+    sound: { enabled: true, music: null, musicVolume: 0.3, sfxVolume: 0.6, volume: 1, ...(user.sound || {}) },
   };
 }
 
-module.exports = { resolve, rng, freshPicker, BANK, SCRIPTS, LAYOUTS, BACKGROUNDS };
+module.exports = { resolve, rng, freshPicker, nodeTimes, lungSets, BANK, SCRIPTS, FONTS };

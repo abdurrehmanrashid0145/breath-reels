@@ -3,398 +3,276 @@
 <head>
 <meta charset="utf-8">
 <style>
-  @font-face { font-family: Lato; font-weight: 400; src: url(../assets/fonts/lato-latin-400-normal.woff2); }
-  @font-face { font-family: Lato; font-weight: 700; src: url(../assets/fonts/lato-latin-700-normal.woff2); }
-  @font-face { font-family: Lato; font-weight: 900; src: url(../assets/fonts/lato-latin-900-normal.woff2); }
-  @font-face { font-family: Montserrat; font-weight: 400; src: url(../assets/fonts/montserrat-latin-400-normal.woff2); }
-  @font-face { font-family: Montserrat; font-weight: 700; src: url(../assets/fonts/montserrat-latin-700-normal.woff2); }
-  @font-face { font-family: Montserrat; font-weight: 900; src: url(../assets/fonts/montserrat-latin-900-normal.woff2); }
-  @font-face { font-family: Poppins; font-weight: 400; src: url(../assets/fonts/poppins-latin-400-normal.woff2); }
-  @font-face { font-family: Poppins; font-weight: 700; src: url(../assets/fonts/poppins-latin-700-normal.woff2); }
-  @font-face { font-family: Poppins; font-weight: 900; src: url(../assets/fonts/poppins-latin-900-normal.woff2); }
-  @font-face { font-family: Bebas; font-weight: 400 900; src: url(../assets/fonts/bebas-neue-latin-400-normal.woff2); }
+  @font-face { font-family: Bangers; src: url(../assets/fonts/bangers-latin-400-normal.woff2); }
+  @font-face { font-family: Luckiest; src: url(../assets/fonts/luckiest-guy-latin-400-normal.woff2); }
+  @font-face { font-family: Titan; src: url(../assets/fonts/titan-one-latin-400-normal.woff2); }
+  @font-face { font-family: Lilita; src: url(../assets/fonts/lilita-one-latin-400-normal.woff2); }
   @font-face { font-family: Emoji; src: url(../assets/fonts/NotoColorEmoji.ttf); }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 720px; height: 1280px; overflow: hidden; background: #000; }
-  body { font-family: var(--body), sans-serif; color: #fff; position: relative; text-transform: uppercase; }
+  html, body { width: 720px; height: 1280px; overflow: hidden; background: #0a6cf0; }
+  body { position: relative; color: #fff; }
   .abs { position: absolute; }
-  .title { font-family: var(--title), sans-serif; font-weight: 900; letter-spacing: -.5px; }
-  .fit { white-space: nowrap; overflow: hidden; }
-  .emoji { font-family: Emoji; line-height: 1; text-transform: none; }
-  #tbig, #ringnum { text-transform: none; }
 
-  /* ---------- background ---------- */
   #bg { position: absolute; inset: 0; overflow: hidden; }
-  #bg > div { position: absolute; }
-  .layer { inset: 0; }
-  .blob { width: 1100px; height: 1100px; will-change: transform; }
-  .grid { inset: 0; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 36px 36px; }
-  .dots { inset: 0; background-image: radial-gradient(rgba(255,255,255,.09) 1.4px, transparent 1.6px); background-size: 28px 28px; }
-  .vignette { inset: 0; background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.6) 100%); }
-  #sweep { position: absolute; left: 0; right: 0; height: 70px; pointer-events: none; z-index: 50;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,.06) 45%, rgba(255,255,255,.11) 50%, rgba(255,255,255,.06) 55%, transparent); }
+  #bg > * { position: absolute; }
+  .emoji { font-family: Emoji; line-height: 1; }
 
-  /* ---------- chrome ---------- */
-  #frame { position: absolute; inset: 24px; border-radius: 30px; border: 1.5px solid rgba(255,255,255,.22); }
-  .card { position: absolute; border-radius: var(--radius); }
-  .s-glass { background: rgba(10,8,26,.72); border: 1.5px solid rgba(255,255,255,.16); }
-  .s-neon  { background: rgba(6,6,16,.55); border: 2px solid var(--c, rgba(255,255,255,.4)); box-shadow: 0 0 14px var(--cg, transparent), inset 0 0 14px var(--cg, transparent); }
-  .s-solid { background: var(--ct, rgba(255,255,255,.08)); border: 1.5px solid transparent; }
+  #title { position: absolute; left: 0; right: 0; top: 0; text-align: center; z-index: 10; }
+  #title .line { display: table; margin: 0 auto; white-space: nowrap; line-height: 1.02; font-family: var(--title); color: #fff;
+    -webkit-text-stroke: var(--stroke) #101018; paint-order: stroke fill; text-shadow: 0 var(--drop) 0 #101018; letter-spacing: 1px; }
+  #title .line.sub { color: var(--sub); }
 
-  .pill { height: 32px; border-radius: 16px; font-size: 13px; font-weight: 900; color: #12101e; display: flex; align-items: center; justify-content: center; padding: 0 16px; white-space: nowrap; }
-  .dot { position: absolute; width: 7px; height: 7px; border-radius: 50%; }
+  #bar { position: absolute; border-radius: 6px; background: #fff; border: 3px solid #101018; z-index: 4; }
+  .node { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: #fff; border: 3px solid #101018; z-index: 5; }
+  .ring { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; border: 5px solid #fff; z-index: 3; opacity: 0; }
 
-  .tick { position: absolute; width: 14px; height: 14px; transform: translate(-50%, -50%) rotate(45deg); border: 1.5px solid rgba(255,255,255,.7); background: rgba(20,14,40,.95); }
-  .tier .name { font-weight: 700; }
-  .tier .aura { font-weight: 900; color: #fff; }
-  .tier .note { font-weight: 400; color: rgba(255,255,255,.62); }
-  .tier svg { display: block; overflow: visible; }
+  .lung { position: absolute; z-index: 6; display: flex; align-items: center; justify-content: center; }
+  .lung svg, .lung img { width: 100%; height: 100%; object-fit: contain; display: block; overflow: visible; }
+  .glow { position: absolute; border-radius: 50%; z-index: 5; opacity: 0;
+    background: radial-gradient(circle, rgba(255,255,255,.75) 0%, rgba(255,255,255,.25) 40%, transparent 70%); }
 
-  #ball { position: absolute; width: 76px; height: 76px; margin: -38px 0 0 -38px; z-index: 20; display: flex; align-items: center; justify-content: center; }
-  #ball .halo { position: absolute; inset: -6px; border-radius: 50%; }
-  #ball .face { position: relative; font-size: 50px; }
-  #pop { position: absolute; z-index: 30; font-weight: 900; font-size: 30px; white-space: nowrap; transform: translate(-50%, -50%); pointer-events: none; }
-
-  #timerblock .lab { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: .5px; }
-  #timerblock .big { font-size: 64px; line-height: 1; font-variant-numeric: tabular-nums; }
-  #timerblock .status { font-size: 24px; font-weight: 900; text-align: right; }
-  #timerblock .bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.12); overflow: hidden; }
-  #timerblock .fill { height: 100%; border-radius: 4px; }
-  .foot { position: absolute; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.8); letter-spacing: .3px; }
+  #ball { position: absolute; width: 104px; height: 104px; margin: -52px 0 0 -52px; z-index: 20; display: flex; align-items: center; justify-content: center; }
+  #ball .face { font-size: 92px; filter: drop-shadow(0 4px 0 rgba(0,0,0,.18)); }
+  #handle { position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; font-family: Lilita; font-size: 22px; color: rgba(255,255,255,.85); z-index: 10; }
 </style>
 </head>
 <body>
 <div id="bg"></div>
-<div id="frame"></div>
-<div id="header"></div>
+<div id="title"></div>
+<div id="bar"></div>
 <div id="stage"></div>
-<div id="timerblock" class="card"></div>
-<div id="ball"><div class="halo"></div><div class="face emoji"></div></div>
-<div id="pop" class="title"></div>
-<div class="foot" id="footL" style="left:58px; top:1212px"></div>
-<div class="foot" id="handle" style="right:58px; top:1212px"></div>
-<div class="foot" id="footC" style="left:0; right:0; top:1250px; text-align:center; font-size:11px"></div>
-<div id="sweep"></div>
+<div id="ball"><div class="face emoji"></div></div>
+<div id="handle"></div>
 
 <script>
-const $ = s => document.querySelector(s);
+let C, E = {};
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
-const easeOutBack = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
-const el = (tag, cls, style, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.style.cssText = style; if (html !== undefined) e.innerHTML = html; return e; };
-const alpha = (hex, a) => hex + Math.round(a * 255).toString(16).padStart(2, '0');
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = k => 1 - Math.pow(1 - k, 3);
+const $ = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.style.cssText = style; (parent || document.body).appendChild(e); return e; };
+const SVGNS = 'http://www.w3.org/2000/svg';
+function rng(seed) { let s = seed >>> 0; return () => { s = (s + 0x6d2b79f5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 
-function lungSVG(color, i, style, w, h) {
-  const outline = style === 'outline';
-  const fill = outline ? 'none' : `url(#lg${i})`;
-  const stroke = outline ? color : 'rgba(255,255,255,.55)';
-  const glow = outline ? `filter: drop-shadow(0 0 6px ${color});` : '';
-  return `<svg viewBox="0 0 150 120" style="width:${w}px;height:${h}px;${glow}"><defs>
-    <linearGradient id="lg${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".72"/><stop offset="1" stop-color="${color}"/></linearGradient></defs>
-    <g class="lobes" style="transform-origin:75px 70px">
-    <path d="M66 30 C48 20 20 40 15 74 C11 101 22 116 41 113 C58 110 66 100 66 84 Z" fill="${fill}" stroke="${stroke}" stroke-width="${outline ? 4 : 2}"/>
-    <path d="M84 30 C102 20 130 40 135 74 C139 101 128 116 109 113 C92 110 84 100 84 84 Z" fill="${fill}" stroke="${stroke}" stroke-width="${outline ? 4 : 2}"/>
-    ${outline ? '' : '<ellipse cx="38" cy="58" rx="9" ry="16" fill="#fff" opacity=".18"/><ellipse cx="112" cy="58" rx="9" ry="16" fill="#fff" opacity=".18"/>'}</g>
-    <g stroke="${outline ? color : 'rgba(235,235,255,.85)'}" stroke-width="2.6" fill="none" stroke-linecap="round">
-      <path d="M75 0 V48"/><path d="M75 48 L56 62 L40 82"/><path d="M56 62 L52 90"/><path d="M75 48 L94 62 L110 82"/><path d="M94 62 L98 90"/>
-    </g></svg>`;
+// ---------------- lungs (built-in cartoon set; PNG sets in assets/lungs/<name>/ replace these) ----------------
+const LOBE_L = 'M107,80 C92,58 58,58 43,90 C27,124 24,172 31,202 C36,222 54,228 74,223 C94,218 106,206 108,188 Z';
+const LOBE_R = 'M133,80 C148,58 182,58 197,90 C213,124 216,172 209,202 C204,222 186,228 166,223 C146,218 134,206 132,188 Z';
+const OUT = '#2a1414';
+function trachea(fill, ring) {
+  let s = `<rect x="110" y="14" width="20" height="70" rx="8" fill="${fill}" stroke="${OUT}" stroke-width="3"/>`;
+  for (let y = 24; y < 80; y += 10) s += `<line x1="112" y1="${y}" x2="128" y2="${y}" stroke="${ring}" stroke-width="3" stroke-linecap="round"/>`;
+  return s + `<path d="M120,80 L120,94 M120,92 Q110,100 100,108 M120,92 Q130,100 140,108" stroke="${fill}" stroke-width="10" stroke-linecap="round" fill="none"/>`;
 }
-
-function cardStyle(color) {
-  return { cls: 'card tier s-' + C.style.cards, css: `--c:${alpha(color, .75)};--cg:${alpha(color, .25)};--ct:${alpha(color, .16)};` };
+function vessels(color, w) {
+  const side = (m) => {
+    const x = v => (m ? 240 - v : v);
+    return [[100, 108, 70, 120, 52, 128], [100, 108, 84, 140, 60, 170], [100, 108, 98, 150, 86, 198], [84, 124, 72, 112, 62, 98], [76, 150, 62, 152, 46, 150], [92, 168, 78, 186, 64, 206], [95, 140, 104, 160, 102, 184]]
+      .map(([a, b, c, d, e, f]) => `<path d="M${x(a)},${b} Q${x(c)},${d} ${x(e)},${f}" stroke="${color}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`).join('');
+  };
+  return side(false) + side(true);
 }
-
-// ---------------- layouts ----------------
-// Each layout builds the tier area and returns ballAt(progress) -> {x, y}.
-const TIER_Y = [372, 556, 740, 924];
-
-function trackLayout(side) {
-  const trackX = side === 'left' ? 92 : side === 'right' ? 628 : 360;
-  const stage = $('#stage');
-  stage.appendChild(el('div', 'card s-glass', `left:44px; top:262px; width:632px; height:750px; background:rgba(8,6,20,.35)`));
-  stage.appendChild(el('div', 'abs', `left:${trackX - 3.5}px; top:300px; width:7px; height:690px; border-radius:4px;
-    background:linear-gradient(180deg, ${C.trackColors[0]}, ${C.trackColors[1]}); box-shadow:0 0 14px ${alpha(C.trackColors[1], .6)}`));
-  C.tiers.forEach((t, i) => {
-    const cy = TIER_Y[i];
-    let x, w, h;
-    if (side === 'left') { x = 150; w = 510; h = 162; }
-    else if (side === 'right') { x = 60; w = 510; h = 162; }
-    else { w = 268; h = 150; x = i % 2 ? 404 : 48; }
-    const cs = cardStyle(t.color);
-    const card = el('div', cs.cls, cs.css + `left:${x}px; top:${cy - h / 2}px; width:${w}px; height:${h}px;`);
-    card.id = 'tier' + i;
-    if (side !== 'center') {
-      const iconLeft = side === 'right';
-      const tx = iconLeft ? 190 : 24;
-      card.innerHTML = `
-        <div class="abs name fit" style="left:${tx}px; top:28px; width:300px; font-size:22px; color:${t.color}">${String(i + 1).padStart(2, '0')}&nbsp; ${t.name}</div>
-        <div class="abs aura title fit" style="left:${tx}px; top:62px; width:300px; font-size:32px">${t.aura}</div>
-        <div class="abs note fit" style="left:${tx + 1}px; top:112px; width:290px; font-size:13px">${t.note}</div>
-        <div class="abs" style="${iconLeft ? 'left' : 'right'}:24px; top:22px">${lungSVG(t.color, i, C.style.icons, 150, 120)}</div>`;
-    } else {
-      card.innerHTML = `
-        <div class="abs" style="left:16px; top:14px">${lungSVG(t.color, i, C.style.icons, 84, 67)}</div>
-        <div class="abs title" style="right:18px; top:16px; font-size:30px; color:${alpha(t.color, .55)}">${String(i + 1).padStart(2, '0')}</div>
-        <div class="abs name fit" style="left:18px; top:88px; width:236px; font-size:17px; color:${t.color}">${t.name}</div>
-        <div class="abs aura title fit" style="left:18px; top:110px; width:236px; font-size:24px">${t.aura}</div>`;
+function lungSVG(state, hue) {
+  let s = `<svg xmlns="${SVGNS}" viewBox="-10 0 260 240">`;
+  const defs = (id, a, b) => `<radialGradient id="${id}" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></radialGradient>`;
+  if (state === 0) {
+    s += `<defs>${defs('g0', '#8a4a33', '#4a2418')}</defs>` + trachea('#7a4a38', '#4a2a20');
+    s += `<path d="${LOBE_L}" fill="url(#g0)" stroke="${OUT}" stroke-width="4"/><path d="${LOBE_R}" fill="url(#g0)" stroke="${OUT}" stroke-width="4"/>`;
+    for (const [x, y, r] of [[60, 190, 6], [84, 205, 4], [170, 196, 5], [190, 170, 4], [52, 120, 3], [150, 210, 3]]) s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#2a120c" opacity=".7"/>`;
+    // band-aids
+    s += `<g transform="rotate(-38 176 104)"><rect x="150" y="94" width="52" height="20" rx="9" fill="#f3d6a8" stroke="${OUT}" stroke-width="2.5"/><rect x="168" y="96" width="16" height="16" fill="#e6bf8a"/></g>`;
+    s += `<g transform="rotate(42 62 196)"><rect x="40" y="187" width="46" height="18" rx="8" fill="#f3d6a8" stroke="${OUT}" stroke-width="2.5"/><rect x="56" y="189" width="14" height="14" fill="#e6bf8a"/></g>`;
+    // tired eyes, sad mouths, tear
+    for (const cx of [76, 164]) {
+      s += `<ellipse cx="${cx - 12}" cy="128" rx="11" ry="10" fill="#fff" stroke="${OUT}" stroke-width="2.5"/><ellipse cx="${cx + 12}" cy="128" rx="11" ry="10" fill="#fff" stroke="${OUT}" stroke-width="2.5"/>`;
+      s += `<circle cx="${cx - 12}" cy="133" r="4.5" fill="#111"/><circle cx="${cx + 12}" cy="133" r="4.5" fill="#111"/>`;
+      s += `<path d="M${cx - 24},127 Q${cx - 12},${116} ${cx},127 Z M${cx},127 Q${cx + 12},116 ${cx + 24},127 Z" fill="#6a3424" stroke="${OUT}" stroke-width="2.5"/>`;
+      s += `<path d="M${cx - 10},164 Q${cx},154 ${cx + 10},164" stroke="${OUT}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
     }
-    stage.appendChild(card);
-    stage.appendChild(el('div', 'tick', `left:${trackX}px; top:${cy}px`));
-    const lx = side === 'left' ? trackX + 8 : side === 'right' ? 570 : (i % 2 ? trackX + 8 : 316);
-    const lw = side === 'center' ? (i % 2 ? 36 : 36) : 50;
-    stage.appendChild(el('div', 'abs', `left:${lx}px; top:${cy - 1}px; width:${lw}px; height:2px; background:rgba(255,255,255,.6)`));
-  });
-  return p => ({ x: trackX, y: TIER_Y[0] + (TIER_Y[3] - TIER_Y[0]) * p });
-}
-
-const RING = { cx: 360, cy: 532, r: 222 };
-// ring: tiers row under the ring; ring-top: tiers row above it
-function ringLayout(top) {
-  if (top) Object.assign(RING, { cy: 728, r: 206 });
-  const { cx, cy, r } = RING, stage = $('#stage');
-  const tiersTop = top ? 258 : 822;
-  const circ = 2 * Math.PI * r;
-  stage.appendChild(el('div', 'abs', 'left:0; top:0; width:720px; height:1280px', `
-    <svg width="720" height="1280" style="position:absolute;left:0;top:0">
-      <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.trackColors[0]}"/><stop offset="1" stop-color="${C.trackColors[1]}"/></linearGradient></defs>
-      <circle cx="${cx}" cy="${cy}" r="${r + 44}" fill="rgba(8,6,20,.5)" stroke="rgba(255,255,255,.14)" stroke-width="1.5"/>
-      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="12"/>
-      <circle id="arc" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round"
-        stroke-dasharray="${circ}" stroke-dashoffset="${circ}" transform="rotate(-90 ${cx} ${cy})" style="filter:drop-shadow(0 0 8px ${C.trackColors[1]})"/>
-    </svg>`));
-  [0, 1, 2].forEach(i => {
-    const a = -Math.PI / 2 + (i / 3) * 2 * Math.PI;
-    stage.appendChild(el('div', 'tick', `left:${cx + r * Math.cos(a)}px; top:${cy + r * Math.sin(a)}px`));
-  });
-  stage.appendChild(el('div', 'abs', `left:${cx - 170}px; top:${cy - 118}px; width:340px; text-align:center`, `
-    <div id="ringlvl" style="font-size:16px; font-weight:700; color:rgba(255,255,255,.8)"></div>
-    <div id="ringnum" class="title" style="font-size:150px; line-height:1.1; color:${C.accent}; text-shadow:0 0 24px ${alpha(C.accent, .4)}"></div>
-    <div style="font-size:15px; font-weight:700; color:rgba(255,255,255,.7)">${C.timerLabel}</div>`));
-  C.tiers.forEach((t, i) => {
-    const cs = cardStyle(t.color);
-    const card = el('div', cs.cls, cs.css + `left:${44 + i * 160}px; top:${tiersTop}px; width:152px; height:186px;`);
-    card.id = 'tier' + i;
-    card.innerHTML = `
-      <div class="abs" style="left:26px; top:14px">${lungSVG(t.color, i, C.style.icons, 100, 80)}</div>
-      <div class="abs name fit" style="left:8px; right:8px; top:104px; font-size:14px; text-align:center; color:${t.color}">${t.name}</div>
-      <div class="abs aura title fit" style="left:8px; right:8px; top:130px; font-size:21px; text-align:center">${t.aura}</div>`;
-    stage.appendChild(card);
-  });
-  return p => {
-    const a = -Math.PI / 2 + p * 2 * Math.PI;
-    return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
-  };
-}
-
-
-// zigzag: the ball runs a zigzag path, touching each tier from alternating sides
-function zigzagLayout() {
-  const stage = $('#stage');
-  const pts = TIER_Y.map((y, i) => ({ x: i % 2 ? 628 : 92, y }));
-  stage.appendChild(el('div', 'card s-glass', `left:44px; top:262px; width:632px; height:750px; background:rgba(8,6,20,.35)`));
-  stage.appendChild(el('div', 'abs', 'left:0; top:0; width:720px; height:1280px', `
-    <svg width="720" height="1280" style="position:absolute;left:0;top:0">
-      <defs><linearGradient id="zg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.trackColors[0]}"/><stop offset="1" stop-color="${C.trackColors[1]}"/></linearGradient></defs>
-      <polyline points="${pts.map(p => p.x + ',' + p.y).join(' ')}" fill="none" stroke="url(#zg)" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"
-        style="filter:drop-shadow(0 0 8px ${C.trackColors[1]})"/>
-    </svg>`));
-  C.tiers.forEach((t, i) => {
-    const right = i % 2 === 1;
-    const cs = cardStyle(t.color);
-    const box = `left:${right ? 150 : 210}px; top:${TIER_Y[i] - 70}px; width:360px; height:140px;`;
-    stage.appendChild(el('div', 'card', box + 'background:rgb(10,8,24)'));   // opaque backing hides the path
-    const card = el('div', cs.cls, cs.css + box);
-    card.id = 'tier' + i;
-    const tx = right ? 22 : 126;
-    card.innerHTML = `
-      <div class="abs name fit" style="left:${tx}px; top:22px; width:216px; font-size:19px; color:${t.color}">${String(i + 1).padStart(2, '0')}&nbsp; ${t.name}</div>
-      <div class="abs aura title fit" style="left:${tx}px; top:54px; width:216px; font-size:28px">${t.aura}</div>
-      <div class="abs note fit" style="left:${tx + 1}px; top:96px; width:210px; font-size:12px">${t.note}</div>
-      <div class="abs" style="${right ? 'right' : 'left'}:16px; top:26px">${lungSVG(t.color, i, C.style.icons, 100, 80)}</div>`;
-    stage.appendChild(card);
-    stage.appendChild(el('div', 'tick', `left:${pts[i].x}px; top:${pts[i].y}px`));
-  });
-  return p => {
-    const f = clamp(p, 0, 1) * 3, k = Math.min(2, Math.floor(f)), u = f - k;
-    return { x: pts[k].x + (pts[k + 1].x - pts[k].x) * u, y: pts[k].y + (pts[k + 1].y - pts[k].y) * u };
-  };
-}
-
-// ---------------- header ----------------
-function buildHeader() {
-  const h = $('#header');
-  const T = C.style.titleFont === 'Bebas' ? 1.25 : 1;
-  const pill = `background:${C.pillColor}; box-shadow:0 0 16px ${alpha(C.pillColor, .45)}`;
-  if (C.style.header === 'card') {
-    h.className = 'card s-glass';
-    h.style.cssText = 'left:44px; top:40px; width:632px; height:196px';
-    h.innerHTML = `
-      <div class="abs title fit" style="left:22px; top:${T > 1 ? 14 : 18}px; width:560px; font-size:${48 * T}px; color:#f4f2ff">${C.title[0]}</div>
-      <div class="abs title fit" style="left:20px; top:${T > 1 ? 70 : 76}px; width:580px; font-size:${56 * T}px; color:${C.accent}; text-shadow:0 0 18px ${alpha(C.accent, .35)}">${C.title[1]}</div>
-      <div class="abs fit" style="left:23px; top:154px; width:370px; font-size:15px; font-weight:700; color:rgba(255,255,255,.75)">${C.subtitle}</div>
-      <div class="abs pill" style="right:24px; top:148px; ${pill}">${C.pill}</div>
-      ${[0, 1, 2].map(k => `<div class="dot" style="right:16px; top:${48 + k * 24}px; background:${C.pillColor}; box-shadow:0 0 8px ${C.pillColor}"></div>`).join('')}`;
+    s += `<path d="M58,142 Q52,154 58,158 Q64,154 58,142 Z" fill="#8fd8ff" stroke="#2a6a9a" stroke-width="1.5"/>`;
+  } else if (state === 1) {
+    s += `<defs>${defs('g1a', '#e36a74', '#9e2a3a')}${defs('g1b', '#6e4c3c', '#2e1c16')}</defs>` + trachea('#9a5a4a', '#5a3028');
+    s += `<path d="${LOBE_L}" fill="url(#g1a)" stroke="${OUT}" stroke-width="4"/><path d="${LOBE_R}" fill="url(#g1b)" stroke="${OUT}" stroke-width="4"/>`;
+    s += vessels('rgba(110,20,30,.55)', 2.5);
+    for (const [x, y, r] of [[160, 120, 9], [182, 150, 7], [158, 180, 10], [196, 196, 6], [176, 92, 5], [60, 196, 6], [82, 176, 4]]) s += `<circle cx="${x}" cy="${y}" r="${r}" fill="#140806" opacity=".8"/>`;
+    for (const cx of [76, 164]) {
+      s += `<circle cx="${cx - 12}" cy="132" r="5" fill="#111"/><circle cx="${cx + 12}" cy="132" r="5" fill="#111"/>`;
+      s += `<path d="M${cx - 12},160 q6,-6 12,0 q6,6 12,0" stroke="${OUT}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+    }
+    s += `<path d="M150,64 Q146,74 150,78 Q154,74 150,64 Z" fill="#8fd8ff" stroke="#2a6a9a" stroke-width="1.5" transform="translate(30 64)"/>`;
+  } else if (state === 2) {
+    s += `<defs>${defs('g2', '#ff7f8c', '#c8304a')}</defs>` + trachea('#f08a98', '#b04458');
+    s += `<path d="${LOBE_L}" fill="url(#g2)" stroke="${OUT}" stroke-width="4"/><path d="${LOBE_R}" fill="url(#g2)" stroke="${OUT}" stroke-width="4"/>`;
+    s += vessels('#ffd0d8', 3);
+    for (const cx of [76, 164]) {
+      s += `<circle cx="${cx - 12}" cy="132" r="5.5" fill="#111"/><circle cx="${cx + 12}" cy="132" r="5.5" fill="#111"/><circle cx="${cx - 10}" cy="130" r="1.8" fill="#fff"/><circle cx="${cx + 14}" cy="130" r="1.8" fill="#fff"/>`;
+      s += `<path d="M${cx - 10},156 Q${cx},166 ${cx + 10},156" stroke="${OUT}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+    }
   } else {
-    h.className = 'abs';
-    h.style.cssText = 'left:40px; top:44px; width:640px; height:200px; text-align:center';
-    h.innerHTML = `
-      <div style="display:flex; justify-content:center"><div class="pill" style="${pill}">${C.pill}</div></div>
-      <div class="title fit" style="margin-top:10px; font-size:${44 * T}px; color:#f4f2ff">${C.title[0]}</div>
-      <div class="title fit" style="font-size:${60 * T}px; line-height:1.05; color:${C.accent}; text-shadow:0 0 22px ${alpha(C.accent, .4)}">${C.title[1]}</div>
-      <div class="fit" style="margin-top:6px; font-size:15px; font-weight:700; color:rgba(255,255,255,.75)">${C.subtitle}</div>`;
+    s += `<defs>${defs('g3', '#ffd0dc', '#ff8aa6')}</defs>`;
+    // flexing arms (drawn first so the lobes overlap the shoulders)
+    for (const m of [false, true]) {
+      const x = v => (m ? 240 - v : v);
+      const arm = `M${x(40)},140 L${x(4)},150 L${x(-2)},104`;
+      s += `<path d="${arm}" stroke="${OUT}" stroke-width="30" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      s += `<path d="${arm}" stroke="#ff9cb4" stroke-width="23" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      s += `<circle cx="${x(18)}" cy="132" r="15" fill="#ff9cb4" stroke="${OUT}" stroke-width="3"/>`;
+      s += `<circle cx="${x(-2)}" cy="96" r="15" fill="#ff9cb4" stroke="${OUT}" stroke-width="3"/>`;
+      s += `<path d="M${x(-10)},92 h${m ? -14 : 14} M${x(-10)},100 h${m ? -14 : 14}" stroke="${OUT}" stroke-width="2" opacity=".5"/>`;
+    }
+    s += trachea('#ffb3c4', '#e0708a');
+    s += `<path d="${LOBE_L}" fill="url(#g3)" stroke="${OUT}" stroke-width="4"/><path d="${LOBE_R}" fill="url(#g3)" stroke="${OUT}" stroke-width="4"/>`;
+    s += `<ellipse cx="60" cy="100" rx="9" ry="14" fill="#fff" opacity=".55"/><ellipse cx="180" cy="100" rx="9" ry="14" fill="#fff" opacity=".55"/>`;
+    for (const cx of [76, 164]) {
+      s += `<path d="M${cx - 19},134 Q${cx - 12},124 ${cx - 5},134 M${cx + 5},134 Q${cx + 12},124 ${cx + 19},134" stroke="${OUT}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+      s += `<path d="M${cx - 10},150 Q${cx},164 ${cx + 10},150" stroke="${OUT}" stroke-width="3.5" fill="#c23a5a" stroke-linecap="round"/>`;
+      s += `<ellipse cx="${cx - 22}" cy="148" rx="7" ry="4" fill="#ff5e86" opacity=".5"/><ellipse cx="${cx + 22}" cy="148" rx="7" ry="4" fill="#ff5e86" opacity=".5"/>`;
+    }
   }
+  return s + '</svg>';
 }
 
-function buildTimerBlock() {
-  const b = $('#timerblock');
-  b.className = 'card s-glass';
-  b.style.cssText = `left:44px; top:1036px; width:632px; height:156px; border-color:${alpha(C.pillColor, .5)}; box-shadow:0 0 22px ${alpha(C.pillColor, .14)}`;
-  b.innerHTML = `
-    <div class="abs lab" style="left:26px; top:20px">${C.layout.startsWith('ring') ? 'CURRENT LEVEL' : C.timerLabel}</div>
-    <div class="abs big title fit" id="tbig" style="left:24px; top:44px; width:280px; color:${C.accent}"></div>
-    <div class="abs lab" style="right:26px; top:20px">STATUS</div>
-    <div class="abs status title fit" id="tstatus" style="right:26px; top:54px; width:330px"></div>
-    <div class="abs bar" style="left:26px; right:26px; top:124px"><div class="fill" id="tfill" style="background:linear-gradient(90deg, ${C.trackColors[0]}, ${C.accent})"></div></div>`;
+// ---------------- background: medical blue, grid, ECG line, floating icons ----------------
+const ICONS = {
+  heart: '<path d="M0,8 C-14,-4 -10,-16 0,-8 C10,-16 14,-4 0,8 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M-6,-1 h5 M-3.5,-3.5 v5" stroke="currentColor" stroke-width="2"/>',
+  plus: '<path d="M-4,-11 h8 v7 h7 v8 h-7 v7 h-8 v-7 h-7 v-8 h7 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>',
+  lung: '<path d="M-2,-12 v8 M-2,-4 q-3,3 -6,4 M-2,-4 q3,3 6,4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M-4,-6 C-10,-10 -16,-2 -15,6 C-14,12 -6,12 -4,8 Z M0,-6 C6,-10 12,-2 11,6 C10,12 2,12 0,8 Z" fill="none" stroke="currentColor" stroke-width="2.2" transform="translate(2 0)"/>',
+  pulse: '<path d="M-14,0 h7 l3,-8 l5,16 l4,-12 l2,4 h7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>',
+};
+function ecgPath(w, amp) {
+  let d = 'M0,0', x = 0;
+  while (x < w) { d += ` L${x + 30},0 L${x + 42},${-amp * 0.25} L${x + 50},0 L${x + 58},${amp * 0.3} L${x + 70},${-amp} L${x + 82},${amp * 0.55} L${x + 94},0 L${x + 120},${-amp * 0.2} L${x + 140},0`; x += 140; }
+  return d;
 }
-
-// ---------------- background ----------------
 function buildBackground() {
-  const bg = $('#bg'), p = C.palette, st = C.style.background;
-  bg.appendChild(el('div', 'layer', `background:linear-gradient(${p.angle}deg, ${p.colors[0]}, ${p.colors[1]} 55%, ${p.colors[2]})`));
-  if (st === 'blobs' || st === 'dots') {
-    p.blobs.forEach((c, i) => { const b = el('div', 'blob', `background:radial-gradient(circle at center, ${c} 0%, ${alpha(c, .4)} 30%, transparent 65%); opacity:.6`); b.id = 'blob' + i; bg.appendChild(b); });
-  } else if (st === 'spotlight') {
-    bg.appendChild(el('div', 'layer', `background:radial-gradient(ellipse 80% 55% at 50% 0%, ${alpha(p.blobs[0], .65)}, transparent 70%), radial-gradient(ellipse 70% 45% at 50% 100%, ${alpha(p.blobs[1], .5)}, transparent 70%)`));
-    const rays = el('div', '', `left:-640px; top:-1000px; width:2000px; height:2000px; opacity:.14;
-      background:repeating-conic-gradient(from 0deg at 50% 50%, ${p.blobs[2]} 0deg 6deg, transparent 6deg 24deg)`);
-    rays.id = 'rays'; bg.appendChild(rays);
-  } else if (st === 'stripes') {
-    const s = el('div', '', `left:-400px; top:-400px; width:1520px; height:2080px; opacity:.16;
-      background:repeating-linear-gradient(${p.angle % 180}deg, ${p.blobs[0]} 0 40px, transparent 40px 110px)`);
-    s.id = 'stripes'; bg.appendChild(s);
-    bg.appendChild(el('div', 'layer', `background:radial-gradient(circle at 30% 30%, ${alpha(p.blobs[1], .5)}, transparent 60%)`));
-  } else if (st === 'aurora') {
-    p.blobs.forEach((c, i) => { const b = el('div', '', `left:-300px; width:1320px; height:440px; top:${120 + i * 380}px; border-radius:50%;
-      background:radial-gradient(ellipse at center, ${alpha(c, .55)}, transparent 68%)`); b.id = 'band' + i; bg.appendChild(b); });
-  }
-  if (st === 'dots' || C.style.pattern === 'dots') bg.appendChild(el('div', 'dots'));
-  else if (C.style.pattern === 'grid') bg.appendChild(el('div', 'grid'));
-  bg.appendChild(el('div', 'vignette'));
+  const bg = document.getElementById('bg'), b = C.bg, h = b.hue;
+  bg.style.background = `linear-gradient(${b.angle}deg, hsl(${h},${b.sat}%,${b.light + 8}%) 0%, hsl(${h + 8},${b.sat}%,${b.light}%) 55%, hsl(${h + 14},${b.sat}%,${b.light - 6}%) 100%)`;
+  $('div', '', bg, `inset:0; background: radial-gradient(ellipse at ${b.spotX}% ${b.spotY}%, hsla(${h - 10},100%,80%,.45) 0%, transparent 55%)`);
+  const g = b.grid;
+  $('div', '', bg, `inset:0; background-image: linear-gradient(rgba(255,255,255,.16) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,.16) 1.5px, transparent 1.5px); background-size: ${g}px ${g}px; background-position: ${b.gx}px ${b.gy}px`);
+  $('div', '', bg, `inset:0; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: ${g / 2}px ${g / 2}px; background-position: ${b.gx}px ${b.gy}px`);
+  E.ecg = b.ecg.map(e => {
+    const svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('width', 1440); svg.setAttribute('height', 200);
+    svg.style.cssText = `position:absolute; left:0; top:${e.y - 100}px; opacity:${e.o}`;
+    svg.innerHTML = `<path d="${ecgPath(1440, e.amp)}" transform="translate(0 100)" fill="none" stroke="hsl(${h - 15},100%,82%)" stroke-width="3" stroke-linejoin="round"/>`;
+    bg.appendChild(svg);
+    return { el: svg, speed: e.speed };
+  });
+  E.icons = b.icons.map(ic => {
+    const svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '-30 -30 60 60');
+    svg.style.cssText = `position:absolute; width:${ic.s}px; height:${ic.s}px; left:${ic.x}px; top:${ic.y}px; color: hsl(${h - 15},100%,85%); opacity:${ic.o}`;
+    svg.innerHTML = `<path d="M0,-26 L22.5,-13 L22.5,13 L0,26 L-22.5,13 L-22.5,-13 Z" fill="hsla(${h},100%,90%,.08)" stroke="currentColor" stroke-width="2.2"/>${ICONS[b.icon]}`;
+    bg.appendChild(svg);
+    return { el: svg, ...ic };
+  });
+  E.motes = b.motes.map(m => { const d = $('div', '', bg, `width:${m.r}px; height:${m.r}px; border-radius:50%; background: rgba(255,255,255,.35); left:${m.x}px; top:${m.y}px`); return { el: d, ...m }; });
 }
-
 function animateBackground(t) {
-  const st = C.style.background;
-  if (st === 'blobs' || st === 'dots') {
-    const pos = [[-300 + 120 * Math.sin(t * .11), -250 + 160 * Math.cos(t * .07)], [200 + 140 * Math.cos(t * .09), 500 + 140 * Math.sin(t * .08)], [-200 + 160 * Math.sin(t * .06 + 1), 900 + 120 * Math.cos(t * .1)]];
-    pos.forEach(([x, y], i) => $('#blob' + i).style.transform = `translate(${x}px, ${y}px)`);
-  } else if (st === 'spotlight') $('#rays').style.transform = `rotate(${t * 3}deg)`;
-  else if (st === 'stripes') $('#stripes').style.transform = `translate(${(t * 12) % 110}px, 0)`;
-  else if (st === 'aurora') [0, 1, 2].forEach(i => $('#band' + i).style.transform = `translateX(${Math.sin(t * .15 + i * 2) * 160}px) scaleY(${1 + .2 * Math.sin(t * .2 + i)})`);
-  if (C.style.sweep) $('#sweep').style.top = (((t % 7) / 7) * 1450 - 120) + 'px';
+  for (const e of E.ecg) e.el.style.transform = `translateX(${-((t * e.speed) % 140)}px)`;
+  for (const ic of E.icons) ic.el.style.transform = `translate(${Math.sin(t * 0.4 + ic.ph) * 8}px, ${Math.cos(t * 0.33 + ic.ph) * 10}px) rotate(${Math.sin(t * 0.25 + ic.ph) * 8}deg)`;
+  for (const m of E.motes) m.el.style.transform = `translateY(${-((t * m.v) % 160)}px)`;
 }
 
-// ---------------- init / render ----------------
-let C, ballAt;
-
+// ---------------- layout ----------------
+function buildTitle() {
+  const el = document.getElementById('title');
+  el.style.setProperty('--title', C.titleFont);
+  el.style.setProperty('--sub', C.titleColor);
+  el.innerHTML = '';
+  C.title.forEach((txt, i) => { const s = $('span', 'line' + (i ? ' sub' : ''), el); s.textContent = txt; });
+  el.style.top = '14px';
+}
+function fitText() {
+  const el = document.getElementById('title');
+  const lines = [...el.children];
+  const max = lines.length > 1 ? [98, 60] : [112];
+  lines.forEach((s, i) => {
+    let f = max[i];
+    s.style.fontSize = f + 'px';
+    s.style.setProperty('--stroke', Math.round(f * 0.13) + 'px');
+    s.style.setProperty('--drop', Math.round(f * 0.07) + 'px');
+    while (s.scrollWidth > 690 && f > 30) { f -= 2; s.style.fontSize = f + 'px'; s.style.setProperty('--stroke', Math.round(f * 0.13) + 'px'); s.style.setProperty('--drop', Math.round(f * 0.07) + 'px'); }
+  });
+  // everything below the title starts under it
+  const bottom = el.offsetTop + el.offsetHeight;
+  layout(bottom + 12);
+}
+function layout(top) {
+  const L = C.geo = {};
+  const right = C.side === 'right';
+  L.barX = right ? 720 - 158 : 158;
+  L.lungX = right ? 228 : 492;
+  L.top = top; L.bottom = 1170;
+  const len = L.bottom - L.top;
+  const bar = document.getElementById('bar');
+  bar.style.cssText = `left:${L.barX - 14}px; width:28px; top:${L.top}px; height:${len}px`;
+  L.nodes = C.nodeFrac.map(f => L.top + len * f);
+  L.start = L.top + len * C.startFrac;
+  const size = Math.min(272, len * 0.27 * 1.12);
+  E.nodes.forEach((n, i) => { n.style.left = L.barX + 'px'; n.style.top = L.nodes[i] + 'px'; E.rings[i].style.left = L.barX + 'px'; E.rings[i].style.top = L.nodes[i] + 'px'; });
+  E.lungs.forEach((l, i) => {
+    l.style.cssText = `left:${L.lungX - size / 2}px; top:${L.nodes[i] - size / 2}px; width:${size}px; height:${size}px`;
+    E.glows[i].style.cssText = `left:${L.lungX - size * 0.7}px; top:${L.nodes[i] - size * 0.7}px; width:${size * 1.4}px; height:${size * 1.4}px`;
+  });
+}
 function init(cfg) {
   C = cfg;
-  const root = document.documentElement.style;
-  root.setProperty('--title', C.style.titleFont);
-  root.setProperty('--body', C.style.bodyFont);
-  root.setProperty('--radius', C.style.radius + 'px');
   buildBackground();
-  buildHeader();
-  ballAt = C.layout.startsWith('ring') ? ringLayout(C.layout === 'ring-top')
-    : C.layout === 'zigzag' ? zigzagLayout()
-    : trackLayout(C.layout.replace('track-', ''));
-  buildTimerBlock();
-  $('#frame').style.display = C.style.frame ? '' : 'none';
-  $('#sweep').style.display = C.style.sweep ? '' : 'none';
-  $('#footL').textContent = C.footerLeft;
-  $('#handle').textContent = C.handle || '';
-  $('#handle').style.color = C.accent;
-  $('#ball .halo').style.background = `radial-gradient(circle, ${alpha(C.ballGlow, .6)} 0%, ${alpha(C.ballGlow, .22)} 55%, transparent 72%)`;
+  buildTitle();
+  const stage = document.getElementById('stage');
+  E.nodes = []; E.rings = []; E.lungs = []; E.glows = [];
+  for (let i = 0; i < 4; i++) {
+    E.rings.push($('div', 'ring', stage));
+    E.nodes.push($('div', 'node', stage));
+    E.glows.push($('div', 'glow', stage));
+    const l = $('div', 'lung', stage);
+    if (C.lungImages) { const img = $('img', '', l); img.src = C.lungImages[i]; }
+    else l.innerHTML = lungSVG(i);
+    if (C.side === 'right' && C.mirrorLungs) l.style.transform = 'scaleX(-1)';
+    E.lungs.push(l);
+  }
+  E.ball = document.getElementById('ball');
+  E.face = E.ball.querySelector('.face');
+  document.getElementById('handle').textContent = C.handle || '';
+  fitText();
 }
 
-// called once fonts are loaded: shrink any text that overflows its box
-function fitText() {
-  document.querySelectorAll('.fit').forEach(e => {
-    let fs = parseFloat(getComputedStyle(e).fontSize);
-    while (e.scrollWidth > e.clientWidth + 1 && fs > 8) { fs -= 1; e.style.fontSize = fs + 'px'; }
-  });
+// ball: drops onto the top of the bar, then slides down, reaching lung k at C.nodeTimes[k]
+function ballY(t) {
+  const L = C.geo, T = C.nodeTimes;
+  if (t < C.dropTime) return L.start;
+  const pts = [[C.dropTime, L.start], ...T.map((tt, i) => [tt, L.nodes[i]])];
+  for (let i = 1; i < pts.length; i++) if (t <= pts[i][0]) return lerp(pts[i - 1][1], pts[i][1], (t - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0]));
+  return L.nodes[3];
 }
+function reached(t) { let n = 0; C.nodeTimes.forEach(tt => { if (t >= tt) n++; }); return n; }
 
-function ballProgress(t) {
-  const H = C.hold;
-  if (C.ball.mode === 'smooth') return clamp(t / H, 0, 1);
-  const s = C.ball.step, k = Math.floor(t / s);
-  const prev = clamp(((k - 1) * s) / H, 0, 1), cur = clamp((k * s) / H, 0, 1);
-  const local = clamp((t - k * s) / Math.min(0.22, s * 0.6), 0, 1);
-  return prev + (cur - prev) * easeOutBack(local);
-}
-// level = last tier the ball has reached (tiers sit at progress 0, 1/3, 2/3, 1)
-function level(t) { return clamp(Math.floor(ballProgress(t) * 3 + 1e-6), 0, 3); }
-
-let lastFace = '';
 function render(t) {
   animateBackground(t);
-  const H = C.hold, pr = ballProgress(t), L = level(t);
+  const n = reached(t);
+  const y = ballY(t);
+  E.ball.style.left = C.geo.barX + 'px';
+  E.ball.style.top = y + 'px';
+  E.face.textContent = C.ballFaces[Math.min(n, C.ballFaces.length - 1)];
+  // gentle wobble while holding, a squash when it hits each lung
+  let sc = t < C.dropTime ? ease(t / C.dropTime) * (1 + 0.25 * Math.sin(t / C.dropTime * Math.PI)) : 1, rot = Math.sin(t * 2.2) * 5;
+  C.nodeTimes.forEach(tt => { const d = t - tt; if (d >= 0 && d < 0.5) sc *= 1 + 0.22 * Math.sin(d / 0.5 * Math.PI); });
+  if (t > C.hold) rot = Math.sin((t - C.hold) * 6) * 10 * Math.exp(-(t - C.hold));
+  E.ball.style.transform = `scale(${sc}) rotate(${rot}deg)`;
 
-  // ball: emoji changes per level with a pop, small squash on each step
-  const { x, y } = ballAt(pr);
-  const ball = $('#ball');
-  ball.style.left = x + 'px'; ball.style.top = y + 'px';
-  const face = t >= H ? C.ballFaces[4] : C.ballFaces[L];
-  if (face !== lastFace) { $('#ball .face').textContent = face; lastFace = face; }
-  const changeAt = t >= H ? H : (L * H) / 3;
-  const since = t - changeAt;
-  let sc = since >= 0 && since < 0.35 ? 1 + 0.35 * Math.sin((since / 0.35) * Math.PI) : 1;
-  if (C.ball.mode !== 'smooth' && t < H) { const ph = (t % C.ball.step) / C.ball.step; sc *= 1 + 0.08 * Math.max(0, 1 - ph * 5); }
-  ball.style.transform = `scale(${sc})`;
-
-  // "+20 AURA" pop at each level-up
-  const pop = $('#pop');
-  const ps = t - (L * H) / 3;
-  if (L > 0 && ps >= 0 && ps < 1.4) {
-    pop.style.display = '';
-    pop.textContent = C.tiers[L].aura;
-    pop.style.color = C.tiers[L].color;
-    pop.style.textShadow = `0 0 16px ${alpha(C.tiers[L].color, .7)}`;
-    const isRing = C.layout.startsWith('ring');
-    const dx = isRing || C.layout === 'track-center' ? 0 : x > 360 ? -120 : 130;
-    const dy = isRing ? -70 : -40;
-    pop.style.left = clamp(x + dx, 120, 600) + 'px';
-    pop.style.top = (y + dy - ps * 60) + 'px';
-    pop.style.opacity = clamp(Math.min(ps / 0.15, (1.4 - ps) / 0.4), 0, 1);
-  } else pop.style.display = 'none';
-
-  // active tier glow + breathing lungs
-  C.tiers.forEach((tr, i) => {
-    const e = document.getElementById('tier' + i);
-    const on = i === L;
-    e.style.outline = on ? `2px solid ${alpha(tr.color, .9)}` : 'none';
-    e.style.outlineOffset = '-2px';
-    e.style.boxShadow = on ? `0 0 26px ${alpha(tr.color, .4)}` : '';
-    e.style.opacity = on || !C.style.dimInactive ? 1 : 0.6;
-    e.querySelector('.lobes').style.transform = `scale(${on ? 1 + 0.04 * Math.sin(t * Math.PI * 1.2) : 1})`;
+  E.lungs.forEach((l, i) => {
+    const d = t - C.nodeTimes[i];
+    let s = 1 + 0.025 * Math.sin(t * 2 + i * 1.3);              // idle breathing
+    if (d >= 0 && d < 0.7) s += 0.2 * Math.sin(d / 0.7 * Math.PI); // pop when the ball arrives
+    if (i === 3 && t > C.hold) s += 0.05 * Math.sin((t - C.hold) * 5);
+    const flip = C.side === 'right' && C.mirrorLungs ? -1 : 1;
+    l.style.transform = `scale(${s * flip}, ${s})`;
+    const g = d >= 0 ? (d < 1.2 ? 1 - d / 1.2 * 0.6 : 0.4) * (i === n - 1 ? 1 : 0) : 0;
+    E.glows[i].style.opacity = g.toFixed(3);
+    const rr = E.rings[i];
+    if (d >= 0 && d < 0.8) { rr.style.opacity = (1 - d / 0.8).toFixed(3); rr.style.transform = `scale(${1 + d * 2})`; } else rr.style.opacity = 0;
   });
-
-  // timer / status
-  const secs = String(Math.floor(Math.min(t, 99))).padStart(2, '0') + 's';
-  if (C.layout.startsWith('ring')) {
-    $('#ringnum').textContent = secs;
-    $('#ringlvl').textContent = `LVL ${String(L + 1).padStart(2, '0')} // ${C.levels[L]}`;
-    $('#arc').setAttribute('stroke-dashoffset', 2 * Math.PI * RING.r * (1 - pr));
-    $('#tbig').textContent = C.levels[L];
-  } else $('#tbig').textContent = secs;
-  $('#tstatus').textContent = t >= H ? C.doneStatus : C.statuses[L];
-  $('#tstatus').style.color = C.tiers[L].color;
-  $('#tfill').style.width = (pr * 100) + '%';
-
-  // optional footer lines, e.g. [{ "from": 0, "text": "..." }]
-  let f = '';
-  for (const k of C.footers) if (t >= k.from) f = k.text;
-  $('#footC').textContent = f;
 }
 </script>
 </body>

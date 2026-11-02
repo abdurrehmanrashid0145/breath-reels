@@ -1,1 +1,9 @@
-{"seed": 7, "output": "out/sample.mp4"}
+{
+  "seed": 42,
+  "output": "out/example.mp4",
+  "title": ["HOLD YOUR BREATH", "AURA CHECK"],
+  "titleFont": "Luckiest",
+  "side": "left",
+  "shade": 0,
+  "voice": "am_puck"
+}

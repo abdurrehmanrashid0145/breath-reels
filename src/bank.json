@@ -1,157 +1,103 @@
 {
+ "_about": "Words and visuals each reel picks from. titles: 1 line, or 2 (second line smaller, coloured). shades: background blue (hue, saturation, lightness). ballFaces: 5 yellow faces (start, then after reaching each lung). tierSets: names the voiceover uses for level-ups ({t2},{t3} in scripts.json).",
  "titles": [
-  [
-   "BREATH-HOLD",
-   "AURA CHECK"
-  ],
-  [
-   "LUNG CAPACITY",
-   "AURA CHECK"
-  ],
-  [
-   "BREATH-HOLD",
-   "VIBE CHECK"
-  ],
-  [
-   "SIGMA LUNG",
-   "AURA TEST"
-  ],
-  [
-   "HOLD YOUR BREATH",
-   "AURA FARM"
-  ],
-  [
-   "LUNG CHECK",
-   "YOU'RE COOKED"
-  ],
-  [
-   "HOLD IT IN",
-   "OR GET COOKED"
-  ],
-  [
-   "NPC OR LEGEND?",
-   "LUNG TEST"
-  ],
-  [
-   "60 SECONDS",
-   "NO AIR"
-  ],
-  [
-   "BREATH-HOLD",
-   "HUMBLING"
-  ],
-  [
-   "ARE YOUR LUNGS",
-   "EVEN REAL?"
-  ],
-  [
-   "HOLD YOUR BREATH",
-   "IF YOU CAN"
-  ],
-  [
-   "LUNG AURA",
-   "SPEEDRUN"
-  ],
-  [
-   "BREATH CHECK",
-   "NO CAP"
-  ],
-  [
-   "DON'T BREATHE",
-   "CHALLENGE"
-  ],
-  [
-   "AURA FARMING",
-   "LUNG EDITION"
-  ],
-  [
-   "SIGMA BREATH",
-   "TEST"
-  ],
-  [
-   "HOLD IT",
-   "LIKE A LEGEND"
-  ],
-  [
-   "LUNGS",
-   "ON TRIAL"
-  ],
-  [
-   "BREATH-HOLD",
-   "RIZZ CHECK"
-  ],
-  [
-   "CAN YOU",
-   "HOLD 60?"
-  ],
-  [
-   "THE LUNG",
-   "EXAM"
-  ],
-  [
-   "BREATHE",
-   "AND YOU LOSE"
-  ],
-  [
-   "MAIN CHARACTER",
-   "LUNG TEST"
-  ],
-  [
-   "LUNG",
-   "RANKED MODE"
-  ],
-  [
-   "NO AIR",
-   "NO AURA"
-  ],
-  [
-   "BREATH-HOLD",
-   "BOSS FIGHT"
-  ],
-  [
-   "THE AURA",
-   "LUNG TEST"
-  ],
-  [
-   "HOLD YOUR",
-   "BREATH, NPC"
-  ],
-  [
-   "LUNGS",
-   "GET COOKED"
-  ]
+  ["HOLD YOUR BREATH"],
+  ["HOLD YOUR BREATH", "CHALLENGE"],
+  ["CAN YOU HOLD", "YOUR BREATH?"],
+  ["HOLD YOUR BREATH", "TO HEAL YOUR LUNGS"],
+  ["TEST YOUR LUNGS"],
+  ["HOLD YOUR BREATH", "HOW FAR CAN YOU GO?"],
+  ["HOW STRONG", "ARE YOUR LUNGS?"],
+  ["HOLD YOUR BREATH", "FIX YOUR LUNGS"],
+  ["DON'T BREATHE"],
+  ["HOLD YOUR BREATH", "60 SECOND TEST"],
+  ["LUNG TEST"],
+  ["HOLD YOUR BREATH", "SAVE YOUR LUNGS"],
+  ["HOLD YOUR BREATH", "DON'T GIVE UP"],
+  ["STOP BREATHING", "FOR A MINUTE"],
+  ["HOLD YOUR BREATH", "AURA CHECK"],
+  ["HOLD YOUR BREATH", "WHAT ARE YOUR LUNGS?"],
+  ["HOLD IT IN"],
+  ["HOLD YOUR BREATH", "ONLY 1% CAN FINISH"],
+  ["BREATH TEST"],
+  ["HOLD YOUR BREATH", "NO CHEATING"]
  ],
- "subtitles": [
-  "THE MOST UNNECESSARY SIDE QUEST",
-  "A COMPLETELY USELESS SIDE QUEST",
-  "LOWKEY THE HARDEST GAME OF 2026",
-  "NO THOUGHTS. JUST LUNGS.",
-  "FREE AURA. NO CAP.",
-  "YOU'VE BEEN SCROLLING FOR 3 HOURS. HOLD THIS.",
-  "FINALLY A CARDIO YOU CAN DO IN BED",
-  "MOST PEOPLE QUIT AT LEVEL 1",
-  "YOUR SCREEN TIME COULD NEVER",
-  "PROVE YOU'RE NOT AN NPC",
-  "THE ONLY WORKOUT YOU'LL DO TODAY",
-  "HUMBLING SPEEDRUN, ANY%",
-  "90% FOLD BEFORE SIGMA",
-  "LUNGS VS. YOUR EGO",
-  "THIS WILL EXPOSE YOU",
-  "NO BREATHING. NO EXCUSES.",
-  "CERTIFIED HUMBLING EXPERIENCE",
-  "YOUR LUNGS VS. THE ALGORITHM",
-  "SIDE QUEST: DON'T BREATHE",
-  "GYM? NO. THIS.",
-  "WE'RE ALL WATCHING YOUR FACE",
-  "BREATHE AND YOU'RE AN NPC",
-  "LEVEL UP OR LOG OFF",
-  "THE TOMATO FACE CHALLENGE",
-  "ZERO OXYGEN. MAX AURA.",
-  "PUT THE PHONE DOWN. JK. HOLD.",
-  "NOT FOR WEAK LUNGS",
-  "ONLY REAL ONES FINISH",
-  "HOLD OR GET HUMBLED",
-  "AURA IS EARNED, NOT BREATHED"
+ "shades": [
+  {
+   "hue": 212,
+   "sat": 95,
+   "light": 52
+  },
+  {
+   "hue": 205,
+   "sat": 96,
+   "light": 50
+  },
+  {
+   "hue": 200,
+   "sat": 95,
+   "light": 48
+  },
+  {
+   "hue": 218,
+   "sat": 92,
+   "light": 52
+  },
+  {
+   "hue": 195,
+   "sat": 95,
+   "light": 46
+  },
+  {
+   "hue": 208,
+   "sat": 100,
+   "light": 45
+  },
+  {
+   "hue": 222,
+   "sat": 90,
+   "light": 55
+  },
+  {
+   "hue": 198,
+   "sat": 100,
+   "light": 52
+  },
+  {
+   "hue": 215,
+   "sat": 98,
+   "light": 48
+  },
+  {
+   "hue": 190,
+   "sat": 92,
+   "light": 45
+  },
+  {
+   "hue": 226,
+   "sat": 88,
+   "light": 56
+  },
+  {
+   "hue": 203,
+   "sat": 100,
+   "light": 55
+  }
+ ],
+ "titleColors": ["#ffe14a", "#ffffff", "#ffd23f", "#fff27a", "#ffcf4a"],
+ "ballFaces": [
+  ["😮", "😌", "😤", "🥵", "😮‍💨"],
+  ["😯", "😗", "😬", "😣", "😮‍💨"],
+  ["😮", "😐", "😤", "😵", "🥳"],
+  ["😲", "😑", "😖", "🥵", "😁"],
+  ["😳", "😌", "😣", "😫", "😮‍💨"],
+  ["😮", "🙂", "😬", "🥵", "😎"],
+  ["😯", "😶", "😤", "😵‍💫", "😮‍💨"],
+  ["😮", "😌", "😖", "😩", "🤩"],
+  ["😲", "😗", "😣", "🥵", "😆"],
+  ["😳", "😑", "😬", "😫", "😮‍💨"],
+  ["😮", "🫡", "😤", "😵", "😮‍💨"],
+  ["😯", "😌", "😬", "🥵", "😇"]
  ],
  "tierSets": [
   [
@@ -545,267 +491,5 @@
    }
   ]
  ],
- "levels": [
-  "NPC",
-  "DELULU",
-  "SIGMA",
-  "LEGEND"
- ],
- "pills": [
-  "SOUND ON",
-  "VOLUME UP",
-  "HEADPHONES ON",
-  "SIDE QUEST",
-  "DAILY CHALLENGE",
-  "NO CAP ZONE",
-  "HUMBLING MODE",
-  "NO BREATHING",
-  "TRY NOT TO BREATHE",
-  "RANKED MODE",
-  "COOKED MODE",
-  "AURA ON THE LINE",
-  "FINAL BOSS INSIDE",
-  "HARD MODE",
-  "DON'T SKIP",
-  "LOCK IN"
- ],
- "footers": [],
- "accents": [
-  "#a6f06e",
-  "#7dffcf",
-  "#ffe066",
-  "#7fd8ff",
-  "#ff9fe0",
-  "#ffb86b",
-  "#c4a5ff",
-  "#6bffb8",
-  "#ff7a7a",
-  "#5ce1ff"
- ],
- "tierColors": [
-  "#a2a8ea",
-  "#f27a7c",
-  "#a073f2",
-  "#55e3ab"
- ],
- "statuses": [
-  [
-   "WARMING UP",
-   "LOCKED IN",
-   "COOKING",
-   "LEGENDARY"
-  ],
-  [
-   "BUFFERING",
-   "DELULU",
-   "SIGMA",
-   "FINAL BOSS"
-  ],
-  [
-   "NPC ARC",
-   "MAIN CHARACTER",
-   "AURA FARMING",
-   "UNSTOPPABLE"
-  ],
-  [
-   "LOADING",
-   "VIBING",
-   "MOGGING",
-   "GOATED"
-  ],
-  [
-   "UNEMPLOYED",
-   "COPING",
-   "SUSPICIOUS",
-   "WHO IS THIS"
-  ],
-  [
-   "COOKED",
-   "STILL COOKED",
-   "OVERCOOKED",
-   "WELL DONE"
-  ],
-  [
-   "TUTORIAL",
-   "TRYING",
-   "SWEATING",
-   "HIM"
-  ],
-  [
-   "NPC",
-   "EXTRA",
-   "SIDEKICK",
-   "MAIN CHARACTER"
-  ],
-  [
-   "CRYING",
-   "COPING",
-   "SEETHING",
-   "MOGGING"
-  ],
-  [
-   "MID",
-   "LESS MID",
-   "KINDA HIM",
-   "ACTUALLY HIM"
-  ],
-  [
-   "SHAKING",
-   "TWITCHING",
-   "TOMATO",
-   "LEGEND"
-  ],
-  [
-   "DOOMED",
-   "HOPEFUL",
-   "LOCKED IN",
-   "UNHINGED"
-  ]
- ],
- "doneStatus": [
-  "WE ARE SO BACK",
-  "AURA SECURED",
-  "QUEST COMPLETE",
-  "GG",
-  "TOUCH GRASS NOW",
-  "YOU ATE",
-  "ABSOLUTE CINEMA",
-  "HIM CONFIRMED",
-  "AURA RESTORED",
-  "BREATHE, LEGEND",
-  "NOT AN NPC",
-  "SURVIVED",
-  "HUMBLED BUT ALIVE",
-  "COOKED BUT ICONIC",
-  "MAX AURA",
-  "GOATED"
- ],
- "timerLabels": [
-  "SECONDS HELD",
-  "BREATH HELD",
-  "HOLD TIME",
-  "AURA TIMER",
-  "NO AIR FOR",
-  "SURVIVED",
-  "SECONDS OF PAIN",
-  "TIME WITHOUT AIR"
- ],
- "ballFaces": [
-  [
-   "😊",
-   "😤",
-   "🥵",
-   "😵",
-   "😮‍💨"
-  ],
-  [
-   "😎",
-   "😳",
-   "😤",
-   "🗿",
-   "🥳"
-  ],
-  [
-   "🙂",
-   "😬",
-   "🫠",
-   "💀",
-   "😮‍💨"
-  ],
-  [
-   "😇",
-   "🤨",
-   "😤",
-   "🔥",
-   "😌"
-  ],
-  [
-   "🤓",
-   "😮",
-   "😰",
-   "👑",
-   "😮‍💨"
-  ],
-  [
-   "😁",
-   "🫣",
-   "😖",
-   "🤯",
-   "🎉"
-  ],
-  [
-   "😐",
-   "😮",
-   "😤",
-   "🫨",
-   "🥳"
-  ],
-  [
-   "🥲",
-   "😬",
-   "😣",
-   "🤬",
-   "😮‍💨"
-  ],
-  [
-   "🙃",
-   "🫢",
-   "😵‍💫",
-   "🐐",
-   "🥂"
-  ],
-  [
-   "🐟",
-   "🐡",
-   "🦈",
-   "🐋",
-   "🌊"
-  ],
-  [
-   "😏",
-   "😳",
-   "🥶",
-   "💪",
-   "😎"
-  ],
-  [
-   "🤡",
-   "😰",
-   "🥵",
-   "👹",
-   "🙏"
-  ],
-  [
-   "😶",
-   "😑",
-   "😫",
-   "🗿",
-   "🫡"
-  ],
-  [
-   "😺",
-   "🙀",
-   "😾",
-   "🦁",
-   "😹"
-  ],
-  [
-   "🥱",
-   "😯",
-   "🤐",
-   "⚡",
-   "😮‍💨"
-  ]
- ],
- "voices": [
-  "am_puck",
-  "am_fenrir",
-  "am_michael",
-  "am_eric",
-  "am_liam",
-  "af_heart",
-  "af_bella",
-  "af_jessica",
-  "af_sky"
- ]
+ "voices": ["am_puck", "am_fenrir", "am_michael", "am_eric", "am_liam", "af_heart", "af_bella", "af_jessica", "af_sky"]
 }
