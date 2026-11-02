@@ -97,7 +97,10 @@ function resolve(user = {}, choose = plainPicker()) {
   const duration = user.duration ?? 60;
   const hold = user.hold ?? 57;
 
-  const shade = fresh(user.shade, 'shade', idx(BANK.shades.length));
+  // pick a colour family first (so each colour is equally likely), then a shade of it
+  const colors = [...new Set(BANK.shades.map(s => s.color))];
+  const color = user.shade !== undefined ? BANK.shades[user.shade].color : fresh(user.bgColor, 'bgColor', colors);
+  const shade = fresh(user.shade, 'shade', idx(BANK.shades.length).filter(i => BANK.shades[i].color === color));
   const sh = BANK.shades[shade];
   const bg = {
     hue: sh.hue, sat: sh.sat, light: sh.light,
@@ -129,7 +132,8 @@ function resolve(user = {}, choose = plainPicker()) {
     side: fresh(user.side, 'side', SIDES),
     mirrorLungs: user.mirrorLungs ?? false,
     titleFont: fresh(user.titleFont, 'titleFont', FONTS),
-    titleColor: rand(user.titleColor, () => pick(r, BANK.titleColors)),
+    // yellow subtitles vanish on a yellow background
+    titleColor: rand(user.titleColor, () => (color === 'yellow' ? '#ffffff' : pick(r, BANK.titleColors))),
     title: fresh(user.title, 'title', BANK.titles),
     lungs, lungImages: user.lungImages ?? lungImages(lungs),
     ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),

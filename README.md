@@ -37,7 +37,7 @@ About 2.5–4.5 minutes per reel.
 
 | Thing | Options |
 |---|---|
-| Background | 12 blue shades (`bank.json` `shades`), gradient angle, light spot, grid size, ECG lines, 4 icon types |
+| Background | 5 bright colours (blue, yellow, red, green, orange), 24 shades in `bank.json` `shades`, gradient angle, light spot, grid size, ECG lines, 4 icon types |
 | Title | 20 titles (`bank.json` `titles`), 4 comic fonts (Bangers, Luckiest Guy, Titan One, Lilita One) |
 | Bar side | left or right |
 | Ball | 12 sets of yellow emoji faces (one per lung reached) |

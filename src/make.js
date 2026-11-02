@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Plans N reels that don't repeat each other (background shade, title, font,
+// Plans N reels that don't repeat each other (background colour and shade, title, font,
 // bar side, emoji, voice and every voiceover line), writes their configs and renders them.
 // Usage counts live in .history.json, so later batches prefer unused options too.
 //   node src/make.js --count 3 [--handle @you] [--no-render]

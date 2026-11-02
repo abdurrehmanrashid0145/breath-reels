@@ -51,5 +51,5 @@ Lines live in `src/scripts.json`, one array per moment. The planner picks them u
 - Keep the `breathe` line (it lets viewers breathe) in every reel. No on-screen disclaimers such as "NOT A MEDICAL TEST"; the user removed them on purpose.
 - Don't promote other people's apps (the original viral reel had an App Store ad; we leave it out).
 - Sound and voice are generated locally and royalty-free. Only set `sound.music` to a track the user confirms is licensed. Trending platform audio has to be added in-app.
-- To grow the pools, add to `src/bank.json` (`titles`: 1 or 2 lines, all caps; `shades`: background blues; `ballFaces`: 5 yellow faces each; `titleColors`) and voiceover lines to `src/scripts.json`.
-- Current pools: 20 titles, 12 blue shades, 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, 141 voiceover lines.
+- To grow the pools, add to `src/bank.json` (`titles`: 1 or 2 lines, all caps; `shades`: background colours, each tagged with a `color` family; `ballFaces`: 5 yellow faces each; `titleColors`) and voiceover lines to `src/scripts.json`.
+- Current pools: 20 titles, 5 background colours (24 shades), 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, 141 voiceover lines.

@@ -1,5 +1,5 @@
 {
- "_about": "Words and visuals each reel picks from. titles: 1 line, or 2 (second line smaller, coloured). shades: background blue (hue, saturation, lightness). ballFaces: 5 yellow faces (start, then after reaching each lung). tierSets: names the voiceover uses for level-ups ({t2},{t3} in scripts.json).",
+ "_about": "Words and visuals each reel picks from. titles: 1 line, or 2 (second line smaller, coloured). shades: background colour (hue, saturation, lightness; color = blue/yellow/red/green/orange family). ballFaces: 5 yellow faces (start, then after reaching each lung). tierSets: names the voiceover uses for level-ups ({t2},{t3} in scripts.json).",
  "titles": [
   ["HOLD YOUR BREATH"],
   ["HOLD YOUR BREATH", "CHALLENGE"],
@@ -23,66 +23,30 @@
   ["HOLD YOUR BREATH", "NO CHEATING"]
  ],
  "shades": [
-  {
-   "hue": 212,
-   "sat": 95,
-   "light": 52
-  },
-  {
-   "hue": 205,
-   "sat": 96,
-   "light": 50
-  },
-  {
-   "hue": 200,
-   "sat": 95,
-   "light": 48
-  },
-  {
-   "hue": 218,
-   "sat": 92,
-   "light": 52
-  },
-  {
-   "hue": 195,
-   "sat": 95,
-   "light": 46
-  },
-  {
-   "hue": 208,
-   "sat": 100,
-   "light": 45
-  },
-  {
-   "hue": 222,
-   "sat": 90,
-   "light": 55
-  },
-  {
-   "hue": 198,
-   "sat": 100,
-   "light": 52
-  },
-  {
-   "hue": 215,
-   "sat": 98,
-   "light": 48
-  },
-  {
-   "hue": 190,
-   "sat": 92,
-   "light": 45
-  },
-  {
-   "hue": 226,
-   "sat": 88,
-   "light": 56
-  },
-  {
-   "hue": 203,
-   "sat": 100,
-   "light": 55
-  }
+  {"hue": 212, "sat": 95, "light": 52, "color": "blue"},
+  {"hue": 205, "sat": 96, "light": 50, "color": "blue"},
+  {"hue": 200, "sat": 95, "light": 48, "color": "blue"},
+  {"hue": 218, "sat": 92, "light": 52, "color": "blue"},
+  {"hue": 195, "sat": 95, "light": 46, "color": "blue"},
+  {"hue": 208, "sat": 100, "light": 45, "color": "blue"},
+  {"hue": 222, "sat": 90, "light": 55, "color": "blue"},
+  {"hue": 198, "sat": 100, "light": 52, "color": "blue"},
+  {"hue": 215, "sat": 98, "light": 48, "color": "blue"},
+  {"hue": 190, "sat": 92, "light": 45, "color": "blue"},
+  {"hue": 226, "sat": 88, "light": 56, "color": "blue"},
+  {"hue": 203, "sat": 100, "light": 55, "color": "blue"},
+  {"hue": 48, "sat": 100, "light": 52, "color": "yellow"},
+  {"hue": 52, "sat": 100, "light": 50, "color": "yellow"},
+  {"hue": 45, "sat": 100, "light": 54, "color": "yellow"},
+  {"hue": 355, "sat": 88, "light": 52, "color": "red"},
+  {"hue": 358, "sat": 85, "light": 48, "color": "red"},
+  {"hue": 350, "sat": 90, "light": 55, "color": "red"},
+  {"hue": 132, "sat": 72, "light": 42, "color": "green"},
+  {"hue": 140, "sat": 70, "light": 40, "color": "green"},
+  {"hue": 125, "sat": 75, "light": 45, "color": "green"},
+  {"hue": 24, "sat": 100, "light": 52, "color": "orange"},
+  {"hue": 28, "sat": 100, "light": 50, "color": "orange"},
+  {"hue": 20, "sat": 100, "light": 55, "color": "orange"}
  ],
  "titleColors": ["#ffe14a", "#ffffff", "#ffd23f", "#fff27a", "#ffcf4a"],
  "ballFaces": [
