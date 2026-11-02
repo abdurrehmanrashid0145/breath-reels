@@ -109,7 +109,7 @@ function resolve(user = {}, choose = plainPicker()) {
     grid: pick(r, [60, 66, 72, 80, 90]), gx: Math.round(r() * 60), gy: Math.round(r() * 60),
     icon: fresh(user.icon, 'icon', ICONS),
     ecg: idx(1 + Math.floor(r() * 2)).map(i => ({ y: Math.round(i === 0 ? between(r, 150, 330) : between(r, 900, 1120)), amp: Math.round(between(r, 50, 90)), o: +between(r, 0.45, 0.75).toFixed(2), speed: Math.round(between(r, 18, 40)) })),
-    icons: idx(7).map(i => ({ x: Math.round(between(r, 10, 650)), y: Math.round(180 + i * 150 + between(r, -40, 40)), s: Math.round(between(r, 28, 48)), o: +between(r, 0.35, 0.7).toFixed(2), ph: +(r() * 6.28).toFixed(2) })),
+    icons: idx(7).map(i => ({ x: Math.round(between(r, 10, 650)), y: Math.round(180 + i * 150 + between(r, -40, 40)), s: Math.round(between(r, 40, 72)), o: +between(r, 0.35, 0.7).toFixed(2), ph: +(r() * 6.28).toFixed(2) })),
     motes: idx(10).map(() => ({ x: Math.round(r() * 720), y: Math.round(r() * 1280), r: Math.round(between(r, 4, 10)), v: +between(r, 4, 12).toFixed(1) })),
     ...(user.bg || {}),
   };
