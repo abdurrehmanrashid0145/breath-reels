@@ -1,12 +1,12 @@
 ---
 name: breath-reels
-description: Make viral-style "HOLD YOUR BREATH" lung reels (vertical MP4, blue medical background, comic title, emoji ball sliding past four lungs from wrecked to strong, roast voiceover, dings) from this repo. Use when asked to make, render or batch breath-hold / lung test reels.
+description: Make viral-style "HOLD YOUR BREATH" lung reels (vertical MP4, bright medical background, comic title, emoji ball sliding past four lungs from wrecked to strong, roast voiceover, dings) from this repo. Use when asked to make, render or batch breath-hold / lung test reels.
 ---
 
 # Hold-your-breath lung reels
 
 This repo renders 1080×1920, 60 s reels copied from a format that got 27M views on Facebook:
-bright blue medical background (grid, ECG line, hexagon icons), one huge comic title
+bright medical background in blue, yellow, red, green or orange (the original is blue) (grid, ECG line, hexagon icons), one huge comic title
 ("HOLD YOUR BREATH"), a plain white bar with four dots, a yellow emoji ball that slides
 down the bar, and four big lungs beside it going from wrecked smoker lungs (top) to cute
 flexing lungs (bottom). Each lung pops with a "ding" when the ball reaches it (~12, 27, 41.7, 56.5 s, same as the original).
@@ -52,4 +52,4 @@ Lines live in `src/scripts.json`, one array per moment. The planner picks them u
 - Don't promote other people's apps (the original viral reel had an App Store ad; we leave it out).
 - Sound and voice are generated locally and royalty-free. Only set `sound.music` to a track the user confirms is licensed. Trending platform audio has to be added in-app.
 - To grow the pools, add to `src/bank.json` (`titles`: 1 or 2 lines, all caps; `shades`: background blues; `ballFaces`: 5 yellow faces each; `titleColors`) and voiceover lines to `src/scripts.json`.
-- Current pools: 20 titles, 12 blue shades, 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, 141 voiceover lines.
+- Current pools: 20 titles, 16 bright shades in 5 colour families (blue, yellow, red, green, orange), 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, 141 voiceover lines.

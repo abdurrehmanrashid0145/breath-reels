@@ -97,7 +97,10 @@ function resolve(user = {}, choose = plainPicker()) {
   const duration = user.duration ?? 60;
   const hold = user.hold ?? 57;
 
-  const shade = fresh(user.shade, 'shade', idx(BANK.shades.length));
+  // pick a colour family first (so a batch spreads across blue, yellow, red, green, orange), then a shade in it
+  const families = [...new Set(BANK.shades.map(x => x.family))];
+  const family = user.shade !== undefined && user.shade !== 'random' ? BANK.shades[user.shade].family : fresh(user.color, 'color', families);
+  const shade = fresh(user.shade, 'shade', idx(BANK.shades.length).filter(i => BANK.shades[i].family === family));
   const sh = BANK.shades[shade];
   const bg = {
     hue: sh.hue, sat: sh.sat, light: sh.light,
@@ -129,7 +132,7 @@ function resolve(user = {}, choose = plainPicker()) {
     side: fresh(user.side, 'side', SIDES),
     mirrorLungs: user.mirrorLungs ?? false,
     titleFont: fresh(user.titleFont, 'titleFont', FONTS),
-    titleColor: rand(user.titleColor, () => pick(r, BANK.titleColors)),
+    titleColor: rand(user.titleColor, () => (['yellow', 'orange'].includes(family) ? '#ffffff' : pick(r, BANK.titleColors))),
     title: fresh(user.title, 'title', BANK.titles),
     lungs, lungImages: user.lungImages ?? lungImages(lungs),
     ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),

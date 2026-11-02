@@ -1,7 +1,7 @@
 # breath-reels
 
 Makes vertical (1080×1920) "HOLD YOUR BREATH" reels in the style of the viral lung-test reels:
-a bright blue medical background, a big comic title, a white bar with an emoji ball sliding down it,
+a bright medical background (blue, yellow, red, green or orange), a big comic title, a white bar with an emoji ball sliding down it,
 and four lungs going from wrecked to strong. A short, calm voiceover and a "ding" each time the ball
 reaches a lung. Everything is generated locally and royalty-free. Every reel is randomised from its seed.
 
@@ -37,7 +37,7 @@ About 2.5–4.5 minutes per reel.
 
 | Thing | Options |
 |---|---|
-| Background | 12 blue shades (`bank.json` `shades`), gradient angle, light spot, grid size, ECG lines, 4 icon types |
+| Background | 5 bright colour families × 3–4 shades (`bank.json` `shades`; a batch spreads across families), gradient angle, light spot, grid size, ECG lines, 4 icon types |
 | Title | 20 titles (`bank.json` `titles`), 4 comic fonts (Bangers, Luckiest Guy, Titan One, Lilita One) |
 | Bar side | left or right |
 | Ball | 12 sets of yellow emoji faces (one per lung reached) |
