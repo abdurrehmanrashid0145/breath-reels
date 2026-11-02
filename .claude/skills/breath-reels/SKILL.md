@@ -33,7 +33,8 @@ ffmpeg -version                    # must exist
 
 ## Lung pictures
 
-- Built-in: a code-drawn cartoon set (`lungSVG` in `src/template.html`).
+- In the repo: 3 generated sets (`set-a` semi-realistic 3D, `set-b` glossy Pixar-style, `set-c` flat sticker), made with fal Flux dev + BiRefNet background removal (~$0.03 each). Reels rotate between them.
+- Fallback: a code-drawn cartoon set (`lungSVG` in `src/template.html`), used only when no complete picture set exists.
 - Better: picture sets in `assets/lungs/<set-name>/1.png` … `4.png` (1 = wrecked, 4 = strongest; transparent PNG ideal). Once any complete set exists, reels rotate between the sets instead of the cartoon. If the user sends lung images, save them there.
 
 ## Writing voiceover lines

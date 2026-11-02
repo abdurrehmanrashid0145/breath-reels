@@ -41,7 +41,7 @@ About 2.5–4.5 minutes per reel.
 | Title | 20 titles (`bank.json` `titles`), 4 comic fonts (Bangers, Luckiest Guy, Titan One, Lilita One) |
 | Bar side | left or right |
 | Ball | 12 sets of yellow emoji faces (one per lung reached) |
-| Lungs | built-in cartoon set, or your own picture sets in `assets/lungs/` |
+| Lungs | 3 generated picture sets in `assets/lungs/` (cartoon SVG fallback) |
 | Voice | 9 Kokoro voices; roast lines in `src/scripts.json`, one per moment |
 
 ## Your own lung pictures

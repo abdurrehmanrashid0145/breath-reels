@@ -17,7 +17,7 @@ function lungSets() {
   const dir = path.join(ROOT, 'assets', 'lungs');
   let sets = [];
   try {
-    sets = fs.readdirSync(dir).filter(d => {
+    sets = fs.readdirSync(dir).filter(d => fs.statSync(path.join(dir, d)).isDirectory()).filter(d => {
       const files = fs.readdirSync(path.join(dir, d));
       return [1, 2, 3, 4].every(i => files.some(f => new RegExp(`^${i}\\.(png|webp|jpe?g|svg)$`, 'i').test(f)));
     });
