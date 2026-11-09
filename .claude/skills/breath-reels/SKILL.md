@@ -16,11 +16,10 @@ because it reads at a glance. Do not add timers, tier cards, captions or other U
 ## Setup (once per machine or session)
 
 ```bash
-npm install
-npx playwright install chromium   # skip if Playwright's Chromium is already installed
-bash scripts/setup-voice.sh       # free Kokoro voice model (~350 MB, from GitHub)
-ffmpeg -version                    # must exist
+npm run setup   # Mac or Windows: packages, Chromium, ffmpeg check (bundled fallback), Kokoro voice, Desktop "Make Reel" shortcut
 ```
+
+Non-technical users make reels by double-clicking **Make Reel** on the Desktop (runs `src/prompt.js`: paste lines, Enter on an empty line, choose a count). Output goes to Desktop/breath-reels/<date>/.
 
 ## Making reels
 

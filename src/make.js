@@ -9,7 +9,7 @@
 //   Videos go to Desktop/breath-reels/<date>/ (Mac and Windows); --out <folder> saves them somewhere else.
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
+const { reelsFolder } = require('./paths');
 const { resolve, freshPicker, parseScript } = require('./config');
 
 const ROOT = path.join(__dirname, '..');
@@ -34,14 +34,7 @@ if (get('--script')) {
 const title = get('--title') ? get('--title').split('/').map(x => x.trim().toUpperCase()).filter(Boolean).slice(0, 2)
   : manual && manual.title;
 
-// where finished videos go: the Desktop (OneDrive's Desktop on Windows if that's the real one)
-function desktop() {
-  const home = os.homedir();
-  const opts = [path.join(home, 'Desktop'), path.join(home, 'OneDrive', 'Desktop')];
-  if (process.platform === 'win32') opts.reverse();
-  return opts.find(d => fs.existsSync(d)) || path.join(home, 'Desktop');
-}
-const outDir = path.resolve(get('--out') || path.join(desktop(), 'breath-reels'), stamp);
+const outDir = path.resolve(get('--out') || reelsFolder(), stamp);
 
 let counts = {};
 try { counts = JSON.parse(fs.readFileSync(HISTORY, 'utf8')); } catch {}

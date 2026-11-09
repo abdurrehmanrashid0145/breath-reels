@@ -11,6 +11,11 @@ const { resolve } = require('./config');
 const audio = require('./audio');
 
 const ROOT = path.join(__dirname, '..');
+// ffmpeg from the system if installed, otherwise the copy npm installs (ffmpeg-static, handy on Windows)
+const FFMPEG = process.env.FFMPEG || (() => {
+  if (!require('child_process').spawnSync('ffmpeg', ['-version'], { stdio: 'ignore' }).error) return 'ffmpeg';
+  try { return require('ffmpeg-static') || 'ffmpeg'; } catch { return 'ffmpeg'; }
+})();
 const TEMPLATE = 'file://' + path.join(__dirname, 'template.html');
 
 function run(cmd, args, opts = {}) {
@@ -22,6 +27,9 @@ function run(cmd, args, opts = {}) {
     if (opts.feed) opts.feed(p.stdin);
   });
 }
+
+// short path inside the repo, full path anywhere else (like the Desktop)
+const show = p => (path.relative(ROOT, p).startsWith('..') ? p : path.relative(ROOT, p));
 
 async function openPage(browser, cfg) {
   const page = await browser.newPage({ viewport: { width: 720, height: 1280 }, deviceScaleFactor: cfg.width / 720 });
@@ -41,7 +49,7 @@ async function openPage(browser, cfg) {
 async function renderSegment(browser, cfg, from, to, file) {
   const page = await openPage(browser, cfg);
   const cdp = await page.context().newCDPSession(page);
-  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(cfg.fps), '-c:v', 'mjpeg', '-i', '-',
+  const ff = spawn(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(cfg.fps), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p', '-r', String(cfg.fps), file], { stdio: ['pipe', 'ignore', 'inherit'] });
   const done = new Promise((ok, fail) => ff.on('close', c => (c === 0 ? ok() : fail(new Error('ffmpeg segment failed')))));
   for (let f = from; f < to; f++) {
@@ -120,10 +128,10 @@ async function renderReel(browser, cfg, workers) {
     args.push('-filter_complex', fc.join(';'), '-map', '0:v', '-map', '[a]', '-c:a', 'aac', '-b:a', '192k');
   }
   args.push('-c:v', 'copy', '-t', String(cfg.duration), '-movflags', '+faststart', out);
-  await run('ffmpeg', args);
+  await run(FFMPEG, args);
   fs.rmSync(tmp, { recursive: true, force: true });
   fs.writeFileSync(out.replace(/\.mp4$/, '.json'), JSON.stringify(cfg, null, 2));
-  console.log(`✓ ${path.relative(ROOT, out)}  (${((Date.now() - t0) / 1000).toFixed(1)}s, seed ${cfg.seed})`);
+  console.log(`✓ ${show(out)}  (${((Date.now() - t0) / 1000).toFixed(1)}s, seed ${cfg.seed})`);
   return out;
 }
 
@@ -136,7 +144,7 @@ async function renderStills(browser, cfg, times = [0.5, 9.2, 30, cfg.hold + 1.5]
     await page.screenshot({ path: `${base}-${t}s.png` });
   }
   await page.close();
-  console.log(`✓ stills ${path.relative(ROOT, base)}-*.png`);
+  console.log(`✓ stills ${show(base)}-*.png`);
 }
 
 async function main(argv = process.argv.slice(2)) {

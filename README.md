@@ -5,15 +5,26 @@ a bright medical background (blue, yellow, red, green or orange), a big comic ti
 and four lungs going from wrecked to strong. A short, calm voiceover and a "ding" each time the ball
 reaches a lung. Everything is generated locally and royalty-free. Every reel is randomised from its seed.
 
-## Setup
+## Setup (Mac or Windows)
 
-Needs Node 18+, Python 3.9+ and ffmpeg.
+Install [Node.js](https://nodejs.org) (LTS), [Python 3.12](https://www.python.org/downloads/) (on Windows tick
+"Add python.exe to PATH") and [Git](https://git-scm.com/downloads). Then, once:
 
 ```bash
-npm install
-npx playwright install chromium
-bash scripts/setup-voice.sh     # Python venv + Kokoro TTS model (~350 MB), free and offline
+git clone https://github.com/abdurrehmanrashid0145/breath-reels.git
+cd breath-reels
+npm run setup
 ```
+
+`npm run setup` installs everything else (browser, ffmpeg if missing, the free Kokoro voice, ~350 MB)
+and puts a **Make Reel** shortcut on the Desktop. Running it again is safe.
+
+## Make a reel without the terminal
+
+Double-click **Make Reel** on the Desktop. A window opens: type or paste your lines, press Enter on an
+empty line, pick how many reels (each gets a different look), and wait. The folder with the finished
+reel opens by itself (Desktop/breath-reels/&lt;date&gt;/). The shortcut also pulls the latest version first.
+Same thing from a terminal: `npm run reel`. Lost the shortcut? `npm run shortcut`.
 
 ## Make reels
 
