@@ -37,13 +37,36 @@ async function download(url, file) {
   fs.renameSync(tmp, file);
 }
 
-// Kokoro's onnxruntime needs Python 3.10 to 3.13
+// Other software (e.g. ZKBioTime on Windows) can set PYTHONHOME/PYTHONPATH to its own
+// Python, which breaks every other Python ("SRE module mismatch"). Never pass them on.
+const PYENV = { ...process.env };
+delete PYENV.PYTHONHOME; delete PYENV.PYTHONPATH;
+
+// A Python is usable if it is 3.10-3.13 and can really make a venv (bundled copies often can't).
+const CHECK = 'import sys, venv, ensurepip, re, ssl; print("OK" if (3, 10) <= sys.version_info[:2] <= (3, 13) else "OLD")';
+function works(cmd, pre = []) {
+  const r = spawnSync(cmd, [...pre, '-c', CHECK], { encoding: 'utf8', env: PYENV });
+  return !r.error && r.status === 0 && r.stdout.trim() === 'OK';
+}
+
+// Prefer the official installs (py launcher, python.org's default folders) over whatever is first on PATH.
 function findPython() {
-  const tries = WIN ? [['py', ['-3.12']], ['py', ['-3.13']], ['py', ['-3.11']], ['py', ['-3.10']], ['python', []]]
-    : [['python3.12', []], ['python3.13', []], ['python3.11', []], ['python3.10', []], ['python3', []]];
+  const tries = [];
+  if (WIN) {
+    for (const v of ['3.12', '3.11', '3.13', '3.10']) tries.push(['py', ['-' + v]]);
+    const base = path.join(process.env.LOCALAPPDATA || '', 'Programs', 'Python');
+    const pf = process.env.ProgramFiles || 'C:\\Program Files';
+    for (const v of ['312', '311', '313', '310']) {
+      tries.push([path.join(base, 'Python' + v, 'python.exe'), []]);
+      tries.push([path.join(pf, 'Python' + v, 'python.exe'), []]);
+    }
+    tries.push(['python', []]);
+  } else {
+    for (const c of ['python3.12', 'python3.11', 'python3.13', 'python3.10', 'python3']) tries.push([c, []]);
+  }
   for (const [cmd, pre] of tries) {
-    const r = spawnSync(cmd, [...pre, '-c', 'import sys; print(sys.version_info[:2] >= (3, 10) and sys.version_info[:2] <= (3, 13))'], { encoding: 'utf8' });
-    if (!r.error && r.stdout.trim() === 'True') return [cmd, pre];
+    if (path.isAbsolute(cmd) && !fs.existsSync(cmd)) continue;
+    if (works(cmd, pre)) { console.log('using Python: ' + [cmd, ...pre].join(' ')); return [cmd, pre]; }
   }
   return null;
 }
@@ -64,12 +87,24 @@ function findPython() {
 
   step('Setting up the voice (Python + Kokoro)');
   const venvPy = WIN ? path.join(ROOT, '.venv', 'Scripts', 'python.exe') : path.join(ROOT, '.venv', 'bin', 'python');
-  if (!fs.existsSync(venvPy)) {
-    const py = findPython();
-    if (!py) fail('Python 3.10 to 3.13 is needed for the voice. Install 3.12 from https://www.python.org/downloads/ (on Windows tick "Add python.exe to PATH"), then run setup again');
-    if (!ok(py[0], [...py[1], '-m', 'venv', path.join(ROOT, '.venv')], { shell: false })) fail('could not create the Python environment');
+  if (fs.existsSync(venvPy) && !works(venvPy)) {
+    console.log('the voice environment from an earlier try is broken, rebuilding it');
+    fs.rmSync(path.join(ROOT, '.venv'), { recursive: true, force: true });
   }
-  if (!ok(venvPy, ['-m', 'pip', 'install', '--quiet', '--timeout', '60', 'kokoro-onnx', 'soundfile'], { shell: false })) fail('pip install failed (check the internet connection and run setup again)');
+  if (!fs.existsSync(venvPy)) {
+    let py = findPython();
+    if (!py && WIN && !spawnSync('winget', ['--version'], { stdio: 'ignore' }).error) {
+      console.log('No usable Python found, installing Python 3.12 (just for this user)...');
+      ok('winget', ['install', '-e', '--id', 'Python.Python.3.12', '--scope', 'user', '--accept-package-agreements', '--accept-source-agreements']);
+      py = findPython();
+    }
+    if (!py) fail(WIN
+      ? 'no usable Python found. Install Python 3.12 from https://www.python.org/downloads/ (or run: winget install Python.Python.3.12), then run setup again'
+      : 'Python 3.10 to 3.13 is needed for the voice. Mac: brew install python@3.12, then run setup again');
+    fs.rmSync(path.join(ROOT, '.venv'), { recursive: true, force: true });
+    if (!ok(py[0], [...py[1], '-m', 'venv', path.join(ROOT, '.venv')], { shell: false, env: PYENV })) fail('could not create the Python environment');
+  }
+  if (!ok(venvPy, ['-m', 'pip', 'install', '--quiet', '--timeout', '60', 'kokoro-onnx', 'soundfile'], { shell: false, env: PYENV })) fail('pip install failed (check the internet connection and run setup again)');
   fs.mkdirSync(TTS, { recursive: true });
   await download(MODEL + 'kokoro-v1.0.onnx', path.join(TTS, 'kokoro-v1.0.onnx'));
   await download(MODEL + 'voices-v1.0.bin', path.join(TTS, 'voices-v1.0.bin'));

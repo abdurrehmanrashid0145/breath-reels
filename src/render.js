@@ -71,7 +71,9 @@ async function voiceover(cfg, tmp, file) {
   const venv = [path.join(ROOT, '.venv', 'bin', 'python'), path.join(ROOT, '.venv', 'Scripts', 'python.exe')].find(p => fs.existsSync(p));
   const py = process.env.PYTHON || venv || (process.platform === 'win32' ? 'python' : 'python3');
   const out = await new Promise((ok, fail) => {
-    const p = spawn(py, [path.join(__dirname, 'tts.py'), job, file], { stdio: ['ignore', 'pipe', 'pipe'] });
+    // drop PYTHONHOME/PYTHONPATH that other software may set; they break our venv's Python
+    const env = { ...process.env }; delete env.PYTHONHOME; delete env.PYTHONPATH;
+    const p = spawn(py, [path.join(__dirname, 'tts.py'), job, file], { stdio: ['ignore', 'pipe', 'pipe'], env });
     let o = '', e = '';
     p.stdout.on('data', d => (o += d)); p.stderr.on('data', d => (e += d));
     p.on('close', c => (c === 0 ? ok(o) : fail(new Error('voiceover failed (run scripts/setup-voice.sh?)\n' + e.slice(-1500)))));
