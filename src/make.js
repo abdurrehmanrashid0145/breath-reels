@@ -10,7 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 const { reelsFolder } = require('./paths');
-const { resolve, freshPicker, parseScript } = require('./config');
+const { resolve, freshPicker, parseScript, estimateSpeech } = require('./config');
 
 const ROOT = path.join(__dirname, '..');
 const HISTORY = path.join(ROOT, '.history.json');
@@ -30,6 +30,7 @@ if (get('--script')) {
   manual = parseScript(text);
   console.log('using your script:');
   manual.script.forEach(l => console.log(`  ${l.t.toFixed(1).padStart(5)}s  ${l.say}`));
+  estimateSpeech(manual.script).warnings.forEach(w => console.log('  heads-up: ' + w));
 }
 const title = get('--title') ? get('--title').split('/').map(x => x.trim().toUpperCase()).filter(Boolean).slice(0, 2)
   : manual && manual.title;

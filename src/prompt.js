@@ -7,7 +7,7 @@ const os = require('os');
 const path = require('path');
 const readline = require('readline');
 const { spawnSync } = require('child_process');
-const { parseScript } = require('./config');
+const { parseScript, estimateSpeech } = require('./config');
 const { reelsFolder } = require('./paths');
 
 const ROOT = path.join(__dirname, '..');
@@ -29,7 +29,9 @@ console.log(`
     TITLE: HOLD YOUR BREATH / LUNG TEST     sets the big heading ("/" = new line)
     0:05 Tap like if you're still holding.  starts that line at 0:05
   Lines without a time are spaced out for you; the last one lands on the last lung.
-  The lungs ding at about 0:12, 0:27, 0:42 and 0:56.
+  Every reel is 60 seconds. The lungs ding at about 0:12, 0:27, 0:42 and 0:56.
+  The voice says about 4 words a second, so nonstop talking for the whole minute is about 220 words.
+  The original viral reel uses about 10 short lines (around 60 words) with pauses between.
 `);
 process.stdout.write('> ');
 
@@ -44,7 +46,15 @@ rl.on('line', line => {
     try { parsed = parseScript(lines.join('\n')); } catch (e) { console.log('\n' + e.message); return finish(1); }
     console.log('\nYour reel will say:');
     if (parsed.title) console.log('  Title:  ' + parsed.title.join(' / '));
-    parsed.script.forEach(l => console.log(`  ${fmt(l.t)}  ${l.say}`));
+    const est = estimateSpeech(parsed.script);
+    est.lines.forEach(l => console.log(`  ${fmt(l.start)}-${fmt(l.end)}  ${l.say}`));
+    const words = parsed.script.reduce((a, l) => a + l.say.split(/\s+/).length, 0);
+    console.log(`\n  ${words} words, about ${Math.round(est.talk)}s of talking in the 60s reel.`);
+    if (est.warnings.length) {
+      console.log('\n  Heads-up:');
+      est.warnings.forEach(w => console.log('  - ' + w));
+      console.log('  To fix it, close this window and start again with a shorter script. Or carry on as is.');
+    }
     stage = 'count';
     process.stdout.write('\nHow many reels with this script? (each gets a different look) [1]: ');
     return;

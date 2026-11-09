@@ -122,6 +122,24 @@ function parseScript(text, hold = 57) {
   return { title, script: lines.map(x => ({ t: +x.t.toFixed(2), say: x.say })) };
 }
 
+// Rough guess of when each line is spoken (the voice says about 4 words a second), shifting a
+// line later when the one before is still talking, the way tts.py does. Returns warnings too.
+function estimateSpeech(script, duration = 60) {
+  let cursor = 0;
+  const lines = script.map(l => {
+    const words = l.say.split(/\s+/).filter(Boolean).length;
+    const len = 0.24 * words + 0.3;
+    const t = Math.max(l.t, cursor ? cursor + 0.12 : 0);
+    cursor = t + len;
+    return { ...l, start: t, end: cursor, late: t - l.t > 0.5 };
+  });
+  const talk = lines.reduce((a, l) => a + l.end - l.start, 0);
+  const warnings = [];
+  lines.filter(l => l.late).forEach(l => warnings.push(`"${l.say}" starts about ${Math.round(l.start - l.t)}s late because the line before is still talking.`));
+  if (cursor > duration) warnings.push(`The script is about ${Math.round(cursor - duration)}s too long for the ${duration}s reel. Cut some words (about 4 words = 1 second).`);
+  return { lines, talk, end: cursor, warnings };
+}
+
 function resolve(user = {}, choose = plainPicker()) {
   const seed = user.seed ?? Math.floor(Math.random() * 1e9);
   const r = rng(seed);
@@ -179,4 +197,4 @@ function resolve(user = {}, choose = plainPicker()) {
   };
 }
 
-module.exports = { resolve, rng, freshPicker, nodeTimes, parseScript, lungSets, BANK, SCRIPTS, FONTS };
+module.exports = { resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };
