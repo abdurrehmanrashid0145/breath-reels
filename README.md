@@ -16,6 +16,10 @@ cd breath-reels
 npm run setup
 ```
 
+On Windows you can skip the terminal after cloning: open the `breath-reels` folder (in your user folder)
+and double-click **Setup (Windows).bat**. If you do type commands in PowerShell, use `npm.cmd run setup`
+(plain `npm` is blocked by PowerShell's script policy on many PCs).
+
 `npm run setup` installs everything else (browser, ffmpeg if missing, the free Kokoro voice, ~350 MB)
 and puts a **Make Reel** shortcut on the Desktop. Running it again is safe.
 
