@@ -44,7 +44,7 @@ Lines live in `src/scripts.json`, one array per moment. The planner picks them u
 - Moments (57 s hold, 60 s reel): `intro` 0.3 "Let's test your lungs. Ready? Hold!", `like` 4.7, `comment` 8.8, `share` 16.1, `breathe` 21.9 (**always tells the viewer they can breathe if they need to**; this is the safety line), `mid` 31.2 calm tip or "halfway", `follow` 34.6, `push` 46.9 "Come on, just a little more", `almost` 49.2 "almost at the finish line", `done` on the last lung "Congrats!". Silence between lines is intentional.
 - Respect `maxWords` in `scripts.json` (`comment` 7, `push` 6, `almost` 8, `done` 3 are tight). About 3 words per second.
 - Write for the ear: numbers as words, no odd spellings.
-- For a one-off custom reel: `make --count 1 --no-render`, edit `script` in the written config, then `npm run render -- <config>`.
+- When the user writes their own script: save it to a text file (one line per spoken line, optional `TITLE: A / B` line, optional `0:05`-style times) and run `npm run make -- --script <file>` (or pass the lines inline separated by ` | `). Untimed lines are spread out automatically; the last lands on the last lung. Format example: `scripts/example-script.txt`. Remind them to keep a "breathe if you need to" line if their script lacks one.
 
 ## Rules
 

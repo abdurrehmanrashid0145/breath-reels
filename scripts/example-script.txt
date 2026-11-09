@@ -1,0 +1,14 @@
+# Your own voiceover for a reel. One spoken line per line.
+# Optional first: TITLE: HOLD YOUR BREATH / LUNG TEST  ("/" splits it over two lines)
+# Optional time at the start of a line, as m:ss (0:05). Lines without a time are spaced out
+# for you; the first starts right away and the last lands on the last lung.
+# The lungs ding at about 0:12, 0:27, 0:42 and 0:56. Aim for about 3 words per second.
+
+TITLE: HOLD YOUR BREATH / LUNG TEST
+Let's test your lungs. Ready? Hold!
+0:05 Tap like if you're still holding.
+0:09 Comment which lungs you reached.
+0:22 If you need to breathe, breathe. It's okay.
+0:35 Follow for a new challenge every day.
+0:47 Come on, just a little more.
+Congrats!

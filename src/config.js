@@ -87,6 +87,41 @@ function autoScript(r, choose, hold, duration, tiers) {
   return out;
 }
 
+// A script typed by hand: one spoken line per line of text.
+//   TITLE: HOLD YOUR BREATH / LUNG TEST   (optional, "/" splits the title over two lines)
+//   0:05 Tap like if you're still holding  (optional time as m:ss, like 0:05 or [0:05])
+//   Lines without a time are spread out between the timed ones. The first starts at 0.3 s
+//   and an untimed last line lands on the last lung (like "Congrats!"). # starts a comment.
+// Also accepts lines separated by " | " in one string, for typing it straight into the command.
+function parseScript(text, hold = 57) {
+  const raw = text.includes('\n') ? text.split(/\r?\n/) : text.split('|');
+  let title = null;
+  const lines = [];
+  for (let l of raw) {
+    l = l.trim();
+    if (!l || l.startsWith('#')) continue;
+    const tm = l.match(/^title\s*:\s*(.+)$/i);
+    if (tm) { title = tm[1].split('/').map(x => x.trim().toUpperCase()).filter(Boolean).slice(0, 2); continue; }
+    const m = l.match(/^\[?(\d+):(\d\d(?:\.\d+)?)\]?\s*[-–]?\s*(.+)$/);
+    if (m) lines.push({ t: (+(m[1] || 0)) * 60 + +m[2], say: m[3].trim() });
+    else lines.push({ t: null, say: l });
+  }
+  if (!lines.length) throw new Error('the script has no lines to say');
+  const end = nodeTimes(hold)[3] + 0.15;
+  if (lines[0].t === null) lines[0].t = 0.3;
+  const last = lines[lines.length - 1];
+  if (last.t === null && lines.length > 1) last.t = end;
+  // fill the gaps evenly between the nearest timed lines (or up to the last lung)
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].t !== null) continue;
+    let j = i; while (j < lines.length && lines[j].t === null) j++;
+    const a = lines[i - 1].t, b = j < lines.length ? lines[j].t : end;
+    for (let k = i; k < j; k++) lines[k].t = a + (b - a) * (k - i + 1) / (j - i + 1);
+    i = j - 1;
+  }
+  return { title, script: lines.map(x => ({ t: +x.t.toFixed(2), say: x.say })) };
+}
+
 function resolve(user = {}, choose = plainPicker()) {
   const seed = user.seed ?? Math.floor(Math.random() * 1e9);
   const r = rng(seed);
@@ -138,10 +173,10 @@ function resolve(user = {}, choose = plainPicker()) {
     ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),
     tiers,
     handle: user.handle ?? '',
-    script: user.script && user.script !== 'auto' ? user.script : autoScript(r, choose, hold, duration, tiers),
+    script: user.script && user.script !== 'auto' ? user.script.map(l => ({ ...l, say: fill(l.say, tiers) })) : autoScript(r, choose, hold, duration, tiers),
     voice: { name: voice, speed: user.voiceSpeed ?? +(1.0 + r() * 0.08).toFixed(2), enabled: user.voiceover !== false },
     sound: { enabled: true, music: null, musicVolume: 0.3, sfxVolume: 0.6, volume: 1, ...(user.sound || {}) },
   };
 }
 
-module.exports = { resolve, rng, freshPicker, nodeTimes, lungSets, BANK, SCRIPTS, FONTS };
+module.exports = { resolve, rng, freshPicker, nodeTimes, parseScript, lungSets, BANK, SCRIPTS, FONTS };

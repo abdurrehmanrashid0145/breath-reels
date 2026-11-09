@@ -27,6 +27,21 @@ npm run stills -- configs/example.json           # 4 PNG previews instead of a v
 Videos land in `out/<date>/`, each with a `.json` holding the resolved config and the spoken lines with timings.
 About 2.5–4.5 minutes per reel.
 
+### Your own script
+
+Write the voiceover yourself and the reel is timed to it (visuals still rotate as usual):
+
+```bash
+npm run make -- --script my-script.txt                                   # from a text file
+npm run make -- --script "Let's test your lungs. Hold! | Tap like | Congrats!"   # inline, lines split by |
+npm run make -- --script my-script.txt --title "HOLD YOUR BREATH / LUNG TEST"
+```
+
+One spoken line per line. Optional `TITLE: LINE ONE / LINE TWO` sets the on-screen title.
+Start a line with a time like `0:05` to pin it; lines without a time are spaced out for you
+(the first starts at once, the last lands on the last lung). The lungs ding at about 0:12, 0:27, 0:42 and 0:56.
+See `scripts/example-script.txt`. `{n1}`..`{n4}` still say the tier names.
+
 ## The reel (60 s, timed like the viral original)
 
 - 0–1 s: the ball pops in at the top of the bar. "Let's test your lungs. Ready? Hold!"
