@@ -60,8 +60,8 @@ async function voiceover(cfg, tmp, file) {
   const job = path.join(tmp, 'tts.json');
   fs.writeFileSync(job, JSON.stringify({ voice: cfg.voice.name, speed: cfg.voice.speed, duration: cfg.duration, lines: cfg.script }));
   // prefer a project venv (Homebrew Python blocks global pip installs)
-  const venv = path.join(ROOT, '.venv', 'bin', 'python');
-  const py = process.env.PYTHON || (fs.existsSync(venv) ? venv : 'python3');
+  const venv = [path.join(ROOT, '.venv', 'bin', 'python'), path.join(ROOT, '.venv', 'Scripts', 'python.exe')].find(p => fs.existsSync(p));
+  const py = process.env.PYTHON || venv || (process.platform === 'win32' ? 'python' : 'python3');
   const out = await new Promise((ok, fail) => {
     const p = spawn(py, [path.join(__dirname, 'tts.py'), job, file], { stdio: ['ignore', 'pipe', 'pipe'] });
     let o = '', e = '';

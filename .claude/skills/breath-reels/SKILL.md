@@ -29,7 +29,7 @@ ffmpeg -version                    # must exist
    The planner makes sure reels in one batch don't share a title, background shade, font, emoji set, voice or any voiceover line (until a pool runs out), alternates the bar side, and remembers usage in `.history.json` so later days prefer unused material. Never hand-pick seeds for a batch.
 3. **Preview before a full render:** `npm run stills -- <config>` writes 4 PNGs next to the output path.
 4. Render time is about 2.5 minutes per reel on 4 cores (about 4.5 on an M-series Mac). Run batches in the background.
-5. Each MP4 gets a `.json` beside it with the resolved config and the spoken lines and timings. Hand the MP4s to the user (in a Claude project, copy them to the project's Files).
+5. `make` saves videos to the Desktop in `breath-reels/<date>/` (`--out <folder>` overrides). Each MP4 gets a `.json` beside it with the resolved config and the spoken lines and timings. Hand the MP4s to the user (in a Claude project, copy them to the project's Files).
 
 ## Lung pictures
 

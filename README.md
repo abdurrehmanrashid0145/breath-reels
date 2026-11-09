@@ -24,7 +24,7 @@ npm run render -- configs/example.json           # a specific config
 npm run stills -- configs/example.json           # 4 PNG previews instead of a video
 ```
 
-Videos land in `out/<date>/`, each with a `.json` holding the resolved config and the spoken lines with timings.
+Videos land on your Desktop in `breath-reels/<date>/` (Mac and Windows; add `--out <folder>` to save elsewhere), each with a `.json` holding the resolved config and the spoken lines with timings.
 About 2.5–4.5 minutes per reel.
 
 ### Your own script

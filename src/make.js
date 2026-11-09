@@ -6,8 +6,10 @@
 //   node src/make.js --script my-script.txt   (your own voiceover lines; see scripts/example-script.txt)
 //   node src/make.js --script "Let's test your lungs. Hold! | Tap like | Congrats!"
 //   --title "HOLD YOUR BREATH / LUNG TEST" sets the on-screen title.
+//   Videos go to Desktop/breath-reels/<date>/ (Mac and Windows); --out <folder> saves them somewhere else.
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { resolve, freshPicker, parseScript } = require('./config');
 
 const ROOT = path.join(__dirname, '..');
@@ -32,6 +34,15 @@ if (get('--script')) {
 const title = get('--title') ? get('--title').split('/').map(x => x.trim().toUpperCase()).filter(Boolean).slice(0, 2)
   : manual && manual.title;
 
+// where finished videos go: the Desktop (OneDrive's Desktop on Windows if that's the real one)
+function desktop() {
+  const home = os.homedir();
+  const opts = [path.join(home, 'Desktop'), path.join(home, 'OneDrive', 'Desktop')];
+  if (process.platform === 'win32') opts.reverse();
+  return opts.find(d => fs.existsSync(d)) || path.join(home, 'Desktop');
+}
+const outDir = path.resolve(get('--out') || path.join(desktop(), 'breath-reels'), stamp);
+
 let counts = {};
 try { counts = JSON.parse(fs.readFileSync(HISTORY, 'utf8')); } catch {}
 const choose = freshPicker(counts);
@@ -39,7 +50,7 @@ const choose = freshPicker(counts);
 const files = [];
 for (let i = 0; i < count; i++) {
   const seed = Math.floor(Math.random() * 1e9);
-  const base = { seed, output: `out/${stamp}/reel-${seed}.mp4` };
+  const base = { seed, output: path.join(outDir, `reel-${seed}.mp4`) };
   if (get('--handle')) base.handle = get('--handle');
   if (manual) base.script = manual.script;
   if (title) base.title = title;
