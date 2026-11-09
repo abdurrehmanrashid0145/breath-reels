@@ -5,15 +5,30 @@ a bright medical background (blue, yellow, red, green or orange), a big comic ti
 and four lungs going from wrecked to strong. A short, calm voiceover and a "ding" each time the ball
 reaches a lung. Everything is generated locally and royalty-free. Every reel is randomised from its seed.
 
-## Setup
+## Setup (Mac or Windows)
 
-Needs Node 18+, Python 3.9+ and ffmpeg.
+Install [Node.js](https://nodejs.org) (LTS), [Python 3.12](https://www.python.org/downloads/) (on Windows tick
+"Add python.exe to PATH") and [Git](https://git-scm.com/downloads). Then, once:
 
 ```bash
-npm install
-npx playwright install chromium
-bash scripts/setup-voice.sh     # Python venv + Kokoro TTS model (~350 MB), free and offline
+git clone https://github.com/abdurrehmanrashid0145/breath-reels.git
+cd breath-reels
+npm run setup
 ```
+
+On Windows you can skip the terminal after cloning: open the `breath-reels` folder (in your user folder)
+and double-click **Setup (Windows).bat**. If you do type commands in PowerShell, use `npm.cmd run setup`
+(plain `npm` is blocked by PowerShell's script policy on many PCs).
+
+`npm run setup` installs everything else (browser, ffmpeg if missing, the free Kokoro voice, ~350 MB)
+and puts a **Make Reel** shortcut on the Desktop. Running it again is safe.
+
+## Make a reel without the terminal
+
+Double-click **Make Reel** on the Desktop. A window opens: type or paste your lines, press Enter on an
+empty line, pick how many reels (each gets a different look), and wait. The folder with the finished
+reel opens by itself (Desktop/breath-reels/&lt;date&gt;/). The shortcut also pulls the latest version first.
+Same thing from a terminal: `npm run reel`. Lost the shortcut? `npm run shortcut`.
 
 ## Make reels
 
@@ -24,8 +39,23 @@ npm run render -- configs/example.json           # a specific config
 npm run stills -- configs/example.json           # 4 PNG previews instead of a video
 ```
 
-Videos land in `out/<date>/`, each with a `.json` holding the resolved config and the spoken lines with timings.
+Videos land on your Desktop in `breath-reels/<date>/` (Mac and Windows; add `--out <folder>` to save elsewhere), each with a `.json` holding the resolved config and the spoken lines with timings.
 About 2.5–4.5 minutes per reel.
+
+### Your own script
+
+Write the voiceover yourself and the reel is timed to it (visuals still rotate as usual):
+
+```bash
+npm run make -- --script my-script.txt                                   # from a text file
+npm run make -- --script "Let's test your lungs. Hold! | Tap like | Congrats!"   # inline, lines split by |
+npm run make -- --script my-script.txt --title "HOLD YOUR BREATH / LUNG TEST"
+```
+
+One spoken line per line. Optional `TITLE: LINE ONE / LINE TWO` sets the on-screen title.
+Start a line with a time like `0:05` to pin it; lines without a time are spaced out for you
+(the first starts at once, the last lands on the last lung). The lungs ding at about 0:12, 0:27, 0:42 and 0:56.
+See `scripts/example-script.txt`. `{n1}`..`{n4}` still say the tier names.
 
 ## The reel (60 s, timed like the viral original)
 

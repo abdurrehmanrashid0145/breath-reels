@@ -6,9 +6,15 @@
   "scripts": {
     "render": "node src/render.js",
     "make": "node src/make.js",
-    "stills": "node src/render.js --stills"
+    "stills": "node src/render.js --stills",
+    "setup": "node src/setup.js",
+    "reel": "node src/prompt.js",
+    "shortcut": "node src/shortcut.js"
   },
   "dependencies": {
     "playwright": "^1.48.0"
+  },
+  "optionalDependencies": {
+    "ffmpeg-static": "^5.2.0"
   }
 }
