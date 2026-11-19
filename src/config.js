@@ -10,6 +10,8 @@ const SCRIPTS = JSON.parse(fs.readFileSync(path.join(__dirname, 'scripts.json'),
 
 const FONTS = ['Bangers', 'Luckiest', 'Titan', 'Lilita'];
 const SIDES = ['left', 'right'];
+// bar layouts (template.html layout): left-to-right, right-to-left, straight (no arms), centred, zigzag
+const LAYOUTS = ['left', 'right', 'straight', 'center', 'zigzag'];
 const ICONS = ['heart', 'plus', 'lung', 'pulse'];
 // background designs (template.html drawGrid): every one of them moves
 const GRID_MODES = ['wave', 'grid', 'diagonal', 'rays', 'classic'];
@@ -204,6 +206,8 @@ function resolve(user = {}, choose = plainPicker()) {
     duration, hold,
     nodeFrac: NODE_FRAC, startFrac: START_FRAC, dropTime: DROP, nodeTimes: nodeTimes(hold),
     shade, bg,
+    // older configs only had "side"; that means the left or right layout
+    layout: user.layout ?? (user.side && user.side !== 'random' ? user.side : fresh(undefined, 'layout', LAYOUTS)),
     side: fresh(user.side, 'side', SIDES),
     mirrorLungs: user.mirrorLungs ?? false,
     titleFont: fresh(user.titleFont, 'titleFont', FONTS),
@@ -222,4 +226,4 @@ function resolve(user = {}, choose = plainPicker()) {
   };
 }
 
-module.exports = { BAR_DESIGNS, GRID_MODES, GRID_DIRS, resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };
+module.exports = { LAYOUTS, BAR_DESIGNS, GRID_MODES, GRID_DIRS, resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };

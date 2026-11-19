@@ -150,7 +150,7 @@ function logGeneration(cfg, out, secs) {
     const shade = BANK.shades[cfg.shade] || {};
     const lines = [
       `[${pad(now.getHours())}:${pad(now.getMinutes())}] ${out}`,
-      `  background: ${shade.family || '?'}, ${cfg.bg.gridMode} background, moving ${cfg.bg.gridMode === 'rays' ? 'round' : Object.keys(GRID_DIRS).find(k => GRID_DIRS[k] === cfg.bg.gridDir)} | lungs: ${cfg.lungs} | bar: ${cfg.side}, ${cfg.barStyle} | voice: ${cfg.voice.name} | seed ${cfg.seed} | ${secs.toFixed(0)}s to render`,
+      `  background: ${shade.family || '?'}, ${cfg.bg.gridMode} background, moving ${cfg.bg.gridMode === 'rays' ? 'round' : Object.keys(GRID_DIRS).find(k => GRID_DIRS[k] === cfg.bg.gridDir)} | lungs: ${cfg.lungs} | bar: ${cfg.layout}, ${cfg.barStyle} | voice: ${cfg.voice.name} | seed ${cfg.seed} | ${secs.toFixed(0)}s to render`,
       `  title: ${(cfg.title || []).join(' / ') || '(none)'}`,
       ...cfg.script.map(l => `  ${l.t.toFixed(1).padStart(5)}s  ${l.say}`),
       '',

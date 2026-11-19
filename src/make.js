@@ -54,14 +54,14 @@ for (let i = 0; i < count; i++) {
   const cfg = {
     ...base,
     shade: c.shade,
-    icon: c.bg.icon, side: c.side, titleFont: c.titleFont, title: c.title, lungs: c.lungs,
+    icon: c.bg.icon, layout: c.layout, side: c.side, titleFont: c.titleFont, title: c.title, lungs: c.lungs,
     gridMode: c.bg.gridMode, gridDir: c.bg.gridDir, barStyle: c.barStyle,
     tiers: c.tiers, ballFaces: c.ballFaces, voice: c.voice.name, script: c.script,
   };
   const f = path.join(dir, `reel-${seed}.json`);
   fs.writeFileSync(f, JSON.stringify(cfg, null, 2));
   files.push(f);
-  console.log('wrote', path.relative(process.cwd(), f), `(${c.title.join(' / ') || 'no title'}, ${BANK.shades[c.shade].family} ${c.bg.gridMode} background moving ${dirName(c.bg)}, bar ${c.side}, ${c.titleFont}, lungs ${c.lungs})`);
+  console.log('wrote', path.relative(process.cwd(), f), `(${c.title.join(' / ') || 'no title'}, ${BANK.shades[c.shade].family} ${c.bg.gridMode} background moving ${dirName(c.bg)}, bar ${c.layout}, ${c.titleFont}, lungs ${c.lungs})`);
 }
 fs.writeFileSync(HISTORY, JSON.stringify(counts));
 

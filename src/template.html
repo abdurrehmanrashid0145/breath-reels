@@ -301,30 +301,61 @@ function fitText() {
   // everything below the title starts under it
   layout(lines.length ? el.offsetTop + el.offsetHeight + 14 : 96);
 }
+// Bar layouts (C.layout):
+//   left / right  bar on that side, arms reach across to the lungs
+//   straight      plain bar on one side (C.side), no arms
+//   center        bar in the middle, arms and lungs alternate left and right
+//   zigzag        the path zigzags from stop to stop, lungs alternate on the outside
 function layout(top) {
   const L = C.geo = {};
-  const right = C.side === 'right';
-  L.barX = right ? 720 - 158 : 158;
-  L.lungX = right ? 228 : 492;
+  const mode = C.layout || C.side || 'left';
   L.top = top; L.bottom = 1050; // leaves room at the bottom for the app's caption and buttons
   const len = L.bottom - L.top;
-  const bar = document.getElementById('bar');
-  bar.style.cssText = `left:${L.barX - 16}px; width:32px; top:${L.top}px; height:${len}px`;
   L.nodes = C.nodeFrac.map(f => L.top + len * f);
   L.start = L.top + len * C.startFrac;
-  const size = Math.min(215, len * 0.23);
+  const twoSided = mode === 'center' || mode === 'zigzag';
+  const size = twoSided ? Math.min(190, len * 0.21) : Math.min(215, len * 0.23);
+  const right = mode === 'right' || (mode === 'straight' && C.side === 'right');
+  if (mode === 'zigzag') {
+    const first = C.side === 'right' ? 1 : 0;
+    L.stopX = [0, 1, 2, 3].map(i => ((i + first) % 2 ? 470 : 250));
+    L.lungX = L.stopX.map(x => (x < 360 ? 112 : 608));
+    L.startX = 360;
+  } else if (mode === 'center') {
+    const first = C.side === 'right' ? 1 : 0;
+    L.stopX = [360, 360, 360, 360];
+    L.lungX = [0, 1, 2, 3].map(i => ((i + first) % 2 ? 592 : 128));
+    L.startX = 360;
+  } else {
+    const bx = right ? 720 - 158 : 158;
+    L.stopX = [bx, bx, bx, bx];
+    L.lungX = L.stopX.map(() => (right ? 228 : 492));
+    L.startX = bx;
+  }
+  L.barX = L.stopX[0];
+  L.path = [[L.startX, L.start], ...L.stopX.map((x, i) => [x, L.nodes[i]])];
+  const bar = document.getElementById('bar');
+  E.zig.style.display = 'none';
+  if (mode === 'zigzag') {
+    bar.style.display = 'none';
+    const pts = [[L.startX, L.top], ...L.path.slice(1)].map(p => p.join(',')).join(' ');
+    E.zig.style.display = 'block';
+    E.zig.innerHTML = `<polyline points="${pts}" fill="none" stroke="var(--barLine)" stroke-width="40" stroke-linejoin="round" stroke-linecap="round"/><polyline points="${pts}" fill="none" stroke="var(--barFill)" stroke-width="28" stroke-linejoin="round" stroke-linecap="round"/>`;
+  } else bar.style.cssText = `left:${L.barX - 16}px; width:32px; top:${L.top}px; height:${len}px`;
   // arms reach from the bar towards each lung, like the top reels
-  const armLen = C.arms ? Math.max(60, Math.abs(L.lungX - L.barX) - size / 2 - 18) : 0;
+  const arms = C.arms && mode !== 'straight' && mode !== 'zigzag';
   E.arms.forEach((a, i) => {
-    a.style.display = C.arms ? 'block' : 'none';
-    a.className = 'arm' + (right ? ' flip' : '');
+    const d = L.lungX[i] > L.stopX[i] ? 1 : -1;
+    const armLen = Math.max(50, Math.abs(L.lungX[i] - L.stopX[i]) - size / 2 - 18);
+    a.style.display = arms ? 'block' : 'none';
+    a.className = 'arm' + (d < 0 ? ' flip' : '');
     a.style.top = L.nodes[i] + 'px'; a.style.width = armLen + 'px';
-    a.style.left = (right ? L.barX - armLen - 12 : L.barX + 12) + 'px';
+    a.style.left = (d < 0 ? L.stopX[i] - armLen - 12 : L.stopX[i] + 12) + 'px';
   });
-  E.nodes.forEach((n, i) => { n.style.left = L.barX + 'px'; n.style.top = L.nodes[i] + 'px'; E.rings[i].style.left = L.barX + 'px'; E.rings[i].style.top = L.nodes[i] + 'px'; });
+  E.nodes.forEach((n, i) => { n.style.left = L.stopX[i] + 'px'; n.style.top = L.nodes[i] + 'px'; E.rings[i].style.left = L.stopX[i] + 'px'; E.rings[i].style.top = L.nodes[i] + 'px'; });
   E.lungs.forEach((l, i) => {
-    l.style.cssText = `left:${L.lungX - size / 2}px; top:${L.nodes[i] - size / 2}px; width:${size}px; height:${size}px`;
-    E.glows[i].style.cssText = `left:${L.lungX - size * 0.7}px; top:${L.nodes[i] - size * 0.7}px; width:${size * 1.4}px; height:${size * 1.4}px`;
+    l.style.cssText = `left:${L.lungX[i] - size / 2}px; top:${L.nodes[i] - size / 2}px; width:${size}px; height:${size}px`;
+    E.glows[i].style.cssText = `left:${L.lungX[i] - size * 0.7}px; top:${L.nodes[i] - size * 0.7}px; width:${size * 1.4}px; height:${size * 1.4}px`;
   });
 }
 function init(cfg) {
@@ -336,6 +367,10 @@ function init(cfg) {
   document.body.classList.add('bar-' + (C.barStyle || 'white'));
   E.fill = $('div', '', stage); E.fill.id = 'fill';
   E.bulb = $('div', '', stage); E.bulb.id = 'bulb';
+  E.zig = document.createElementNS(SVGNS, 'svg');
+  E.zig.setAttribute('width', 720); E.zig.setAttribute('height', 1280);
+  E.zig.style.cssText = 'position:absolute; left:0; top:0; z-index:4; overflow:visible; display:none';
+  stage.appendChild(E.zig);
   if (C.barStyle === 'black') { document.body.style.setProperty('--barFill', '#101018'); document.body.style.setProperty('--barLine', '#fff'); }
   for (let i = 0; i < 4; i++) {
     E.arms.push($('div', 'arm', stage));
@@ -358,23 +393,23 @@ function init(cfg) {
 }
 
 // ball: drops onto the top of the bar, then slides down, reaching lung k at C.nodeTimes[k]
-function ballY(t) {
-  const L = C.geo, T = C.nodeTimes;
-  if (t < C.dropTime) return L.start;
-  const pts = [[C.dropTime, L.start], ...T.map((tt, i) => [tt, L.nodes[i]])];
-  for (let i = 1; i < pts.length; i++) if (t <= pts[i][0]) return lerp(pts[i - 1][1], pts[i][1], (t - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0]));
-  return L.nodes[3];
+function ballPos(t) {
+  const L = C.geo, T = C.nodeTimes, P = L.path;
+  if (t < C.dropTime) return P[0];
+  const times = [C.dropTime, ...T];
+  for (let i = 1; i < P.length; i++) if (t <= times[i]) { const k = (t - times[i - 1]) / (times[i] - times[i - 1]); return [lerp(P[i - 1][0], P[i][0], k), lerp(P[i - 1][1], P[i][1], k)]; }
+  return P[P.length - 1];
 }
 function reached(t) { let n = 0; C.nodeTimes.forEach(tt => { if (t >= tt) n++; }); return n; }
 
 function render(t) {
   animateBackground(t);
   const n = reached(t);
-  const y = ballY(t);
-  E.ball.style.left = C.geo.barX + 'px';
+  const [x, y] = ballPos(t);
+  E.ball.style.left = x + 'px';
   E.ball.style.top = y + 'px';
   // bars that fill up behind the ball
-  if (C.barStyle === 'fill' || C.barStyle === 'thermo') {
+  if ((C.barStyle === 'fill' || C.barStyle === 'thermo') && C.layout !== 'zigzag') {
     const L = C.geo, w = C.barStyle === 'thermo' ? 22 : 20;
     if (C.barStyle === 'thermo') { E.bulb.style.left = L.barX + 'px'; E.bulb.style.top = (L.bottom + 30) + 'px'; }
     E.fill.style.cssText = `left:${L.barX - w / 2}px; width:${w}px; top:${L.top + 6}px; height:${Math.max(0, y - L.top - 6)}px`;
