@@ -1,7 +1,7 @@
 # breath-reels
 
 Makes vertical (1080×1920) "HOLD YOUR BREATH" reels in the style of the viral lung-test reels:
-a bright medical background (blue, yellow, red, green or orange), a big comic title, a white bar with an emoji ball sliding down it,
+a saturated background (blue, navy, black, purple, yellow, red, green or orange) with an always-moving background (rippling grid, square grid, 60° grid, turning sunburst or the original look), usually no title (about 1 in 3 reels gets a small one), a bold bar with arms reaching to each lung and an emoji ball sliding down it,
 and four lungs going from wrecked to strong. A short, calm voiceover and a "ding" each time the ball
 reaches a lung. Everything is generated locally and royalty-free. Every reel is randomised from its seed.
 
@@ -67,8 +67,10 @@ See `scripts/example-script.txt`. `{n1}`..`{n4}` still say the tier names.
 
 | Thing | Options |
 |---|---|
-| Background | 5 bright colour families × 3–4 shades (`bank.json` `shades`; a batch spreads across families), gradient angle, light spot, grid size, ECG lines, 4 icon types |
-| Title | 20 titles (`bank.json` `titles`), 4 comic fonts (Bangers, Luckiest Guy, Titan One, Lilita One) |
+| Background | 5 designs × 8 colour families (`bank.json` `shades`; a batch spreads across both). Designs (`gridMode`): `wave` (rippling grid), `grid` (square), `diagonal` (60° grid), `rays` (turning sunburst), `classic` (original faint grid with ECG lines and icons). Grids move one way per reel (`gridDir`: `up`, `down`, `left`, `right` or `diagonal`). `npm run sheet` makes a picture of every background |
+| Bar | white or black rotate automatically (`barStyle`). More designs can be set by hand: `neon`, `diamond`, `fill`, `thermo`, `candy`, `seconds`, `glass`, `dots`, `rainbow`. Arms to each lung (`"arms": false` turns them off) |
+| Bar layout | `layout`: `left` (left to right), `right` (right to left), `straight` (no arms, `side` picks the side), `center` (lungs alternate sides), `zigzag` (the ball zigzags between stops). A batch spreads across them |
+| Title | none on about 2 in 3 reels (`"title": []` forces none), otherwise small; 20 titles (`bank.json` `titles`), 4 comic fonts (Bangers, Luckiest Guy, Titan One, Lilita One) |
 | Bar side | left or right |
 | Ball | 12 sets of yellow emoji faces (one per lung reached) |
 | Lungs | 3 generated picture sets in `assets/lungs/` (cartoon SVG fallback) |
@@ -115,5 +117,6 @@ Every field is optional; leave it out (or `"random"`) to randomise it.
 - `src/audio.js`: sound effects (pop, lung dings, heartbeat, exhale whoosh, quiet pad).
 - `src/config.js`: fills in a full config from a partial one.
 - `src/make.js`: plans a batch so reels don't repeat, writes configs and renders.
+- Every finished reel is logged in `.generations/<date>.log` on the computer that made it (script, background, lungs, voice, file). `npm run generations` shows how many were made each day; `npm run generations -- 2026-11-19` shows one day.
 - `src/bank.json`, `src/scripts.json`: titles, shades, emoji sets, voices and voiceover lines.
 - `.claude/skills/breath-reels/SKILL.md`: the Claude Code skill for making reels from this repo.

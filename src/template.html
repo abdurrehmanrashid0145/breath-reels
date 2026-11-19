@@ -23,8 +23,37 @@
     -webkit-text-stroke: var(--stroke) #101018; paint-order: stroke fill; text-shadow: 0 var(--drop) 0 #101018; letter-spacing: 1px; }
   #title .line.sub { color: var(--sub); }
 
-  #bar { position: absolute; border-radius: 6px; background: #fff; border: 3px solid #101018; z-index: 4; }
-  .node { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: #fff; border: 3px solid #101018; z-index: 5; }
+  body { --barFill: #fff; --barLine: #101018; }
+  #bar { position: absolute; border-radius: 8px; background: var(--barFill); border: 4px solid var(--barLine); z-index: 4; }
+  .arm { position: absolute; height: 26px; margin-top: -13px; border-radius: 0 8px 8px 0; background: var(--barFill); border: 4px solid var(--barLine); border-left: 0; z-index: 4; }
+  .arm.flip { border-radius: 8px 0 0 8px; border-left: 4px solid var(--barLine); border-right: 0; }
+  .node { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: var(--barFill); border: 4px solid var(--barLine); z-index: 5;
+    display: flex; align-items: center; justify-content: center; font-family: Lilita; font-size: 24px; color: var(--barLine); }
+  #fill, #bulb { position: absolute; z-index: 4; display: none; }
+
+  /* timer bar designs (C.barStyle); "white" and "black" are the plain ones */
+  .bar-neon { --barFill: #39ff14; --barLine: #eaffea; }
+  .bar-neon #bar, .bar-neon .arm { border: 0; box-shadow: 0 0 14px #39ff14, 0 0 36px rgba(57,255,20,.7); }
+  .bar-neon .node { box-shadow: 0 0 14px #39ff14, 0 0 30px rgba(57,255,20,.8); }
+  .bar-diamond { --barFill: #ffd400; --barLine: #101018; }
+  .bar-diamond .node { width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 8px; transform: rotate(45deg); background: #fff; }
+  .bar-fill #fill { display: block; border-radius: 6px; background: linear-gradient(#ff3b3b, #ffb800 45%, #2ee66b); }
+  .bar-fill .node.hit { background: #2ee66b; }
+  .bar-thermo { --barFill: rgba(255,255,255,.92); --barLine: #101018; }
+  .bar-thermo #bar { border-radius: 30px; }
+  .bar-thermo #fill { display: block; border-radius: 20px; background: linear-gradient(90deg, #ff2b2b, #ff7a7a 40%, #e01010); }
+  .bar-thermo #bulb { display: block; width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a8a, #e01010 60%); border: 5px solid #101018; z-index: 5; }
+  .bar-thermo .node { width: 30px; height: 30px; margin: -15px 0 0 -15px; }
+  .bar-candy #bar, .bar-candy .arm { background: repeating-linear-gradient(45deg, #ff2d55 0 14px, #fff 14px 28px); }
+  .bar-candy .node { background: #fff; border-color: #ff2d55; border-width: 6px; }
+  .bar-seconds .node { width: 84px; height: 84px; margin: -42px 0 0 -42px; font-size: 36px; }
+  .bar-glass { --barFill: rgba(255,255,255,.38); --barLine: #fff; }
+  .bar-glass #bar, .bar-glass .arm, .bar-glass .node { box-shadow: 0 4px 18px rgba(0,0,0,.25), inset 0 0 12px rgba(255,255,255,.5); }
+  .bar-glass .node { color: #fff; }
+  .bar-dots #bar { border: 0; background: radial-gradient(circle, #fff 7px, transparent 8px) center top / 32px 30px repeat-y; }
+  .bar-dots .arm { border: 0; height: 0; border-top: 6px dotted #fff; margin-top: -3px; background: none; }
+  .bar-dots .node { border-color: #fff; background: #101018; }
+  .bar-rainbow #bar { background: linear-gradient(#ff3b3b, #ff9500 30%, #ffd400 55%, #2ee66b 80%, #1ec8ff); }
   .ring { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; border: 5px solid #fff; z-index: 3; opacity: 0; }
 
   .lung { position: absolute; z-index: 6; display: flex; align-items: center; justify-content: center; }
@@ -143,13 +172,86 @@ function ecgPath(w, amp) {
   while (x < w) { d += ` L${x + 30},0 L${x + 42},${-amp * 0.25} L${x + 50},0 L${x + 58},${amp * 0.3} L${x + 70},${-amp} L${x + 82},${amp * 0.55} L${x + 94},0 L${x + 120},${-amp * 0.2} L${x + 140},0`; x += 140; }
   return d;
 }
+// The grid is redrawn every frame so it is always moving: it drifts ("scroll") or ripples like a flag ("wave").
+function gridCanvas(bg) {
+  const cv = document.createElement('canvas');
+  const k = window.devicePixelRatio || 1;
+  cv.width = 720 * k; cv.height = 1280 * k;
+  cv.style.cssText = 'position:absolute; left:0; top:0; width:720px; height:1280px';
+  bg.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  ctx.scale(k, k);
+  return ctx;
+}
+// Background designs (C.bg.gridMode):
+//   wave     grid that ripples like a flag while it drifts
+//   grid     plain square grid
+//   diagonal grid tilted so its lines run at 60 degrees
+//   rays     sunburst that slowly turns
+//   classic  the original look: faint grid plus ECG lines and floating icons
+// Grids move one way for the whole reel (C.bg.gridDir: 90 down, -90 up, 0 right, 180 left, 60 diagonal).
+function drawGrid(t) {
+  const b = C.bg, ctx = E.grid, mode = b.gridMode;
+  ctx.clearRect(0, 0, 720, 1280);
+  if (mode === 'rays') return drawRays(t);
+  const g = b.grid;
+  const a = b.gridDir * Math.PI / 180;
+  const wave = mode === 'wave';
+  const tilt = mode === 'diagonal' ? 30 * Math.PI / 180 : 0; // lines at 30 and 120 degrees, so they read as a 60 degree lattice
+  // movement measured in the grid's own (possibly tilted) frame, so the picture moves exactly along gridDir on screen
+  const mx = b.gridSpeed * t * Math.cos(a), my = b.gridSpeed * t * Math.sin(a);
+  const ux = mx * Math.cos(-tilt) - my * Math.sin(-tilt), uy = mx * Math.sin(-tilt) + my * Math.cos(-tilt);
+  const ox = (((b.gx + ux) % g) + g) % g, oy = (((b.gy + uy) % g) + g) % g;
+  const A = b.waveAmp, kx = 2 * Math.PI / b.waveLen, w = b.waveSpeed;
+  const dx = (x, y) => (wave ? A * Math.sin(y * kx + t * w) + A * 0.45 * Math.sin((x + y) * kx * 0.6 - t * w * 0.7) : 0);
+  const dy = (x, y) => (wave ? A * Math.sin(x * kx + t * w * 0.9 + 1.3) + A * 0.45 * Math.sin((x - y) * kx * 0.6 + t * w * 0.6) : 0);
+  // a tilted grid has to cover the corners of the screen too
+  const R = tilt ? 900 : 0, x0 = -40 - R, x1 = 760 + R, y0 = -40 - R, y1 = 1320 + R;
+  ctx.save();
+  if (tilt) { ctx.translate(360, 640); ctx.rotate(tilt); ctx.translate(-360, -640); }
+  const lines = (step, alpha, width) => {
+    ctx.strokeStyle = `rgba(${b.gridRGB},${alpha})`;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    const seg = wave ? 16 : 1e5; // a straight grid needs only the two ends of each line
+    const sx = x0 + ((ox - x0) % step + step) % step, sy = y0 + ((oy - y0) % step + step) % step;
+    for (let x = sx; x < x1; x += step)
+      for (let y = y0; ; y = Math.min(y + seg, y1)) { const px = x + dx(x, y), py = y + dy(x, y); y === y0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py); if (y === y1) break; }
+    for (let y = sy; y < y1; y += step)
+      for (let x = x0; ; x = Math.min(x + seg, x1)) { const px = x + dx(x, y), py = y + dy(x, y); x === x0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py); if (x === x1) break; }
+    ctx.stroke();
+  };
+  if (mode === 'classic') { lines(g / 2, 0.07, 1); lines(g, 0.18, 1.5); }
+  else { if (b.subGrid) lines(g / 2, b.gridAlpha * 0.3, 1.5); lines(g, b.gridAlpha, b.gridWidth); }
+  ctx.restore();
+}
+function drawRays(t) {
+  const b = C.bg, ctx = E.grid, n = b.rays;
+  const cx = 360 + b.rayX, cy = 640 + b.rayY, r = 1600;
+  const rot = (b.raySpin * t + b.gx) * Math.PI / 180;
+  ctx.fillStyle = b.rayColor;
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const a0 = rot + i * 2 * Math.PI / n, a1 = a0 + Math.PI / n;
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, a0, a1);
+    ctx.closePath();
+  }
+  ctx.fill();
+  // soft glow in the middle, like the sunburst reels
+  const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 520);
+  glow.addColorStop(0, 'rgba(255,255,255,.22)'); glow.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = glow; ctx.fillRect(0, 0, 720, 1280);
+}
 function buildBackground() {
   const bg = document.getElementById('bg'), b = C.bg, h = b.hue;
-  bg.style.background = `linear-gradient(${b.angle}deg, hsl(${h},${b.sat}%,${b.light + 8}%) 0%, hsl(${h + 8},${b.sat}%,${b.light}%) 55%, hsl(${h + 14},${b.sat}%,${b.light - 6}%) 100%)`;
-  $('div', '', bg, `inset:0; background: radial-gradient(ellipse at ${b.spotX}% ${b.spotY}%, hsla(${h - 10},100%,80%,.45) 0%, transparent 55%)`);
-  const g = b.grid;
-  $('div', '', bg, `inset:0; background-image: linear-gradient(rgba(255,255,255,.16) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,.16) 1.5px, transparent 1.5px); background-size: ${g}px ${g}px; background-position: ${b.gx}px ${b.gy}px`);
-  $('div', '', bg, `inset:0; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: ${g / 2}px ${g / 2}px; background-position: ${b.gx}px ${b.gy}px`);
+  bg.style.background = b.stops
+    ? `linear-gradient(${b.angle}deg, ${b.stops.join(', ')})`
+    : `linear-gradient(${b.angle}deg, hsl(${h},${b.sat}%,${b.light + 8}%) 0%, hsl(${h + 8},${b.sat}%,${b.light}%) 55%, hsl(${h + 14},${b.sat}%,${b.light - 6}%) 100%)`;
+  if (b.spot) $('div', '', bg, `inset:0; background: radial-gradient(ellipse at ${b.spotX}% ${b.spotY}%, hsla(${h - 10},100%,80%,${b.spot}) 0%, transparent 55%)`);
+  E.grid = gridCanvas(bg);
+  E.ecg = []; E.icons = []; E.motes = [];
+  if (!b.decor && b.gridMode !== 'classic') return;
   E.ecg = b.ecg.map(e => {
     const svg = document.createElementNS(SVGNS, 'svg');
     svg.setAttribute('width', 1440); svg.setAttribute('height', 200);
@@ -169,6 +271,7 @@ function buildBackground() {
   E.motes = b.motes.map(m => { const d = $('div', '', bg, `width:${m.r}px; height:${m.r}px; border-radius:50%; background: rgba(255,255,255,.35); left:${m.x}px; top:${m.y}px`); return { el: d, ...m }; });
 }
 function animateBackground(t) {
+  drawGrid(t);
   for (const e of E.ecg) e.el.style.transform = `translateX(${-((t * e.speed) % 140)}px)`;
   for (const ic of E.icons) ic.el.style.transform = `translate(${Math.sin(t * 0.4 + ic.ph) * 8}px, ${Math.cos(t * 0.33 + ic.ph) * 10}px) rotate(${Math.sin(t * 0.25 + ic.ph) * 8}deg)`;
   for (const m of E.motes) m.el.style.transform = `translateY(${-((t * m.v) % 160)}px)`;
@@ -180,13 +283,14 @@ function buildTitle() {
   el.style.setProperty('--title', C.titleFont);
   el.style.setProperty('--sub', C.titleColor);
   el.innerHTML = '';
-  C.title.forEach((txt, i) => { const s = $('span', 'line' + (i ? ' sub' : ''), el); s.textContent = txt; });
+  (C.title || []).forEach((txt, i) => { const s = $('span', 'line' + (i ? ' sub' : ''), el); s.textContent = txt; });
   el.style.top = '14px';
 }
 function fitText() {
   const el = document.getElementById('title');
   const lines = [...el.children];
-  const max = lines.length > 1 ? [98, 60] : [112];
+  // smaller than before: the top reels have a small title or none, so the lungs get the room
+  const max = lines.length > 1 ? [68, 46] : [72];
   lines.forEach((s, i) => {
     let f = max[i];
     s.style.fontSize = f + 'px';
@@ -195,25 +299,63 @@ function fitText() {
     while (s.scrollWidth > 690 && f > 30) { f -= 2; s.style.fontSize = f + 'px'; s.style.setProperty('--stroke', Math.round(f * 0.13) + 'px'); s.style.setProperty('--drop', Math.round(f * 0.07) + 'px'); }
   });
   // everything below the title starts under it
-  const bottom = el.offsetTop + el.offsetHeight;
-  layout(bottom + 12);
+  layout(lines.length ? el.offsetTop + el.offsetHeight + 14 : 96);
 }
+// Bar layouts (C.layout):
+//   left / right  bar on that side, arms reach across to the lungs
+//   straight      plain bar on one side (C.side), no arms
+//   center        bar in the middle, arms and lungs alternate left and right
+//   zigzag        the path zigzags from stop to stop, lungs alternate on the outside
 function layout(top) {
   const L = C.geo = {};
-  const right = C.side === 'right';
-  L.barX = right ? 720 - 158 : 158;
-  L.lungX = right ? 228 : 492;
+  const mode = C.layout || C.side || 'left';
   L.top = top; L.bottom = 1050; // leaves room at the bottom for the app's caption and buttons
   const len = L.bottom - L.top;
-  const bar = document.getElementById('bar');
-  bar.style.cssText = `left:${L.barX - 14}px; width:28px; top:${L.top}px; height:${len}px`;
   L.nodes = C.nodeFrac.map(f => L.top + len * f);
   L.start = L.top + len * C.startFrac;
-  const size = Math.min(205, len * 0.23);
-  E.nodes.forEach((n, i) => { n.style.left = L.barX + 'px'; n.style.top = L.nodes[i] + 'px'; E.rings[i].style.left = L.barX + 'px'; E.rings[i].style.top = L.nodes[i] + 'px'; });
+  const twoSided = mode === 'center' || mode === 'zigzag';
+  const size = twoSided ? Math.min(190, len * 0.21) : Math.min(215, len * 0.23);
+  const right = mode === 'right' || (mode === 'straight' && C.side === 'right');
+  if (mode === 'zigzag') {
+    const first = C.side === 'right' ? 1 : 0;
+    L.stopX = [0, 1, 2, 3].map(i => ((i + first) % 2 ? 470 : 250));
+    L.lungX = L.stopX.map(x => (x < 360 ? 112 : 608));
+    L.startX = 360;
+  } else if (mode === 'center') {
+    const first = C.side === 'right' ? 1 : 0;
+    L.stopX = [360, 360, 360, 360];
+    L.lungX = [0, 1, 2, 3].map(i => ((i + first) % 2 ? 592 : 128));
+    L.startX = 360;
+  } else {
+    const bx = right ? 720 - 158 : 158;
+    L.stopX = [bx, bx, bx, bx];
+    L.lungX = L.stopX.map(() => (right ? 228 : 492));
+    L.startX = bx;
+  }
+  L.barX = L.stopX[0];
+  L.path = [[L.startX, L.start], ...L.stopX.map((x, i) => [x, L.nodes[i]])];
+  const bar = document.getElementById('bar');
+  E.zig.style.display = 'none';
+  if (mode === 'zigzag') {
+    bar.style.display = 'none';
+    const pts = [[L.startX, L.top], ...L.path.slice(1)].map(p => p.join(',')).join(' ');
+    E.zig.style.display = 'block';
+    E.zig.innerHTML = `<polyline points="${pts}" fill="none" stroke="var(--barLine)" stroke-width="40" stroke-linejoin="round" stroke-linecap="round"/><polyline points="${pts}" fill="none" stroke="var(--barFill)" stroke-width="28" stroke-linejoin="round" stroke-linecap="round"/>`;
+  } else bar.style.cssText = `left:${L.barX - 16}px; width:32px; top:${L.top}px; height:${len}px`;
+  // arms reach from the bar towards each lung, like the top reels
+  const arms = C.arms && mode !== 'straight' && mode !== 'zigzag';
+  E.arms.forEach((a, i) => {
+    const d = L.lungX[i] > L.stopX[i] ? 1 : -1;
+    const armLen = Math.max(50, Math.abs(L.lungX[i] - L.stopX[i]) - size / 2 - 18);
+    a.style.display = arms ? 'block' : 'none';
+    a.className = 'arm' + (d < 0 ? ' flip' : '');
+    a.style.top = L.nodes[i] + 'px'; a.style.width = armLen + 'px';
+    a.style.left = (d < 0 ? L.stopX[i] - armLen - 12 : L.stopX[i] + 12) + 'px';
+  });
+  E.nodes.forEach((n, i) => { n.style.left = L.stopX[i] + 'px'; n.style.top = L.nodes[i] + 'px'; E.rings[i].style.left = L.stopX[i] + 'px'; E.rings[i].style.top = L.nodes[i] + 'px'; });
   E.lungs.forEach((l, i) => {
-    l.style.cssText = `left:${L.lungX - size / 2}px; top:${L.nodes[i] - size / 2}px; width:${size}px; height:${size}px`;
-    E.glows[i].style.cssText = `left:${L.lungX - size * 0.7}px; top:${L.nodes[i] - size * 0.7}px; width:${size * 1.4}px; height:${size * 1.4}px`;
+    l.style.cssText = `left:${L.lungX[i] - size / 2}px; top:${L.nodes[i] - size / 2}px; width:${size}px; height:${size}px`;
+    E.glows[i].style.cssText = `left:${L.lungX[i] - size * 0.7}px; top:${L.nodes[i] - size * 0.7}px; width:${size * 1.4}px; height:${size * 1.4}px`;
   });
 }
 function init(cfg) {
@@ -221,10 +363,22 @@ function init(cfg) {
   buildBackground();
   buildTitle();
   const stage = document.getElementById('stage');
-  E.nodes = []; E.rings = []; E.lungs = []; E.glows = [];
+  E.nodes = []; E.rings = []; E.lungs = []; E.glows = []; E.arms = [];
+  document.body.classList.add('bar-' + (C.barStyle || 'white'));
+  E.fill = $('div', '', stage); E.fill.id = 'fill';
+  E.bulb = $('div', '', stage); E.bulb.id = 'bulb';
+  E.zig = document.createElementNS(SVGNS, 'svg');
+  E.zig.setAttribute('width', 720); E.zig.setAttribute('height', 1280);
+  E.zig.style.cssText = 'position:absolute; left:0; top:0; z-index:4; overflow:visible; display:none';
+  stage.appendChild(E.zig);
+  if (C.barStyle === 'black') { document.body.style.setProperty('--barFill', '#101018'); document.body.style.setProperty('--barLine', '#fff'); }
   for (let i = 0; i < 4; i++) {
+    E.arms.push($('div', 'arm', stage));
     E.rings.push($('div', 'ring', stage));
-    E.nodes.push($('div', 'node', stage));
+    const node = $('div', 'node', stage);
+    if (C.barStyle === 'seconds') node.textContent = Math.round(C.nodeTimes[i]) + 's';
+    if (C.barStyle === 'rainbow') node.style.background = ['#ff6b5b', '#ffb800', '#2ee66b', '#1ec8ff'][i];
+    E.nodes.push(node);
     E.glows.push($('div', 'glow', stage));
     const l = $('div', 'lung', stage);
     if (C.lungImages) { const img = $('img', '', l); img.src = C.lungImages[i]; }
@@ -239,21 +393,28 @@ function init(cfg) {
 }
 
 // ball: drops onto the top of the bar, then slides down, reaching lung k at C.nodeTimes[k]
-function ballY(t) {
-  const L = C.geo, T = C.nodeTimes;
-  if (t < C.dropTime) return L.start;
-  const pts = [[C.dropTime, L.start], ...T.map((tt, i) => [tt, L.nodes[i]])];
-  for (let i = 1; i < pts.length; i++) if (t <= pts[i][0]) return lerp(pts[i - 1][1], pts[i][1], (t - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0]));
-  return L.nodes[3];
+function ballPos(t) {
+  const L = C.geo, T = C.nodeTimes, P = L.path;
+  if (t < C.dropTime) return P[0];
+  const times = [C.dropTime, ...T];
+  for (let i = 1; i < P.length; i++) if (t <= times[i]) { const k = (t - times[i - 1]) / (times[i] - times[i - 1]); return [lerp(P[i - 1][0], P[i][0], k), lerp(P[i - 1][1], P[i][1], k)]; }
+  return P[P.length - 1];
 }
 function reached(t) { let n = 0; C.nodeTimes.forEach(tt => { if (t >= tt) n++; }); return n; }
 
 function render(t) {
   animateBackground(t);
   const n = reached(t);
-  const y = ballY(t);
-  E.ball.style.left = C.geo.barX + 'px';
+  const [x, y] = ballPos(t);
+  E.ball.style.left = x + 'px';
   E.ball.style.top = y + 'px';
+  // bars that fill up behind the ball
+  if ((C.barStyle === 'fill' || C.barStyle === 'thermo') && C.layout !== 'zigzag') {
+    const L = C.geo, w = C.barStyle === 'thermo' ? 22 : 20;
+    if (C.barStyle === 'thermo') { E.bulb.style.left = L.barX + 'px'; E.bulb.style.top = (L.bottom + 30) + 'px'; }
+    E.fill.style.cssText = `left:${L.barX - w / 2}px; width:${w}px; top:${L.top + 6}px; height:${Math.max(0, y - L.top - 6)}px`;
+  }
+  E.nodes.forEach((nd, i) => nd.classList.toggle('hit', t >= C.nodeTimes[i]));
   E.face.textContent = C.ballFaces[Math.min(n, C.ballFaces.length - 1)];
   // gentle wobble while holding, a squash when it hits each lung
   let sc = t < C.dropTime ? ease(t / C.dropTime) * (1 + 0.25 * Math.sin(t / C.dropTime * Math.PI)) : 1, rot = Math.sin(t * 2.2) * 5;

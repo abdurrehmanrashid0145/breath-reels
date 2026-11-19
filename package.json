@@ -9,7 +9,9 @@
     "stills": "node src/render.js --stills",
     "setup": "node src/setup.js",
     "reel": "node src/prompt.js",
-    "shortcut": "node src/shortcut.js"
+    "shortcut": "node src/shortcut.js",
+    "generations": "node src/generations.js",
+    "sheet": "node src/sheet.js"
   },
   "dependencies": {
     "playwright": "^1.48.0"

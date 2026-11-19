@@ -133,8 +133,33 @@ async function renderReel(browser, cfg, workers) {
   await run(FFMPEG, args);
   fs.rmSync(tmp, { recursive: true, force: true });
   fs.writeFileSync(out.replace(/\.mp4$/, '.json'), JSON.stringify(cfg, null, 2));
+  logGeneration(cfg, out, (Date.now() - t0) / 1000);
   console.log(`✓ ${show(out)}  (${((Date.now() - t0) / 1000).toFixed(1)}s, seed ${cfg.seed})`);
   return out;
+}
+
+// Every finished reel gets a line in .generations/<date>.log (one file per day, kept on this
+// computer only). `npm run generations` lists how many were made each day.
+const LOG_DIR = path.join(ROOT, '.generations');
+function logGeneration(cfg, out, secs) {
+  try {
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const day = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+    const { BANK, GRID_DIRS } = require('./config');
+    const shade = BANK.shades[cfg.shade] || {};
+    const lines = [
+      `[${pad(now.getHours())}:${pad(now.getMinutes())}] ${out}`,
+      `  background: ${shade.family || '?'}, ${cfg.bg.gridMode} background, moving ${cfg.bg.gridMode === 'rays' ? 'round' : Object.keys(GRID_DIRS).find(k => GRID_DIRS[k] === cfg.bg.gridDir)} | lungs: ${cfg.lungs} | bar: ${cfg.layout}, ${cfg.barStyle} | voice: ${cfg.voice.name} | seed ${cfg.seed} | ${secs.toFixed(0)}s to render`,
+      `  title: ${(cfg.title || []).join(' / ') || '(none)'}`,
+      ...cfg.script.map(l => `  ${l.t.toFixed(1).padStart(5)}s  ${l.say}`),
+      '',
+    ];
+    fs.mkdirSync(LOG_DIR, { recursive: true });
+    fs.appendFileSync(path.join(LOG_DIR, day + '.log'), lines.join('\n') + '\n');
+  } catch (e) {
+    console.warn('could not write the generation log:', e.message);
+  }
 }
 
 async function renderStills(browser, cfg, times = [0.5, 9.2, 30, cfg.hold + 1.5]) {
