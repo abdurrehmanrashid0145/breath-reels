@@ -1,451 +1,752 @@
 {
- "_about": "Words and visuals each reel picks from. titles: 1 line, or 2 (second line smaller, coloured). shades: bright backgrounds grouped by colour family (blue, yellow, red, green, orange); each reel picks a family, then a shade. ballFaces: 5 yellow faces (start, then after reaching each lung). tierSets: names the voiceover uses for level-ups ({t2},{t3} in scripts.json).",
- "titles": [
-  ["HOLD YOUR BREATH"],
-  ["HOLD YOUR BREATH", "CHALLENGE"],
-  ["CAN YOU HOLD", "YOUR BREATH?"],
-  ["HOLD YOUR BREATH", "TO HEAL YOUR LUNGS"],
-  ["TEST YOUR LUNGS"],
-  ["HOLD YOUR BREATH", "HOW FAR CAN YOU GO?"],
-  ["HOW STRONG", "ARE YOUR LUNGS?"],
-  ["HOLD YOUR BREATH", "FIX YOUR LUNGS"],
-  ["DON'T BREATHE"],
-  ["HOLD YOUR BREATH", "60 SECOND TEST"],
-  ["LUNG TEST"],
-  ["HOLD YOUR BREATH", "SAVE YOUR LUNGS"],
-  ["HOLD YOUR BREATH", "DON'T GIVE UP"],
-  ["STOP BREATHING", "FOR A MINUTE"],
-  ["HOLD YOUR BREATH", "AURA CHECK"],
-  ["HOLD YOUR BREATH", "WHAT ARE YOUR LUNGS?"],
-  ["HOLD IT IN"],
-  ["HOLD YOUR BREATH", "ONLY 1% CAN FINISH"],
-  ["BREATH TEST"],
-  ["HOLD YOUR BREATH", "NO CHEATING"]
- ],
- "shades": [
-  { "family": "blue", "hue": 212, "sat": 95, "light": 52 },
-  { "family": "blue", "hue": 205, "sat": 96, "light": 50 },
-  { "family": "blue", "hue": 198, "sat": 100, "light": 52 },
-  { "family": "blue", "hue": 218, "sat": 92, "light": 52 },
-  { "family": "yellow", "hue": 48, "sat": 100, "light": 52 },
-  { "family": "yellow", "hue": 44, "sat": 100, "light": 53 },
-  { "family": "yellow", "hue": 52, "sat": 100, "light": 50 },
-  { "family": "red", "hue": 356, "sat": 90, "light": 52 },
-  { "family": "red", "hue": 2, "sat": 88, "light": 50 },
-  { "family": "red", "hue": 350, "sat": 90, "light": 54 },
-  { "family": "green", "hue": 130, "sat": 72, "light": 42 },
-  { "family": "green", "hue": 145, "sat": 78, "light": 40 },
-  { "family": "green", "hue": 115, "sat": 68, "light": 42 },
-  { "family": "orange", "hue": 28, "sat": 100, "light": 52 },
-  { "family": "orange", "hue": 22, "sat": 100, "light": 52 },
-  { "family": "orange", "hue": 34, "sat": 100, "light": 50 }
- ],
- "titleColors": ["#ffe14a", "#ffffff", "#ffd23f", "#fff27a", "#ffcf4a"],
- "ballFaces": [
-  ["😮", "😌", "😤", "🥵", "😮‍💨"],
-  ["😯", "😗", "😬", "😣", "😮‍💨"],
-  ["😮", "😐", "😤", "😵", "🥳"],
-  ["😲", "😑", "😖", "🥵", "😁"],
-  ["😳", "😌", "😣", "😫", "😮‍💨"],
-  ["😮", "🙂", "😬", "🥵", "😎"],
-  ["😯", "😶", "😤", "😵‍💫", "😮‍💨"],
-  ["😮", "😌", "😖", "😩", "🤩"],
-  ["😲", "😗", "😣", "🥵", "😆"],
-  ["😳", "😑", "😬", "😫", "😮‍💨"],
-  ["😮", "🫡", "😤", "😵", "😮‍💨"],
-  ["😯", "😌", "😬", "🥵", "😇"]
- ],
- "tierSets": [
-  [
-   {
-    "name": "NPC LUNGS",
-    "aura": "-15 AURA",
-    "note": "BUFFERING...",
-    "say": "NPC lungs, minus fifteen aura"
-   },
-   {
-    "name": "DELULU MODE",
-    "aura": "+20 AURA",
-    "note": "SIDE QUEST ACTIVE",
-    "say": "delulu mode, plus twenty aura"
-   },
-   {
-    "name": "SIGMA AIR",
-    "aura": "+420 AURA",
-    "note": "SUSPICIOUSLY OP",
-    "say": "sigma air, plus four twenty aura"
-   },
-   {
-    "name": "FINAL BOSS",
-    "aura": "MAX AURA",
-    "note": "UNLOCKED?",
-    "say": "final boss, max aura"
-   }
+  "_about": "Words and visuals each reel picks from. titles: 1 line, or 2 (second line smaller, coloured). shades: bright backgrounds grouped by colour family (blue, yellow, red, green, orange); each reel picks a family, then a shade. ballFaces: 5 yellow faces (start, then after reaching each lung). tierSets: names the voiceover uses for level-ups ({t2},{t3} in scripts.json).",
+  "titles": [
+    [
+      "HOLD YOUR BREATH"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "CHALLENGE"
+    ],
+    [
+      "CAN YOU HOLD",
+      "YOUR BREATH?"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "TO HEAL YOUR LUNGS"
+    ],
+    [
+      "TEST YOUR LUNGS"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "HOW FAR CAN YOU GO?"
+    ],
+    [
+      "HOW STRONG",
+      "ARE YOUR LUNGS?"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "FIX YOUR LUNGS"
+    ],
+    [
+      "DON'T BREATHE"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "60 SECOND TEST"
+    ],
+    [
+      "LUNG TEST"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "SAVE YOUR LUNGS"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "DON'T GIVE UP"
+    ],
+    [
+      "STOP BREATHING",
+      "FOR A MINUTE"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "AURA CHECK"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "WHAT ARE YOUR LUNGS?"
+    ],
+    [
+      "HOLD IT IN"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "ONLY 1% CAN FINISH"
+    ],
+    [
+      "BREATH TEST"
+    ],
+    [
+      "HOLD YOUR BREATH",
+      "NO CHEATING"
+    ]
   ],
-  [
-   {
-    "name": "NPC LUNGS",
-    "aura": "-10 AURA",
-    "note": "LOADING...",
-    "say": "NPC lungs, minus ten aura"
-   },
-   {
-    "name": "MAIN CHARACTER",
-    "aura": "+50 AURA",
-    "note": "PLOT ARMOR ON",
-    "say": "main character, plus fifty aura"
-   },
-   {
-    "name": "SIGMA GRINDSET",
-    "aura": "+420 AURA",
-    "note": "LOCKED IN",
-    "say": "sigma grindset, plus four twenty aura"
-   },
-   {
-    "name": "AURA GOD",
-    "aura": "∞ AURA",
-    "note": "IS THIS LEGAL?",
-    "say": "aura god, infinite aura"
-   }
+  "shades": [
+    {
+      "family": "blue",
+      "hue": 212,
+      "sat": 95,
+      "light": 52
+    },
+    {
+      "family": "blue",
+      "hue": 205,
+      "sat": 96,
+      "light": 50
+    },
+    {
+      "family": "blue",
+      "hue": 198,
+      "sat": 100,
+      "light": 52
+    },
+    {
+      "family": "blue",
+      "hue": 218,
+      "sat": 92,
+      "light": 52
+    },
+    {
+      "family": "yellow",
+      "hue": 48,
+      "sat": 100,
+      "light": 52
+    },
+    {
+      "family": "yellow",
+      "hue": 44,
+      "sat": 100,
+      "light": 53
+    },
+    {
+      "family": "yellow",
+      "hue": 52,
+      "sat": 100,
+      "light": 50
+    },
+    {
+      "family": "red",
+      "hue": 356,
+      "sat": 90,
+      "light": 52
+    },
+    {
+      "family": "red",
+      "hue": 2,
+      "sat": 88,
+      "light": 50
+    },
+    {
+      "family": "red",
+      "hue": 350,
+      "sat": 90,
+      "light": 54
+    },
+    {
+      "family": "green",
+      "hue": 130,
+      "sat": 72,
+      "light": 42
+    },
+    {
+      "family": "green",
+      "hue": 145,
+      "sat": 78,
+      "light": 40
+    },
+    {
+      "family": "green",
+      "hue": 115,
+      "sat": 68,
+      "light": 42
+    },
+    {
+      "family": "orange",
+      "hue": 28,
+      "sat": 100,
+      "light": 52
+    },
+    {
+      "family": "orange",
+      "hue": 22,
+      "sat": 100,
+      "light": 52
+    },
+    {
+      "family": "orange",
+      "hue": 34,
+      "sat": 100,
+      "light": 50
+    },
+    {
+      "family": "navy",
+      "hue": 225,
+      "sat": 90,
+      "light": 40,
+      "stops": [
+        "#06155e 0%",
+        "#0c3bc4 55%",
+        "#1a5cff 100%"
+      ]
+    },
+    {
+      "family": "navy",
+      "hue": 222,
+      "sat": 90,
+      "light": 40,
+      "stops": [
+        "#0a1f7a 0%",
+        "#1242d8 60%",
+        "#2a6bff 100%"
+      ]
+    },
+    {
+      "family": "navy",
+      "hue": 215,
+      "sat": 90,
+      "light": 40,
+      "stops": [
+        "#062a74 0%",
+        "#0b4fb8 50%",
+        "#0d63d6 100%"
+      ]
+    },
+    {
+      "family": "black",
+      "hue": 225,
+      "sat": 60,
+      "light": 12,
+      "stops": [
+        "#04050a 0%",
+        "#0a0f22 55%",
+        "#0e1a3e 100%"
+      ],
+      "gridAlpha": 0.38
+    },
+    {
+      "family": "black",
+      "hue": 220,
+      "sat": 40,
+      "light": 8,
+      "stops": [
+        "#000000 0%",
+        "#05070d 60%",
+        "#0b0f1c 100%"
+      ],
+      "gridAlpha": 0.32
+    },
+    {
+      "family": "purple",
+      "hue": 275,
+      "sat": 70,
+      "light": 45,
+      "stops": [
+        "#1e0b4a 0%",
+        "#5a26b8 55%",
+        "#a865ee 100%"
+      ]
+    },
+    {
+      "family": "purple",
+      "hue": 285,
+      "sat": 70,
+      "light": 45,
+      "stops": [
+        "#2a0a52 0%",
+        "#7a2fc8 60%",
+        "#c27af2 100%"
+      ]
+    }
   ],
-  [
-   {
-    "name": "BRAINROT TIER",
-    "aura": "-67 AURA",
-    "note": "SKIBIDI DETECTED",
-    "say": "brainrot tier, minus sixty seven aura"
-   },
-   {
-    "name": "DELULU MODE",
-    "aura": "+20 AURA",
-    "note": "TRUST THE PROCESS",
-    "say": "delulu mode, plus twenty aura"
-   },
-   {
-    "name": "RIZZ LUNGS",
-    "aura": "+999 AURA",
-    "note": "UNSPOKEN RIZZ",
-    "say": "rizz lungs, plus nine nine nine aura"
-   },
-   {
-    "name": "FINAL BOSS",
-    "aura": "MAX AURA",
-    "note": "HIM / HER",
-    "say": "final boss, max aura"
-   }
+  "titleColors": [
+    "#ffe14a",
+    "#ffffff",
+    "#ffd23f",
+    "#fff27a",
+    "#ffcf4a"
   ],
-  [
-   {
-    "name": "TUTORIAL LUNGS",
-    "aura": "+0 AURA",
-    "note": "JUST VIBING",
-    "say": "tutorial lungs, zero aura"
-   },
-   {
-    "name": "LOCKED IN",
-    "aura": "+100 AURA",
-    "note": "NO DISTRACTIONS",
-    "say": "locked in, plus one hundred aura"
-   },
-   {
-    "name": "MOGGING",
-    "aura": "+500 AURA",
-    "note": "LUNGS ON TOP",
-    "say": "mogging, plus five hundred aura"
-   },
-   {
-    "name": "GOATED",
-    "aura": "MAX AURA",
-    "note": "ABSOLUTE CINEMA",
-    "say": "goated, max aura"
-   }
+  "ballFaces": [
+    [
+      "😮",
+      "😌",
+      "😤",
+      "🥵",
+      "😮‍💨"
+    ],
+    [
+      "😯",
+      "😗",
+      "😬",
+      "😣",
+      "😮‍💨"
+    ],
+    [
+      "😮",
+      "😐",
+      "😤",
+      "😵",
+      "🥳"
+    ],
+    [
+      "😲",
+      "😑",
+      "😖",
+      "🥵",
+      "😁"
+    ],
+    [
+      "😳",
+      "😌",
+      "😣",
+      "😫",
+      "😮‍💨"
+    ],
+    [
+      "😮",
+      "🙂",
+      "😬",
+      "🥵",
+      "😎"
+    ],
+    [
+      "😯",
+      "😶",
+      "😤",
+      "😵‍💫",
+      "😮‍💨"
+    ],
+    [
+      "😮",
+      "😌",
+      "😖",
+      "😩",
+      "🤩"
+    ],
+    [
+      "😲",
+      "😗",
+      "😣",
+      "🥵",
+      "😆"
+    ],
+    [
+      "😳",
+      "😑",
+      "😬",
+      "😫",
+      "😮‍💨"
+    ],
+    [
+      "😮",
+      "🫡",
+      "😤",
+      "😵",
+      "😮‍💨"
+    ],
+    [
+      "😯",
+      "😌",
+      "😬",
+      "🥵",
+      "😇"
+    ]
   ],
-  [
-   {
-    "name": "DIAL-UP LUNGS",
-    "aura": "-20 AURA",
-    "note": "CONNECTING...",
-    "say": "dial up lungs, minus twenty aura"
-   },
-   {
-    "name": "WIFI LUNGS",
-    "aura": "+40 AURA",
-    "note": "ONE BAR",
-    "say": "wifi lungs, plus forty aura"
-   },
-   {
-    "name": "5G LUNGS",
-    "aura": "+420 AURA",
-    "note": "FULL SIGNAL",
-    "say": "five G lungs, plus four twenty aura"
-   },
-   {
-    "name": "FIBER OPTIC",
-    "aura": "MAX AURA",
-    "note": "ZERO LAG",
-    "say": "fiber optic lungs, max aura"
-   }
+  "tierSets": [
+    [
+      {
+        "name": "NPC LUNGS",
+        "aura": "-15 AURA",
+        "note": "BUFFERING...",
+        "say": "NPC lungs, minus fifteen aura"
+      },
+      {
+        "name": "DELULU MODE",
+        "aura": "+20 AURA",
+        "note": "SIDE QUEST ACTIVE",
+        "say": "delulu mode, plus twenty aura"
+      },
+      {
+        "name": "SIGMA AIR",
+        "aura": "+420 AURA",
+        "note": "SUSPICIOUSLY OP",
+        "say": "sigma air, plus four twenty aura"
+      },
+      {
+        "name": "FINAL BOSS",
+        "aura": "MAX AURA",
+        "note": "UNLOCKED?",
+        "say": "final boss, max aura"
+      }
+    ],
+    [
+      {
+        "name": "NPC LUNGS",
+        "aura": "-10 AURA",
+        "note": "LOADING...",
+        "say": "NPC lungs, minus ten aura"
+      },
+      {
+        "name": "MAIN CHARACTER",
+        "aura": "+50 AURA",
+        "note": "PLOT ARMOR ON",
+        "say": "main character, plus fifty aura"
+      },
+      {
+        "name": "SIGMA GRINDSET",
+        "aura": "+420 AURA",
+        "note": "LOCKED IN",
+        "say": "sigma grindset, plus four twenty aura"
+      },
+      {
+        "name": "AURA GOD",
+        "aura": "∞ AURA",
+        "note": "IS THIS LEGAL?",
+        "say": "aura god, infinite aura"
+      }
+    ],
+    [
+      {
+        "name": "BRAINROT TIER",
+        "aura": "-67 AURA",
+        "note": "SKIBIDI DETECTED",
+        "say": "brainrot tier, minus sixty seven aura"
+      },
+      {
+        "name": "DELULU MODE",
+        "aura": "+20 AURA",
+        "note": "TRUST THE PROCESS",
+        "say": "delulu mode, plus twenty aura"
+      },
+      {
+        "name": "RIZZ LUNGS",
+        "aura": "+999 AURA",
+        "note": "UNSPOKEN RIZZ",
+        "say": "rizz lungs, plus nine nine nine aura"
+      },
+      {
+        "name": "FINAL BOSS",
+        "aura": "MAX AURA",
+        "note": "HIM / HER",
+        "say": "final boss, max aura"
+      }
+    ],
+    [
+      {
+        "name": "TUTORIAL LUNGS",
+        "aura": "+0 AURA",
+        "note": "JUST VIBING",
+        "say": "tutorial lungs, zero aura"
+      },
+      {
+        "name": "LOCKED IN",
+        "aura": "+100 AURA",
+        "note": "NO DISTRACTIONS",
+        "say": "locked in, plus one hundred aura"
+      },
+      {
+        "name": "MOGGING",
+        "aura": "+500 AURA",
+        "note": "LUNGS ON TOP",
+        "say": "mogging, plus five hundred aura"
+      },
+      {
+        "name": "GOATED",
+        "aura": "MAX AURA",
+        "note": "ABSOLUTE CINEMA",
+        "say": "goated, max aura"
+      }
+    ],
+    [
+      {
+        "name": "DIAL-UP LUNGS",
+        "aura": "-20 AURA",
+        "note": "CONNECTING...",
+        "say": "dial up lungs, minus twenty aura"
+      },
+      {
+        "name": "WIFI LUNGS",
+        "aura": "+40 AURA",
+        "note": "ONE BAR",
+        "say": "wifi lungs, plus forty aura"
+      },
+      {
+        "name": "5G LUNGS",
+        "aura": "+420 AURA",
+        "note": "FULL SIGNAL",
+        "say": "five G lungs, plus four twenty aura"
+      },
+      {
+        "name": "FIBER OPTIC",
+        "aura": "MAX AURA",
+        "note": "ZERO LAG",
+        "say": "fiber optic lungs, max aura"
+      }
+    ],
+    [
+      {
+        "name": "3AM SCROLLER",
+        "aura": "-30 AURA",
+        "note": "SCREEN TIME: 9H",
+        "say": "three A M scroller, minus thirty aura"
+      },
+      {
+        "name": "READ RECEIPTS",
+        "aura": "+15 AURA",
+        "note": "SEEN 2:14AM",
+        "say": "read receipts, plus fifteen aura"
+      },
+      {
+        "name": "PHONE AT 1%",
+        "aura": "+300 AURA",
+        "note": "LIVING ON THE EDGE",
+        "say": "phone at one percent, plus three hundred aura"
+      },
+      {
+        "name": "TOUCH GRASS",
+        "aura": "MAX AURA",
+        "note": "OUTSIDE UNLOCKED",
+        "say": "touch grass, max aura"
+      }
+    ],
+    [
+      {
+        "name": "VAPE LUNGS",
+        "aura": "-50 AURA",
+        "note": "MANGO FLAVOUR",
+        "say": "vape lungs, minus fifty aura"
+      },
+      {
+        "name": "GROUP PROJECT",
+        "aura": "+10 AURA",
+        "note": "DID ALL THE WORK",
+        "say": "group project, plus ten aura"
+      },
+      {
+        "name": "GYM CRUSH",
+        "aura": "+400 AURA",
+        "note": "MADE EYE CONTACT",
+        "say": "gym crush, plus four hundred aura"
+      },
+      {
+        "name": "TOUCHED GRASS",
+        "aura": "MAX AURA",
+        "note": "RARE EVENT",
+        "say": "touched grass, max aura"
+      }
+    ],
+    [
+      {
+        "name": "DRY TEXTER",
+        "aura": "-25 AURA",
+        "note": "K.",
+        "say": "dry texter, minus twenty five aura"
+      },
+      {
+        "name": "LEFT ON READ",
+        "aura": "+5 AURA",
+        "note": "COPING",
+        "say": "left on read, plus five aura"
+      },
+      {
+        "name": "DOUBLE TEXTER",
+        "aura": "+250 AURA",
+        "note": "NO FEAR",
+        "say": "double texter, plus two fifty aura"
+      },
+      {
+        "name": "UNBOTHERED",
+        "aura": "MAX AURA",
+        "note": "PHONE ON SILENT",
+        "say": "unbothered, max aura"
+      }
+    ],
+    [
+      {
+        "name": "FISH LUNGS",
+        "aura": "-40 AURA",
+        "note": "OUT OF WATER",
+        "say": "fish lungs, minus forty aura"
+      },
+      {
+        "name": "PUFFERFISH",
+        "aura": "+30 AURA",
+        "note": "CHEEKS ACTIVATED",
+        "say": "pufferfish, plus thirty aura"
+      },
+      {
+        "name": "SCUBA MODE",
+        "aura": "+420 AURA",
+        "note": "NO TANK NEEDED",
+        "say": "scuba mode, plus four twenty aura"
+      },
+      {
+        "name": "MEGALODON",
+        "aura": "MAX AURA",
+        "note": "APEX PREDATOR",
+        "say": "megalodon, max aura"
+      }
+    ],
+    [
+      {
+        "name": "UNEMPLOYED",
+        "aura": "-20 AURA",
+        "note": "OPEN TO WORK",
+        "say": "unemployed, minus twenty aura"
+      },
+      {
+        "name": "INTERN",
+        "aura": "+10 AURA",
+        "note": "UNPAID",
+        "say": "intern, plus ten aura"
+      },
+      {
+        "name": "MIDDLE MANAGER",
+        "aura": "+200 AURA",
+        "note": "PER MY LAST EMAIL",
+        "say": "middle manager, plus two hundred aura"
+      },
+      {
+        "name": "CEO OF LUNGS",
+        "aura": "MAX AURA",
+        "note": "STOCKS UP",
+        "say": "C E O of lungs, max aura"
+      }
+    ],
+    [
+      {
+        "name": "TUTORIAL",
+        "aura": "-5 AURA",
+        "note": "PRESS A TO BREATHE",
+        "say": "tutorial, minus five aura"
+      },
+      {
+        "name": "SIDE QUEST",
+        "aura": "+50 AURA",
+        "note": "OPTIONAL PAIN",
+        "say": "side quest, plus fifty aura"
+      },
+      {
+        "name": "RANKED",
+        "aura": "+500 AURA",
+        "note": "SWEATY LOBBY",
+        "say": "ranked, plus five hundred aura"
+      },
+      {
+        "name": "WORLD RECORD",
+        "aura": "MAX AURA",
+        "note": "SPEEDRUN VERIFIED",
+        "say": "world record, max aura"
+      }
+    ],
+    [
+      {
+        "name": "SKIBIDI",
+        "aura": "-67 AURA",
+        "note": "BRAIN NOT FOUND",
+        "say": "skibidi, minus sixty seven aura"
+      },
+      {
+        "name": "OHIO",
+        "aura": "+33 AURA",
+        "note": "ONLY IN OHIO",
+        "say": "Ohio, plus thirty three aura"
+      },
+      {
+        "name": "FANUM TAX",
+        "aura": "+300 AURA",
+        "note": "TAKING YOUR AIR",
+        "say": "fanum tax, plus three hundred aura"
+      },
+      {
+        "name": "GYATT LUNGS",
+        "aura": "MAX AURA",
+        "note": "UNREAL",
+        "say": "gyatt lungs, max aura"
+      }
+    ],
+    [
+      {
+        "name": "COUCH POTATO",
+        "aura": "-35 AURA",
+        "note": "HORIZONTAL",
+        "say": "couch potato, minus thirty five aura"
+      },
+      {
+        "name": "STAIRS ENJOYER",
+        "aura": "+25 AURA",
+        "note": "ONE FLIGHT",
+        "say": "stairs enjoyer, plus twenty five aura"
+      },
+      {
+        "name": "GYM RAT",
+        "aura": "+350 AURA",
+        "note": "PRE-WORKOUT",
+        "say": "gym rat, plus three fifty aura"
+      },
+      {
+        "name": "OLYMPIAN",
+        "aura": "MAX AURA",
+        "note": "GOLD MEDAL",
+        "say": "olympian, max aura"
+      }
+    ],
+    [
+      {
+        "name": "ZERO RIZZ",
+        "aura": "-45 AURA",
+        "note": "HEY... WYD",
+        "say": "zero rizz, minus forty five aura"
+      },
+      {
+        "name": "MID RIZZ",
+        "aura": "+20 AURA",
+        "note": "GOT A MAYBE",
+        "say": "mid rizz, plus twenty aura"
+      },
+      {
+        "name": "W RIZZ",
+        "aura": "+500 AURA",
+        "note": "NUMBER SECURED",
+        "say": "W rizz, plus five hundred aura"
+      },
+      {
+        "name": "UNSPOKEN RIZZ",
+        "aura": "MAX AURA",
+        "note": "JUST A LOOK",
+        "say": "unspoken rizz, max aura"
+      }
+    ],
+    [
+      {
+        "name": "LOW BATTERY",
+        "aura": "-15 AURA",
+        "note": "5% LEFT",
+        "say": "low battery, minus fifteen aura"
+      },
+      {
+        "name": "CHARGING",
+        "aura": "+40 AURA",
+        "note": "SLOW CHARGE",
+        "say": "charging, plus forty aura"
+      },
+      {
+        "name": "FULLY CHARGED",
+        "aura": "+400 AURA",
+        "note": "100%",
+        "say": "fully charged, plus four hundred aura"
+      },
+      {
+        "name": "OVERCLOCKED",
+        "aura": "MAX AURA",
+        "note": "TOO POWERFUL",
+        "say": "overclocked, max aura"
+      }
+    ]
   ],
-  [
-   {
-    "name": "3AM SCROLLER",
-    "aura": "-30 AURA",
-    "note": "SCREEN TIME: 9H",
-    "say": "three A M scroller, minus thirty aura"
-   },
-   {
-    "name": "READ RECEIPTS",
-    "aura": "+15 AURA",
-    "note": "SEEN 2:14AM",
-    "say": "read receipts, plus fifteen aura"
-   },
-   {
-    "name": "PHONE AT 1%",
-    "aura": "+300 AURA",
-    "note": "LIVING ON THE EDGE",
-    "say": "phone at one percent, plus three hundred aura"
-   },
-   {
-    "name": "TOUCH GRASS",
-    "aura": "MAX AURA",
-    "note": "OUTSIDE UNLOCKED",
-    "say": "touch grass, max aura"
-   }
-  ],
-  [
-   {
-    "name": "VAPE LUNGS",
-    "aura": "-50 AURA",
-    "note": "MANGO FLAVOUR",
-    "say": "vape lungs, minus fifty aura"
-   },
-   {
-    "name": "GROUP PROJECT",
-    "aura": "+10 AURA",
-    "note": "DID ALL THE WORK",
-    "say": "group project, plus ten aura"
-   },
-   {
-    "name": "GYM CRUSH",
-    "aura": "+400 AURA",
-    "note": "MADE EYE CONTACT",
-    "say": "gym crush, plus four hundred aura"
-   },
-   {
-    "name": "TOUCHED GRASS",
-    "aura": "MAX AURA",
-    "note": "RARE EVENT",
-    "say": "touched grass, max aura"
-   }
-  ],
-  [
-   {
-    "name": "DRY TEXTER",
-    "aura": "-25 AURA",
-    "note": "K.",
-    "say": "dry texter, minus twenty five aura"
-   },
-   {
-    "name": "LEFT ON READ",
-    "aura": "+5 AURA",
-    "note": "COPING",
-    "say": "left on read, plus five aura"
-   },
-   {
-    "name": "DOUBLE TEXTER",
-    "aura": "+250 AURA",
-    "note": "NO FEAR",
-    "say": "double texter, plus two fifty aura"
-   },
-   {
-    "name": "UNBOTHERED",
-    "aura": "MAX AURA",
-    "note": "PHONE ON SILENT",
-    "say": "unbothered, max aura"
-   }
-  ],
-  [
-   {
-    "name": "FISH LUNGS",
-    "aura": "-40 AURA",
-    "note": "OUT OF WATER",
-    "say": "fish lungs, minus forty aura"
-   },
-   {
-    "name": "PUFFERFISH",
-    "aura": "+30 AURA",
-    "note": "CHEEKS ACTIVATED",
-    "say": "pufferfish, plus thirty aura"
-   },
-   {
-    "name": "SCUBA MODE",
-    "aura": "+420 AURA",
-    "note": "NO TANK NEEDED",
-    "say": "scuba mode, plus four twenty aura"
-   },
-   {
-    "name": "MEGALODON",
-    "aura": "MAX AURA",
-    "note": "APEX PREDATOR",
-    "say": "megalodon, max aura"
-   }
-  ],
-  [
-   {
-    "name": "UNEMPLOYED",
-    "aura": "-20 AURA",
-    "note": "OPEN TO WORK",
-    "say": "unemployed, minus twenty aura"
-   },
-   {
-    "name": "INTERN",
-    "aura": "+10 AURA",
-    "note": "UNPAID",
-    "say": "intern, plus ten aura"
-   },
-   {
-    "name": "MIDDLE MANAGER",
-    "aura": "+200 AURA",
-    "note": "PER MY LAST EMAIL",
-    "say": "middle manager, plus two hundred aura"
-   },
-   {
-    "name": "CEO OF LUNGS",
-    "aura": "MAX AURA",
-    "note": "STOCKS UP",
-    "say": "C E O of lungs, max aura"
-   }
-  ],
-  [
-   {
-    "name": "TUTORIAL",
-    "aura": "-5 AURA",
-    "note": "PRESS A TO BREATHE",
-    "say": "tutorial, minus five aura"
-   },
-   {
-    "name": "SIDE QUEST",
-    "aura": "+50 AURA",
-    "note": "OPTIONAL PAIN",
-    "say": "side quest, plus fifty aura"
-   },
-   {
-    "name": "RANKED",
-    "aura": "+500 AURA",
-    "note": "SWEATY LOBBY",
-    "say": "ranked, plus five hundred aura"
-   },
-   {
-    "name": "WORLD RECORD",
-    "aura": "MAX AURA",
-    "note": "SPEEDRUN VERIFIED",
-    "say": "world record, max aura"
-   }
-  ],
-  [
-   {
-    "name": "SKIBIDI",
-    "aura": "-67 AURA",
-    "note": "BRAIN NOT FOUND",
-    "say": "skibidi, minus sixty seven aura"
-   },
-   {
-    "name": "OHIO",
-    "aura": "+33 AURA",
-    "note": "ONLY IN OHIO",
-    "say": "Ohio, plus thirty three aura"
-   },
-   {
-    "name": "FANUM TAX",
-    "aura": "+300 AURA",
-    "note": "TAKING YOUR AIR",
-    "say": "fanum tax, plus three hundred aura"
-   },
-   {
-    "name": "GYATT LUNGS",
-    "aura": "MAX AURA",
-    "note": "UNREAL",
-    "say": "gyatt lungs, max aura"
-   }
-  ],
-  [
-   {
-    "name": "COUCH POTATO",
-    "aura": "-35 AURA",
-    "note": "HORIZONTAL",
-    "say": "couch potato, minus thirty five aura"
-   },
-   {
-    "name": "STAIRS ENJOYER",
-    "aura": "+25 AURA",
-    "note": "ONE FLIGHT",
-    "say": "stairs enjoyer, plus twenty five aura"
-   },
-   {
-    "name": "GYM RAT",
-    "aura": "+350 AURA",
-    "note": "PRE-WORKOUT",
-    "say": "gym rat, plus three fifty aura"
-   },
-   {
-    "name": "OLYMPIAN",
-    "aura": "MAX AURA",
-    "note": "GOLD MEDAL",
-    "say": "olympian, max aura"
-   }
-  ],
-  [
-   {
-    "name": "ZERO RIZZ",
-    "aura": "-45 AURA",
-    "note": "HEY... WYD",
-    "say": "zero rizz, minus forty five aura"
-   },
-   {
-    "name": "MID RIZZ",
-    "aura": "+20 AURA",
-    "note": "GOT A MAYBE",
-    "say": "mid rizz, plus twenty aura"
-   },
-   {
-    "name": "W RIZZ",
-    "aura": "+500 AURA",
-    "note": "NUMBER SECURED",
-    "say": "W rizz, plus five hundred aura"
-   },
-   {
-    "name": "UNSPOKEN RIZZ",
-    "aura": "MAX AURA",
-    "note": "JUST A LOOK",
-    "say": "unspoken rizz, max aura"
-   }
-  ],
-  [
-   {
-    "name": "LOW BATTERY",
-    "aura": "-15 AURA",
-    "note": "5% LEFT",
-    "say": "low battery, minus fifteen aura"
-   },
-   {
-    "name": "CHARGING",
-    "aura": "+40 AURA",
-    "note": "SLOW CHARGE",
-    "say": "charging, plus forty aura"
-   },
-   {
-    "name": "FULLY CHARGED",
-    "aura": "+400 AURA",
-    "note": "100%",
-    "say": "fully charged, plus four hundred aura"
-   },
-   {
-    "name": "OVERCLOCKED",
-    "aura": "MAX AURA",
-    "note": "TOO POWERFUL",
-    "say": "overclocked, max aura"
-   }
+  "voices": [
+    "am_puck",
+    "am_fenrir",
+    "am_michael",
+    "am_eric",
+    "am_liam",
+    "af_heart",
+    "af_bella",
+    "af_jessica",
+    "af_sky"
   ]
- ],
- "voices": ["am_puck", "am_fenrir", "am_michael", "am_eric", "am_liam", "af_heart", "af_bella", "af_jessica", "af_sky"]
 }

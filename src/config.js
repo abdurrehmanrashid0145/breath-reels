@@ -10,7 +10,18 @@ const SCRIPTS = JSON.parse(fs.readFileSync(path.join(__dirname, 'scripts.json'),
 
 const FONTS = ['Bangers', 'Luckiest', 'Titan', 'Lilita'];
 const SIDES = ['left', 'right'];
+// bar layouts (template.html layout): left-to-right, right-to-left, straight (no arms), centred, zigzag
+const LAYOUTS = ['left', 'right', 'straight', 'center', 'zigzag'];
 const ICONS = ['heart', 'plus', 'lung', 'pulse'];
+// background designs (template.html drawGrid): every one of them moves
+const GRID_MODES = ['wave', 'grid', 'diagonal', 'rays', 'classic'];
+// which way a grid moves for the whole reel, in screen degrees
+const GRID_DIRS = { down: 90, up: -90, right: 0, left: 180, diagonal: 60 };
+const BAR_STYLES = ['white', 'black'];
+// every timer bar design the template can draw (set "barStyle" in a config); only BAR_STYLES rotate automatically
+const BAR_DESIGNS = ['white', 'black', 'neon', 'diamond', 'fill', 'thermo', 'candy', 'seconds', 'glass', 'dots', 'rainbow'];
+// how often a reel gets an on-screen title (the best-performing reels mostly have none)
+const TITLE_CHANCE = 0.3;
 
 // Lung picture sets: assets/lungs/<name>/1.png..4.png (worst to best). "cartoon" is the built-in SVG set.
 function lungSets() {
@@ -87,6 +98,59 @@ function autoScript(r, choose, hold, duration, tiers) {
   return out;
 }
 
+// A script typed by hand: one spoken line per line of text.
+//   TITLE: HOLD YOUR BREATH / LUNG TEST   (optional, "/" splits the title over two lines)
+//   0:05 Tap like if you're still holding  (optional time as m:ss, like 0:05 or [0:05])
+//   Lines without a time are spread out between the timed ones. The first starts at 0.3 s
+//   and an untimed last line lands on the last lung (like "Congrats!"). # starts a comment.
+// Also accepts lines separated by " | " in one string, for typing it straight into the command.
+function parseScript(text, hold = 57) {
+  const raw = text.includes('\n') ? text.split(/\r?\n/) : text.split('|');
+  let title = null;
+  const lines = [];
+  for (let l of raw) {
+    l = l.trim();
+    if (!l || l.startsWith('#')) continue;
+    const tm = l.match(/^title\s*:\s*(.+)$/i);
+    if (tm) { title = tm[1].split('/').map(x => x.trim().toUpperCase()).filter(Boolean).slice(0, 2); continue; }
+    const m = l.match(/^\[?(\d+):(\d\d(?:\.\d+)?)\]?\s*[-–]?\s*(.+)$/);
+    if (m) lines.push({ t: (+(m[1] || 0)) * 60 + +m[2], say: m[3].trim() });
+    else lines.push({ t: null, say: l });
+  }
+  if (!lines.length) throw new Error('the script has no lines to say');
+  const end = nodeTimes(hold)[3] + 0.15;
+  if (lines[0].t === null) lines[0].t = 0.3;
+  const last = lines[lines.length - 1];
+  if (last.t === null && lines.length > 1) last.t = end;
+  // fill the gaps evenly between the nearest timed lines (or up to the last lung)
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].t !== null) continue;
+    let j = i; while (j < lines.length && lines[j].t === null) j++;
+    const a = lines[i - 1].t, b = j < lines.length ? lines[j].t : end;
+    for (let k = i; k < j; k++) lines[k].t = a + (b - a) * (k - i + 1) / (j - i + 1);
+    i = j - 1;
+  }
+  return { title, script: lines.map(x => ({ t: +x.t.toFixed(2), say: x.say })) };
+}
+
+// Rough guess of when each line is spoken (the voice says about 4 words a second), shifting a
+// line later when the one before is still talking, the way tts.py does. Returns warnings too.
+function estimateSpeech(script, duration = 60) {
+  let cursor = 0;
+  const lines = script.map(l => {
+    const words = l.say.split(/\s+/).filter(Boolean).length;
+    const len = 0.24 * words + 0.3;
+    const t = Math.max(l.t, cursor ? cursor + 0.12 : 0);
+    cursor = t + len;
+    return { ...l, start: t, end: cursor, late: t - l.t > 0.5 };
+  });
+  const talk = lines.reduce((a, l) => a + l.end - l.start, 0);
+  const warnings = [];
+  lines.filter(l => l.late).forEach(l => warnings.push(`"${l.say}" starts about ${Math.round(l.start - l.t)}s late because the line before is still talking.`));
+  if (cursor > duration) warnings.push(`The script is about ${Math.round(cursor - duration)}s too long for the ${duration}s reel. Cut some words (about 4 words = 1 second).`);
+  return { lines, talk, end: cursor, warnings };
+}
+
 function resolve(user = {}, choose = plainPicker()) {
   const seed = user.seed ?? Math.floor(Math.random() * 1e9);
   const r = rng(seed);
@@ -105,14 +169,27 @@ function resolve(user = {}, choose = plainPicker()) {
   const bg = {
     hue: sh.hue, sat: sh.sat, light: sh.light,
     angle: Math.round(between(r, 150, 210)),
+    stops: sh.stops || null,
     spotX: Math.round(between(r, 10, 90)), spotY: Math.round(between(r, 5, 60)),
-    grid: pick(r, [60, 66, 72, 80, 90]), gx: Math.round(r() * 60), gy: Math.round(r() * 60),
+    grid: pick(r, [64, 72, 80, 90, 100]), gx: Math.round(r() * 60), gy: Math.round(r() * 60),
+    // the grid never stands still: it ripples ("wave") or drifts ("scroll")
+    gridMode: user.gridMode === 'scroll' ? 'grid' : fresh(user.gridMode, 'gridMode', GRID_MODES),
+    gridSpeed: Math.round(between(r, 22, 40)),
+    gridDir: typeof user.gridDir === 'string' ? GRID_DIRS[user.gridDir] : fresh(user.gridDir, 'gridDir', Object.values(GRID_DIRS)),
+    rays: pick(r, [16, 20, 24]), raySpin: Math.round(between(r, 6, 12)) * (r() < 0.5 ? -1 : 1),
+    rayX: Math.round(between(r, -60, 60)), rayY: Math.round(between(r, -120, 60)),
+    rayColor: ['yellow', 'orange'].includes(family) ? 'rgba(235,120,0,.42)' : family === 'black' ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.17)',
+    waveAmp: Math.round(between(r, 9, 14)), waveLen: Math.round(between(r, 380, 520)), waveSpeed: +between(r, 1.2, 1.8).toFixed(2),
+    gridRGB: '255,255,255', gridAlpha: sh.gridAlpha ?? 0.5, gridWidth: 3, subGrid: r() < 0.4,
+    decor: false, // old ECG lines and floating icons; set bg.decor to true to bring them back
     icon: fresh(user.icon, 'icon', ICONS),
     ecg: idx(1 + Math.floor(r() * 2)).map(i => ({ y: Math.round(i === 0 ? between(r, 150, 330) : between(r, 900, 1120)), amp: Math.round(between(r, 50, 90)), o: +between(r, 0.45, 0.75).toFixed(2), speed: Math.round(between(r, 18, 40)) })),
     icons: idx(7).map(i => ({ x: Math.round(between(r, 10, 650)), y: Math.round(180 + i * 150 + between(r, -40, 40)), s: Math.round(between(r, 40, 72)), o: +between(r, 0.35, 0.7).toFixed(2), ph: +(r() * 6.28).toFixed(2) })),
     motes: idx(10).map(() => ({ x: Math.round(r() * 720), y: Math.round(r() * 1280), r: Math.round(between(r, 4, 10)), v: +between(r, 4, 12).toFixed(1) })),
     ...(user.bg || {}),
   };
+  // a soft light spot: strong on the original look, faint on the new ones, none on the deep gradients
+  if (bg.spot === undefined) bg.spot = bg.stops ? 0 : bg.gridMode === 'classic' ? 0.45 : 0.22;
 
   let tiers = fresh(user.tiers, 'tiers', idx(BANK.tierSets.length));
   if (typeof tiers === 'number') tiers = BANK.tierSets[tiers];
@@ -129,19 +206,24 @@ function resolve(user = {}, choose = plainPicker()) {
     duration, hold,
     nodeFrac: NODE_FRAC, startFrac: START_FRAC, dropTime: DROP, nodeTimes: nodeTimes(hold),
     shade, bg,
+    // older configs only had "side"; that means the left or right layout
+    layout: user.layout ?? (user.side && user.side !== 'random' ? user.side : fresh(undefined, 'layout', LAYOUTS)),
     side: fresh(user.side, 'side', SIDES),
     mirrorLungs: user.mirrorLungs ?? false,
     titleFont: fresh(user.titleFont, 'titleFont', FONTS),
     titleColor: rand(user.titleColor, () => (['yellow', 'orange'].includes(family) ? '#ffffff' : pick(r, BANK.titleColors))),
-    title: fresh(user.title, 'title', BANK.titles),
+    // no title on most reels; when there is one it's small (template.html)
+    title: user.title === undefined ? (r() < TITLE_CHANCE ? choose(r, 'title', BANK.titles) : []) : fresh(user.title, 'title', BANK.titles),
+    barStyle: user.barStyle && user.barStyle !== 'random' ? (family === 'black' && user.barStyle === 'black' ? 'white' : user.barStyle) : family === 'black' ? 'white' : fresh(undefined, 'barStyle', BAR_STYLES),
+    arms: user.arms ?? true,
     lungs, lungImages: user.lungImages ?? lungImages(lungs),
     ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),
     tiers,
     handle: user.handle ?? '',
-    script: user.script && user.script !== 'auto' ? user.script : autoScript(r, choose, hold, duration, tiers),
+    script: user.script && user.script !== 'auto' ? user.script.map(l => ({ ...l, say: fill(l.say, tiers) })) : autoScript(r, choose, hold, duration, tiers),
     voice: { name: voice, speed: user.voiceSpeed ?? +(1.0 + r() * 0.08).toFixed(2), enabled: user.voiceover !== false },
     sound: { enabled: true, music: null, musicVolume: 0.3, sfxVolume: 0.6, volume: 1, ...(user.sound || {}) },
   };
 }
 
-module.exports = { resolve, rng, freshPicker, nodeTimes, lungSets, BANK, SCRIPTS, FONTS };
+module.exports = { LAYOUTS, BAR_DESIGNS, GRID_MODES, GRID_DIRS, resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };
