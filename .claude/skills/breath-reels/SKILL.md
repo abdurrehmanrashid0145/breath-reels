@@ -6,7 +6,7 @@ description: Make viral-style "HOLD YOUR BREATH" lung reels (vertical MP4, brigh
 # Hold-your-breath lung reels
 
 This repo renders 1080×1920, 60 s reels copied from a format that got 27M views on Facebook:
-saturated background in blue, navy, black, purple, yellow, red, green or orange with a crisp grid that is always moving (wave or scroll; the top-performing reels all have a moving grid), no title on most reels (a small one on about 1 in 3), a bold bar with arms to each lung
+saturated background in blue, navy, black, purple, yellow, red, green or orange with an always-moving background: rippling wave grid, square grid, 60° diagonal grid, turning sunburst or the original look (grids move one way per reel: up, down, left, right or diagonal; `npm run sheet` shows them all), no title on most reels (a small one on about 1 in 3), a bold bar with arms to each lung
 ("HOLD YOUR BREATH"), a plain white bar with four dots, a yellow emoji ball that slides
 down the bar, and four big lungs beside it going from wrecked smoker lungs (top) to cute
 flexing lungs (bottom). Each lung pops with a "ding" when the ball reaches it (~12, 27, 41.7, 56.5 s, same as the original).
@@ -51,6 +51,6 @@ Lines live in `src/scripts.json`, one array per moment. The planner picks them u
 - Don't promote other people's apps (the original viral reel had an App Store ad; we leave it out).
 - Sound and voice are generated locally and royalty-free. Only set `sound.music` to a track the user confirms is licensed. Trending platform audio has to be added in-app.
 - To grow the pools, add to `src/bank.json` (`titles`: 1 or 2 lines, all caps; `shades`: background blues; `ballFaces`: 5 yellow faces each; `titleColors`) and voiceover lines to `src/scripts.json`.
-- Current pools: 20 titles, 23 shades in 8 colour families (blue, navy, black, purple, yellow, red, green, orange), 2 grid motions, 2 bar styles, 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, 141 voiceover lines.
+- Current pools: 20 titles, 23 shades in 8 colour families (blue, navy, black, purple, yellow, red, green, orange), 5 background designs, 5 grid directions, 2 bar styles, 4 comic fonts, 2 bar sides, 4 icon types, 12 emoji sets, 9 voices, 141 voiceover lines.
 
 - Each finished reel is appended to `.generations/<date>.log` (local, not in git). `npm run generations` lists counts per day.

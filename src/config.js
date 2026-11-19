@@ -11,7 +11,10 @@ const SCRIPTS = JSON.parse(fs.readFileSync(path.join(__dirname, 'scripts.json'),
 const FONTS = ['Bangers', 'Luckiest', 'Titan', 'Lilita'];
 const SIDES = ['left', 'right'];
 const ICONS = ['heart', 'plus', 'lung', 'pulse'];
-const GRID_MODES = ['wave', 'scroll'];
+// background designs (template.html drawGrid): every one of them moves
+const GRID_MODES = ['wave', 'grid', 'diagonal', 'rays', 'classic'];
+// which way a grid moves for the whole reel, in screen degrees
+const GRID_DIRS = { down: 90, up: -90, right: 0, left: 180, diagonal: 60 };
 const BAR_STYLES = ['white', 'black'];
 // how often a reel gets an on-screen title (the best-performing reels mostly have none)
 const TITLE_CHANCE = 0.3;
@@ -162,12 +165,16 @@ function resolve(user = {}, choose = plainPicker()) {
   const bg = {
     hue: sh.hue, sat: sh.sat, light: sh.light,
     angle: Math.round(between(r, 150, 210)),
-    stops: sh.stops || null, spot: sh.stops ? 0 : 0.22,
+    stops: sh.stops || null,
     spotX: Math.round(between(r, 10, 90)), spotY: Math.round(between(r, 5, 60)),
     grid: pick(r, [64, 72, 80, 90, 100]), gx: Math.round(r() * 60), gy: Math.round(r() * 60),
     // the grid never stands still: it ripples ("wave") or drifts ("scroll")
-    gridMode: fresh(user.gridMode, 'gridMode', GRID_MODES),
-    gridSpeed: Math.round(between(r, 22, 40)), gridDir: pick(r, [90, -90, 45, 135, 0, 180]),
+    gridMode: user.gridMode === 'scroll' ? 'grid' : fresh(user.gridMode, 'gridMode', GRID_MODES),
+    gridSpeed: Math.round(between(r, 22, 40)),
+    gridDir: typeof user.gridDir === 'string' ? GRID_DIRS[user.gridDir] : fresh(user.gridDir, 'gridDir', Object.values(GRID_DIRS)),
+    rays: pick(r, [16, 20, 24]), raySpin: Math.round(between(r, 6, 12)) * (r() < 0.5 ? -1 : 1),
+    rayX: Math.round(between(r, -60, 60)), rayY: Math.round(between(r, -120, 60)),
+    rayColor: ['yellow', 'orange'].includes(family) ? 'rgba(235,120,0,.42)' : family === 'black' ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.17)',
     waveAmp: Math.round(between(r, 9, 14)), waveLen: Math.round(between(r, 380, 520)), waveSpeed: +between(r, 1.2, 1.8).toFixed(2),
     gridRGB: '255,255,255', gridAlpha: sh.gridAlpha ?? 0.5, gridWidth: 3, subGrid: r() < 0.4,
     decor: false, // old ECG lines and floating icons; set bg.decor to true to bring them back
@@ -177,6 +184,8 @@ function resolve(user = {}, choose = plainPicker()) {
     motes: idx(10).map(() => ({ x: Math.round(r() * 720), y: Math.round(r() * 1280), r: Math.round(between(r, 4, 10)), v: +between(r, 4, 12).toFixed(1) })),
     ...(user.bg || {}),
   };
+  // a soft light spot: strong on the original look, faint on the new ones, none on the deep gradients
+  if (bg.spot === undefined) bg.spot = bg.stops ? 0 : bg.gridMode === 'classic' ? 0.45 : 0.22;
 
   let tiers = fresh(user.tiers, 'tiers', idx(BANK.tierSets.length));
   if (typeof tiers === 'number') tiers = BANK.tierSets[tiers];
@@ -211,4 +220,4 @@ function resolve(user = {}, choose = plainPicker()) {
   };
 }
 
-module.exports = { resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };
+module.exports = { GRID_MODES, GRID_DIRS, resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };

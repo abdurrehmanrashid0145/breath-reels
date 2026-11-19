@@ -1,7 +1,7 @@
 # breath-reels
 
 Makes vertical (1080×1920) "HOLD YOUR BREATH" reels in the style of the viral lung-test reels:
-a saturated background (blue, navy, black, purple, yellow, red, green or orange) with a grid that is always moving (rippling or drifting), usually no title (about 1 in 3 reels gets a small one), a bold bar with arms reaching to each lung and an emoji ball sliding down it,
+a saturated background (blue, navy, black, purple, yellow, red, green or orange) with an always-moving background (rippling grid, square grid, 60° grid, turning sunburst or the original look), usually no title (about 1 in 3 reels gets a small one), a bold bar with arms reaching to each lung and an emoji ball sliding down it,
 and four lungs going from wrecked to strong. A short, calm voiceover and a "ding" each time the ball
 reaches a lung. Everything is generated locally and royalty-free. Every reel is randomised from its seed.
 
@@ -67,7 +67,7 @@ See `scripts/example-script.txt`. `{n1}`..`{n4}` still say the tier names.
 
 | Thing | Options |
 |---|---|
-| Background | 8 colour families (`bank.json` `shades`; a batch spreads across families), gradient, grid size, moving grid (`gridMode`: `wave` or `scroll`, speed and direction). The old ECG lines and icons are off (`"bg": {"decor": true}` brings them back) |
+| Background | 5 designs × 8 colour families (`bank.json` `shades`; a batch spreads across both). Designs (`gridMode`): `wave` (rippling grid), `grid` (square), `diagonal` (60° grid), `rays` (turning sunburst), `classic` (original faint grid with ECG lines and icons). Grids move one way per reel (`gridDir`: `up`, `down`, `left`, `right` or `diagonal`). `npm run sheet` makes a picture of every background |
 | Bar | white or black (`barStyle`), arms to each lung (`"arms": false` turns them off) |
 | Title | none on about 2 in 3 reels (`"title": []` forces none), otherwise small; 20 titles (`bank.json` `titles`), 4 comic fonts (Bangers, Luckiest Guy, Titan One, Lilita One) |
 | Bar side | left or right |
