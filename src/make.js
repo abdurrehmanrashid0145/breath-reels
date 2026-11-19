@@ -10,7 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 const { reelsFolder } = require('./paths');
-const { resolve, freshPicker, parseScript, estimateSpeech } = require('./config');
+const { resolve, freshPicker, BANK, parseScript, estimateSpeech } = require('./config');
 
 const ROOT = path.join(__dirname, '..');
 const HISTORY = path.join(ROOT, '.history.json');
@@ -54,12 +54,13 @@ for (let i = 0; i < count; i++) {
     ...base,
     shade: c.shade,
     icon: c.bg.icon, side: c.side, titleFont: c.titleFont, title: c.title, lungs: c.lungs,
+    gridMode: c.bg.gridMode, barStyle: c.barStyle,
     tiers: c.tiers, ballFaces: c.ballFaces, voice: c.voice.name, script: c.script,
   };
   const f = path.join(dir, `reel-${seed}.json`);
   fs.writeFileSync(f, JSON.stringify(cfg, null, 2));
   files.push(f);
-  console.log('wrote', path.relative(process.cwd(), f), `(${c.title.join(' / ')}, bar ${c.side}, ${c.titleFont}, lungs ${c.lungs})`);
+  console.log('wrote', path.relative(process.cwd(), f), `(${c.title.join(' / ') || 'no title'}, ${BANK.shades[c.shade].family} ${c.bg.gridMode} grid, bar ${c.side}, ${c.titleFont}, lungs ${c.lungs})`);
 }
 fs.writeFileSync(HISTORY, JSON.stringify(counts));
 

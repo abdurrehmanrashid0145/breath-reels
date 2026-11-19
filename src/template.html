@@ -23,8 +23,11 @@
     -webkit-text-stroke: var(--stroke) #101018; paint-order: stroke fill; text-shadow: 0 var(--drop) 0 #101018; letter-spacing: 1px; }
   #title .line.sub { color: var(--sub); }
 
-  #bar { position: absolute; border-radius: 6px; background: #fff; border: 3px solid #101018; z-index: 4; }
-  .node { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: #fff; border: 3px solid #101018; z-index: 5; }
+  body { --barFill: #fff; --barLine: #101018; }
+  #bar { position: absolute; border-radius: 8px; background: var(--barFill); border: 4px solid var(--barLine); z-index: 4; }
+  .arm { position: absolute; height: 26px; margin-top: -13px; border-radius: 0 8px 8px 0; background: var(--barFill); border: 4px solid var(--barLine); border-left: 0; z-index: 4; }
+  .arm.flip { border-radius: 8px 0 0 8px; border-left: 4px solid var(--barLine); border-right: 0; }
+  .node { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: var(--barFill); border: 4px solid var(--barLine); z-index: 5; }
   .ring { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; border: 5px solid #fff; z-index: 3; opacity: 0; }
 
   .lung { position: absolute; z-index: 6; display: flex; align-items: center; justify-content: center; }
@@ -143,13 +146,53 @@ function ecgPath(w, amp) {
   while (x < w) { d += ` L${x + 30},0 L${x + 42},${-amp * 0.25} L${x + 50},0 L${x + 58},${amp * 0.3} L${x + 70},${-amp} L${x + 82},${amp * 0.55} L${x + 94},0 L${x + 120},${-amp * 0.2} L${x + 140},0`; x += 140; }
   return d;
 }
+// The grid is redrawn every frame so it is always moving: it drifts ("scroll") or ripples like a flag ("wave").
+function gridCanvas(bg) {
+  const cv = document.createElement('canvas');
+  const k = window.devicePixelRatio || 1;
+  cv.width = 720 * k; cv.height = 1280 * k;
+  cv.style.cssText = 'position:absolute; left:0; top:0; width:720px; height:1280px';
+  bg.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  ctx.scale(k, k);
+  return ctx;
+}
+function drawGrid(t) {
+  const b = C.bg, g = b.grid, ctx = E.grid;
+  ctx.clearRect(0, 0, 720, 1280);
+  const a = b.gridDir * Math.PI / 180;
+  const ox = ((b.gx + Math.cos(a) * b.gridSpeed * t) % g + g) % g;
+  const oy = ((b.gy + Math.sin(a) * b.gridSpeed * t) % g + g) % g;
+  const wave = b.gridMode === 'wave';
+  const A = b.waveAmp, kx = 2 * Math.PI / b.waveLen, w = b.waveSpeed;
+  // displacement of a point of the grid; zero when the grid only scrolls
+  const dx = (x, y) => (wave ? A * Math.sin(y * kx + t * w) + A * 0.45 * Math.sin((x + y) * kx * 0.6 - t * w * 0.7) : 0);
+  const dy = (x, y) => (wave ? A * Math.sin(x * kx + t * w * 0.9 + 1.3) + A * 0.45 * Math.sin((x - y) * kx * 0.6 + t * w * 0.6) : 0);
+  const lines = (step, alpha, width) => {
+    ctx.strokeStyle = `rgba(${b.gridRGB},${alpha})`;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    const seg = wave ? 16 : 1400; // a straight grid needs only the two ends of each line
+    for (let x = ox - step * 2; x < 720 + step * 2; x += step) {
+      for (let y = -40; ; y = Math.min(y + seg, 1320)) { const px = x + dx(x, y), py = y + dy(x, y); y === -40 ? ctx.moveTo(px, py) : ctx.lineTo(px, py); if (y === 1320) break; }
+    }
+    for (let y = oy - step * 2; y < 1280 + step * 2; y += step) {
+      for (let x = -40; ; x = Math.min(x + seg, 760)) { const px = x + dx(x, y), py = y + dy(x, y); x === -40 ? ctx.moveTo(px, py) : ctx.lineTo(px, py); if (x === 760) break; }
+    }
+    ctx.stroke();
+  };
+  if (b.subGrid) lines(g / 2, b.gridAlpha * 0.3, 1.5);
+  lines(g, b.gridAlpha, b.gridWidth);
+}
 function buildBackground() {
   const bg = document.getElementById('bg'), b = C.bg, h = b.hue;
-  bg.style.background = `linear-gradient(${b.angle}deg, hsl(${h},${b.sat}%,${b.light + 8}%) 0%, hsl(${h + 8},${b.sat}%,${b.light}%) 55%, hsl(${h + 14},${b.sat}%,${b.light - 6}%) 100%)`;
-  $('div', '', bg, `inset:0; background: radial-gradient(ellipse at ${b.spotX}% ${b.spotY}%, hsla(${h - 10},100%,80%,.45) 0%, transparent 55%)`);
-  const g = b.grid;
-  $('div', '', bg, `inset:0; background-image: linear-gradient(rgba(255,255,255,.16) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(255,255,255,.16) 1.5px, transparent 1.5px); background-size: ${g}px ${g}px; background-position: ${b.gx}px ${b.gy}px`);
-  $('div', '', bg, `inset:0; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: ${g / 2}px ${g / 2}px; background-position: ${b.gx}px ${b.gy}px`);
+  bg.style.background = b.stops
+    ? `linear-gradient(${b.angle}deg, ${b.stops.join(', ')})`
+    : `linear-gradient(${b.angle}deg, hsl(${h},${b.sat}%,${b.light + 8}%) 0%, hsl(${h + 8},${b.sat}%,${b.light}%) 55%, hsl(${h + 14},${b.sat}%,${b.light - 6}%) 100%)`;
+  if (b.spot) $('div', '', bg, `inset:0; background: radial-gradient(ellipse at ${b.spotX}% ${b.spotY}%, hsla(${h - 10},100%,80%,${b.spot}) 0%, transparent 55%)`);
+  E.grid = gridCanvas(bg);
+  E.ecg = []; E.icons = []; E.motes = [];
+  if (!b.decor) return;
   E.ecg = b.ecg.map(e => {
     const svg = document.createElementNS(SVGNS, 'svg');
     svg.setAttribute('width', 1440); svg.setAttribute('height', 200);
@@ -169,6 +212,7 @@ function buildBackground() {
   E.motes = b.motes.map(m => { const d = $('div', '', bg, `width:${m.r}px; height:${m.r}px; border-radius:50%; background: rgba(255,255,255,.35); left:${m.x}px; top:${m.y}px`); return { el: d, ...m }; });
 }
 function animateBackground(t) {
+  drawGrid(t);
   for (const e of E.ecg) e.el.style.transform = `translateX(${-((t * e.speed) % 140)}px)`;
   for (const ic of E.icons) ic.el.style.transform = `translate(${Math.sin(t * 0.4 + ic.ph) * 8}px, ${Math.cos(t * 0.33 + ic.ph) * 10}px) rotate(${Math.sin(t * 0.25 + ic.ph) * 8}deg)`;
   for (const m of E.motes) m.el.style.transform = `translateY(${-((t * m.v) % 160)}px)`;
@@ -180,13 +224,14 @@ function buildTitle() {
   el.style.setProperty('--title', C.titleFont);
   el.style.setProperty('--sub', C.titleColor);
   el.innerHTML = '';
-  C.title.forEach((txt, i) => { const s = $('span', 'line' + (i ? ' sub' : ''), el); s.textContent = txt; });
+  (C.title || []).forEach((txt, i) => { const s = $('span', 'line' + (i ? ' sub' : ''), el); s.textContent = txt; });
   el.style.top = '14px';
 }
 function fitText() {
   const el = document.getElementById('title');
   const lines = [...el.children];
-  const max = lines.length > 1 ? [98, 60] : [112];
+  // smaller than before: the top reels have a small title or none, so the lungs get the room
+  const max = lines.length > 1 ? [68, 46] : [72];
   lines.forEach((s, i) => {
     let f = max[i];
     s.style.fontSize = f + 'px';
@@ -195,8 +240,7 @@ function fitText() {
     while (s.scrollWidth > 690 && f > 30) { f -= 2; s.style.fontSize = f + 'px'; s.style.setProperty('--stroke', Math.round(f * 0.13) + 'px'); s.style.setProperty('--drop', Math.round(f * 0.07) + 'px'); }
   });
   // everything below the title starts under it
-  const bottom = el.offsetTop + el.offsetHeight;
-  layout(bottom + 12);
+  layout(lines.length ? el.offsetTop + el.offsetHeight + 14 : 96);
 }
 function layout(top) {
   const L = C.geo = {};
@@ -206,10 +250,18 @@ function layout(top) {
   L.top = top; L.bottom = 1050; // leaves room at the bottom for the app's caption and buttons
   const len = L.bottom - L.top;
   const bar = document.getElementById('bar');
-  bar.style.cssText = `left:${L.barX - 14}px; width:28px; top:${L.top}px; height:${len}px`;
+  bar.style.cssText = `left:${L.barX - 16}px; width:32px; top:${L.top}px; height:${len}px`;
   L.nodes = C.nodeFrac.map(f => L.top + len * f);
   L.start = L.top + len * C.startFrac;
-  const size = Math.min(205, len * 0.23);
+  const size = Math.min(215, len * 0.23);
+  // arms reach from the bar towards each lung, like the top reels
+  const armLen = C.arms ? Math.max(60, Math.abs(L.lungX - L.barX) - size / 2 - 18) : 0;
+  E.arms.forEach((a, i) => {
+    a.style.display = C.arms ? 'block' : 'none';
+    a.className = 'arm' + (right ? ' flip' : '');
+    a.style.top = L.nodes[i] + 'px'; a.style.width = armLen + 'px';
+    a.style.left = (right ? L.barX - armLen - 12 : L.barX + 12) + 'px';
+  });
   E.nodes.forEach((n, i) => { n.style.left = L.barX + 'px'; n.style.top = L.nodes[i] + 'px'; E.rings[i].style.left = L.barX + 'px'; E.rings[i].style.top = L.nodes[i] + 'px'; });
   E.lungs.forEach((l, i) => {
     l.style.cssText = `left:${L.lungX - size / 2}px; top:${L.nodes[i] - size / 2}px; width:${size}px; height:${size}px`;
@@ -221,8 +273,11 @@ function init(cfg) {
   buildBackground();
   buildTitle();
   const stage = document.getElementById('stage');
-  E.nodes = []; E.rings = []; E.lungs = []; E.glows = [];
+  E.nodes = []; E.rings = []; E.lungs = []; E.glows = []; E.arms = [];
+  document.body.style.setProperty('--barFill', C.barStyle === 'black' ? '#101018' : '#fff');
+  document.body.style.setProperty('--barLine', C.barStyle === 'black' ? '#fff' : '#101018');
   for (let i = 0; i < 4; i++) {
+    E.arms.push($('div', 'arm', stage));
     E.rings.push($('div', 'ring', stage));
     E.nodes.push($('div', 'node', stage));
     E.glows.push($('div', 'glow', stage));

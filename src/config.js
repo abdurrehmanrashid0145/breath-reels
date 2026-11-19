@@ -11,6 +11,10 @@ const SCRIPTS = JSON.parse(fs.readFileSync(path.join(__dirname, 'scripts.json'),
 const FONTS = ['Bangers', 'Luckiest', 'Titan', 'Lilita'];
 const SIDES = ['left', 'right'];
 const ICONS = ['heart', 'plus', 'lung', 'pulse'];
+const GRID_MODES = ['wave', 'scroll'];
+const BAR_STYLES = ['white', 'black'];
+// how often a reel gets an on-screen title (the best-performing reels mostly have none)
+const TITLE_CHANCE = 0.3;
 
 // Lung picture sets: assets/lungs/<name>/1.png..4.png (worst to best). "cartoon" is the built-in SVG set.
 function lungSets() {
@@ -158,8 +162,15 @@ function resolve(user = {}, choose = plainPicker()) {
   const bg = {
     hue: sh.hue, sat: sh.sat, light: sh.light,
     angle: Math.round(between(r, 150, 210)),
+    stops: sh.stops || null, spot: sh.stops ? 0 : 0.22,
     spotX: Math.round(between(r, 10, 90)), spotY: Math.round(between(r, 5, 60)),
-    grid: pick(r, [60, 66, 72, 80, 90]), gx: Math.round(r() * 60), gy: Math.round(r() * 60),
+    grid: pick(r, [64, 72, 80, 90, 100]), gx: Math.round(r() * 60), gy: Math.round(r() * 60),
+    // the grid never stands still: it ripples ("wave") or drifts ("scroll")
+    gridMode: fresh(user.gridMode, 'gridMode', GRID_MODES),
+    gridSpeed: Math.round(between(r, 22, 40)), gridDir: pick(r, [90, -90, 45, 135, 0, 180]),
+    waveAmp: Math.round(between(r, 9, 14)), waveLen: Math.round(between(r, 380, 520)), waveSpeed: +between(r, 1.2, 1.8).toFixed(2),
+    gridRGB: '255,255,255', gridAlpha: sh.gridAlpha ?? 0.5, gridWidth: 3, subGrid: r() < 0.4,
+    decor: false, // old ECG lines and floating icons; set bg.decor to true to bring them back
     icon: fresh(user.icon, 'icon', ICONS),
     ecg: idx(1 + Math.floor(r() * 2)).map(i => ({ y: Math.round(i === 0 ? between(r, 150, 330) : between(r, 900, 1120)), amp: Math.round(between(r, 50, 90)), o: +between(r, 0.45, 0.75).toFixed(2), speed: Math.round(between(r, 18, 40)) })),
     icons: idx(7).map(i => ({ x: Math.round(between(r, 10, 650)), y: Math.round(180 + i * 150 + between(r, -40, 40)), s: Math.round(between(r, 40, 72)), o: +between(r, 0.35, 0.7).toFixed(2), ph: +(r() * 6.28).toFixed(2) })),
@@ -186,7 +197,10 @@ function resolve(user = {}, choose = plainPicker()) {
     mirrorLungs: user.mirrorLungs ?? false,
     titleFont: fresh(user.titleFont, 'titleFont', FONTS),
     titleColor: rand(user.titleColor, () => (['yellow', 'orange'].includes(family) ? '#ffffff' : pick(r, BANK.titleColors))),
-    title: fresh(user.title, 'title', BANK.titles),
+    // no title on most reels; when there is one it's small (template.html)
+    title: user.title === undefined ? (r() < TITLE_CHANCE ? choose(r, 'title', BANK.titles) : []) : fresh(user.title, 'title', BANK.titles),
+    barStyle: family === 'black' ? 'white' : fresh(user.barStyle, 'barStyle', BAR_STYLES),
+    arms: user.arms ?? true,
     lungs, lungImages: user.lungImages ?? lungImages(lungs),
     ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),
     tiers,

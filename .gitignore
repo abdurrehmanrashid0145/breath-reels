@@ -3,3 +3,4 @@ out/
 .venv/
 configs/20*/
 .history.json
+.generations/
