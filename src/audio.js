@@ -1,5 +1,5 @@
 // Procedural, royalty-free soundtrack: quiet ambient pad, a pop when the ball
-// appears, a ding each time it reaches a lung, a heartbeat that speeds up near the end, an exhale
+// appears, (optionally) a ding each time it reaches a lung, a heartbeat that speeds up near the end, an exhale
 // whoosh when the hold ends and a soft resolve chord. Writes a 16-bit stereo WAV.
 const fs = require('fs');
 const { rng } = require('./config');
@@ -51,7 +51,8 @@ function generate(cfg, file) {
   // --- pop as the ball appears, then a bright "ding" each time it reaches a lung ---
   add(0.05, x => Math.sin(2 * Math.PI * (300 + 900 * x * 6) * x) * Math.exp(-x * 18), 0.25, 0.25);
   const bell = f => x => (Math.sin(2 * Math.PI * f * x) + 0.4 * Math.sin(2 * Math.PI * f * 2.76 * x) * Math.exp(-x * 4) + 0.2 * Math.sin(2 * Math.PI * f * 5.4 * x) * Math.exp(-x * 8)) * Math.exp(-x * 2.2);
-  cfg.nodeTimes.forEach((t, lv) => {
+  // dings are off by default (Abdur, 2026-11-19); "sound": {"dings": true} in a config brings them back
+  if (cfg.sound.dings) cfg.nodeTimes.forEach((t, lv) => {
     const root = chord[0] + 36 + lv * 2;
     add(t, bell(midi(root)), 1.8, 0.22, -0.1);
     add(t + 0.11, bell(midi(root + 7)), 1.8, 0.2, 0.1);

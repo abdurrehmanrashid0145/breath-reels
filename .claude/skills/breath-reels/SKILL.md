@@ -1,6 +1,6 @@
 ---
 name: breath-reels
-description: Make viral-style "HOLD YOUR BREATH" lung reels (vertical MP4, bright medical background, comic title, emoji ball sliding past four lungs from wrecked to strong, roast voiceover, dings) from this repo. Use when asked to make, render or batch breath-hold / lung test reels.
+description: Make viral-style "HOLD YOUR BREATH" lung reels (vertical MP4, bright medical background, comic title, emoji ball sliding past four lungs from wrecked to strong, calm voiceover) from this repo. Use when asked to make, render or batch breath-hold / lung test reels.
 ---
 
 # Hold-your-breath lung reels
@@ -9,7 +9,7 @@ This repo renders 1080×1920, 60 s reels copied from a format that got 27M views
 saturated background in blue, navy, black, purple, yellow, red, green or orange with an always-moving background: rippling wave grid, square grid, 60° diagonal grid, turning sunburst or the original look (grids move one way per reel: up, down, left, right or diagonal; `npm run sheet` shows them all), no title on most reels (a small one on about 1 in 3), a bold bar with arms to each lung
 ("HOLD YOUR BREATH"), a plain white bar with four dots, a yellow emoji ball that slides
 down the bar, and four big lungs beside it going from wrecked smoker lungs (top) to cute
-flexing lungs (bottom). Each lung pops with a "ding" when the ball reaches it (~12, 27, 41.7, 56.5 s, same as the original).
+flexing lungs (bottom). Each lung pops when the ball reaches it (no ding sound; `"sound": {"dings": true}` brings it back) (~12, 27, 41.7, 56.5 s, same as the original).
 A calm, sparse voiceover (same structure as the original) runs over it. Keep the look minimal: the format works
 because it reads at a glance. Do not add timers, tier cards, captions or other UI.
 

@@ -2,7 +2,7 @@
 
 Makes vertical (1080×1920) "HOLD YOUR BREATH" reels in the style of the viral lung-test reels:
 a saturated background (blue, navy, black, purple, yellow, red, green or orange) with an always-moving background (rippling grid, square grid, 60° grid, turning sunburst or the original look), usually no title (about 1 in 3 reels gets a small one), a bold bar with arms reaching to each lung and an emoji ball sliding down it,
-and four lungs going from wrecked to strong. A short, calm voiceover and a "ding" each time the ball
+and four lungs going from wrecked to strong. A short, calm voiceover; no ding when the ball
 reaches a lung. Everything is generated locally and royalty-free. Every reel is randomised from its seed.
 
 ## Setup (Mac or Windows)
@@ -54,13 +54,13 @@ npm run make -- --script my-script.txt --title "HOLD YOUR BREATH / LUNG TEST"
 
 One spoken line per line. Optional `TITLE: LINE ONE / LINE TWO` sets the on-screen title.
 Start a line with a time like `0:05` to pin it; lines without a time are spaced out for you
-(the first starts at once, the last lands on the last lung). The lungs ding at about 0:12, 0:27, 0:42 and 0:56.
+(the first starts at once, the last lands on the last lung). The ball reaches the lungs at about 0:12, 0:27, 0:42 and 0:56.
 See `scripts/example-script.txt`. `{n1}`..`{n4}` still say the tier names.
 
 ## The reel (60 s, timed like the viral original)
 
 - 0–1 s: the ball pops in at the top of the bar. "Let's test your lungs. Ready? Hold!"
-- The ball slides down and hits lung 1 (12 s), lung 2 (27 s), lung 3 (41.7 s) and lung 4 (56.5 s). Each lung pops and dings.
+- The ball slides down and hits lung 1 (12 s), lung 2 (27 s), lung 3 (41.7 s) and lung 4 (56.5 s). Each lung pops (no ding sound unless `"sound": {"dings": true}`).
 - In between, a few calm lines: like, comment which lungs you have, send to a friend, you can breathe if you need to, follow, "just a little more", "almost there", then "Congrats!" on the last lung.
 
 ## What gets randomised
@@ -114,7 +114,7 @@ Every field is optional; leave it out (or `"random"`) to randomise it.
 - `src/template.html`: the picture (HTML/CSS/SVG); `init(cfg)` builds it, `render(t)` sets every element for time `t`.
 - `src/render.js`: drives headless Chromium frame by frame in parallel, encodes with ffmpeg, mixes audio.
 - `src/tts.py`: voiceover with Kokoro.
-- `src/audio.js`: sound effects (pop, lung dings, heartbeat, exhale whoosh, quiet pad).
+- `src/audio.js`: sound effects (pop, optional lung dings, heartbeat, exhale whoosh, quiet pad).
 - `src/config.js`: fills in a full config from a partial one.
 - `src/make.js`: plans a batch so reels don't repeat, writes configs and renders.
 - Every finished reel is logged in `.generations/<date>.log` on the computer that made it (script, background, lungs, voice, file). `npm run generations` shows how many were made each day; `npm run generations -- 2026-11-19` shows one day.
