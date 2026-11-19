@@ -1,5 +1,5 @@
 {
-  "_about": "Words and visuals each reel picks from. titles: 1 line, or 2 (second line smaller, coloured). shades: bright backgrounds grouped by colour family (blue, yellow, red, green, orange); each reel picks a family, then a shade. ballFaces: 5 yellow faces (start, then after reaching each lung). tierSets: names the voiceover uses for level-ups ({t2},{t3} in scripts.json).",
+  "_about": "Words and visuals each reel picks from. titles: 1 line, or 2 (second line smaller, coloured). shades: bright backgrounds grouped by colour family (blue, yellow, red, green, orange); each reel picks a family, then a shade. ballFaces: breathing emojis, 5 slots (start, then after reaching each lung); either one emoji the whole reel, or two (switches at the 2nd lung). tierSets: names the voiceover uses for level-ups ({t2},{t3} in scripts.json).",
   "titles": [
     [
       "HOLD YOUR BREATH"
@@ -263,87 +263,143 @@
   "ballFaces": [
     [
       "😮",
-      "😌",
-      "😤",
-      "🥵",
-      "😮‍💨"
-    ],
-    [
-      "😯",
-      "😗",
-      "😬",
-      "😣",
-      "😮‍💨"
-    ],
-    [
       "😮",
-      "😐",
+      "😮",
+      "😮",
+      "😮"
+    ],
+    [
       "😤",
-      "😵",
-      "🥳"
+      "😤",
+      "😤",
+      "😤",
+      "😤"
     ],
     [
-      "😲",
-      "😑",
-      "😖",
-      "🥵",
-      "😁"
-    ],
-    [
-      "😳",
-      "😌",
-      "😣",
-      "😫",
+      "😮‍💨",
+      "😮‍💨",
+      "😮‍💨",
+      "😮‍💨",
       "😮‍💨"
     ],
     [
-      "😮",
-      "🙂",
-      "😬",
-      "🥵",
-      "😎"
+      "🤐",
+      "🤐",
+      "🤐",
+      "🤐",
+      "🤐"
     ],
     [
-      "😯",
       "😶",
-      "😤",
-      "😵‍💫",
-      "😮‍💨"
-    ],
-    [
-      "😮",
-      "😌",
-      "😖",
-      "😩",
-      "🤩"
-    ],
-    [
-      "😲",
-      "😗",
-      "😣",
-      "🥵",
-      "😆"
+      "😶",
+      "😶",
+      "😶",
+      "😶"
     ],
     [
       "😳",
-      "😑",
-      "😬",
-      "😫",
-      "😮‍💨"
+      "😳",
+      "😳",
+      "😳",
+      "😳"
+    ],
+    [
+      "🫁",
+      "🫁",
+      "🫁",
+      "🫁",
+      "🫁"
+    ],
+    [
+      "🤿",
+      "🤿",
+      "🤿",
+      "🤿",
+      "🤿"
+    ],
+    [
+      "🌬️",
+      "🌬️",
+      "🌬️",
+      "🌬️",
+      "🌬️"
+    ],
+    [
+      "😗",
+      "😗",
+      "😗",
+      "😗",
+      "😗"
     ],
     [
       "😮",
-      "🫡",
+      "😮",
       "😤",
+      "😤",
+      "😤"
+    ],
+    [
+      "🤐",
+      "🤐",
+      "🥵",
+      "🥵",
+      "🥵"
+    ],
+    [
+      "😶",
+      "😶",
+      "😳",
+      "😳",
+      "😳"
+    ],
+    [
+      "😗",
+      "😗",
       "😵",
-      "😮‍💨"
+      "😵",
+      "😵"
     ],
     [
       "😯",
+      "😯",
+      "😮‍💨",
+      "😮‍💨",
+      "😮‍💨"
+    ],
+    [
       "😌",
-      "😬",
+      "😌",
+      "😤",
+      "😤",
+      "😤"
+    ],
+    [
+      "🤿",
+      "🤿",
+      "😮‍💨",
+      "😮‍💨",
+      "😮‍💨"
+    ],
+    [
+      "😳",
+      "😳",
+      "😵‍💫",
+      "😵‍💫",
+      "😵‍💫"
+    ],
+    [
+      "🫁",
+      "🫁",
+      "😮‍💨",
+      "😮‍💨",
+      "😮‍💨"
+    ],
+    [
+      "😤",
+      "😤",
       "🥵",
-      "😇"
+      "🥵",
+      "🥵"
     ]
   ],
   "tierSets": [
