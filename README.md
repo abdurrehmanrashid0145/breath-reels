@@ -96,7 +96,7 @@ Every field is optional; leave it out (or `"random"`) to randomise it.
   "side": "right",
   "shade": 3,
   "lungs": "cartoon",
-  "ballFaces": ["😮", "😮", "😤", "😤", "😤"],
+  "ballFaces": ["😶", "😶", "😳", "😳", "😳"],
   "voice": "am_puck",
   "voiceSpeed": 1.1,
   "script": [{ "t": 0.3, "say": "Hold your breath. Let's go." }],

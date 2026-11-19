@@ -51,6 +51,6 @@ Lines live in `src/scripts.json`, one array per moment. The planner picks them u
 - Don't promote other people's apps (the original viral reel had an App Store ad; we leave it out).
 - Sound and voice are generated locally and royalty-free. Only set `sound.music` to a track the user confirms is licensed. Trending platform audio has to be added in-app.
 - To grow the pools, add to `src/bank.json` (`titles`: 1 or 2 lines, all caps; `shades`: background blues; `ballFaces`: breathing-related emojis only, 5 slots each, either one emoji repeated or two (A,A,B,B,B: switches at the 2nd lung); `titleColors`) and voiceover lines to `src/scripts.json`.
-- Current pools: 20 titles, 23 shades in 8 colour families (blue, navy, black, purple, yellow, red, green, orange), 5 background designs, 5 grid directions, 2 bar styles, 5 bar layouts, 4 comic fonts, 2 bar sides, 4 icon types, 20 breathing emoji sets (10 single, 10 pairs), 9 voices, 141 voiceover lines.
+- Current pools: 20 titles, 23 shades in 8 colour families (blue, navy, black, purple, yellow, red, green, orange), 5 background designs, 5 grid directions, 2 bar styles, 5 bar layouts, 4 comic fonts, 2 bar sides, 4 icon types, 11 breathing emoji sets (7 single, 4 pairs), 9 voices, 141 voiceover lines.
 
 - Each finished reel is appended to `.generations/<date>.log` (local, not in git). `npm run generations` lists counts per day.
