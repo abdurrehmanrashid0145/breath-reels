@@ -27,7 +27,33 @@
   #bar { position: absolute; border-radius: 8px; background: var(--barFill); border: 4px solid var(--barLine); z-index: 4; }
   .arm { position: absolute; height: 26px; margin-top: -13px; border-radius: 0 8px 8px 0; background: var(--barFill); border: 4px solid var(--barLine); border-left: 0; z-index: 4; }
   .arm.flip { border-radius: 8px 0 0 8px; border-left: 4px solid var(--barLine); border-right: 0; }
-  .node { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: var(--barFill); border: 4px solid var(--barLine); z-index: 5; }
+  .node { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: var(--barFill); border: 4px solid var(--barLine); z-index: 5;
+    display: flex; align-items: center; justify-content: center; font-family: Lilita; font-size: 24px; color: var(--barLine); }
+  #fill, #bulb { position: absolute; z-index: 4; display: none; }
+
+  /* timer bar designs (C.barStyle); "white" and "black" are the plain ones */
+  .bar-neon { --barFill: #39ff14; --barLine: #eaffea; }
+  .bar-neon #bar, .bar-neon .arm { border: 0; box-shadow: 0 0 14px #39ff14, 0 0 36px rgba(57,255,20,.7); }
+  .bar-neon .node { box-shadow: 0 0 14px #39ff14, 0 0 30px rgba(57,255,20,.8); }
+  .bar-diamond { --barFill: #ffd400; --barLine: #101018; }
+  .bar-diamond .node { width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 8px; transform: rotate(45deg); background: #fff; }
+  .bar-fill #fill { display: block; border-radius: 6px; background: linear-gradient(#ff3b3b, #ffb800 45%, #2ee66b); }
+  .bar-fill .node.hit { background: #2ee66b; }
+  .bar-thermo { --barFill: rgba(255,255,255,.92); --barLine: #101018; }
+  .bar-thermo #bar { border-radius: 30px; }
+  .bar-thermo #fill { display: block; border-radius: 20px; background: linear-gradient(90deg, #ff2b2b, #ff7a7a 40%, #e01010); }
+  .bar-thermo #bulb { display: block; width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a8a, #e01010 60%); border: 5px solid #101018; z-index: 5; }
+  .bar-thermo .node { width: 30px; height: 30px; margin: -15px 0 0 -15px; }
+  .bar-candy #bar, .bar-candy .arm { background: repeating-linear-gradient(45deg, #ff2d55 0 14px, #fff 14px 28px); }
+  .bar-candy .node { background: #fff; border-color: #ff2d55; border-width: 6px; }
+  .bar-seconds .node { width: 84px; height: 84px; margin: -42px 0 0 -42px; font-size: 36px; }
+  .bar-glass { --barFill: rgba(255,255,255,.38); --barLine: #fff; }
+  .bar-glass #bar, .bar-glass .arm, .bar-glass .node { box-shadow: 0 4px 18px rgba(0,0,0,.25), inset 0 0 12px rgba(255,255,255,.5); }
+  .bar-glass .node { color: #fff; }
+  .bar-dots #bar { border: 0; background: radial-gradient(circle, #fff 7px, transparent 8px) center top / 32px 30px repeat-y; }
+  .bar-dots .arm { border: 0; height: 0; border-top: 6px dotted #fff; margin-top: -3px; background: none; }
+  .bar-dots .node { border-color: #fff; background: #101018; }
+  .bar-rainbow #bar { background: linear-gradient(#ff3b3b, #ff9500 30%, #ffd400 55%, #2ee66b 80%, #1ec8ff); }
   .ring { position: absolute; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; border: 5px solid #fff; z-index: 3; opacity: 0; }
 
   .lung { position: absolute; z-index: 6; display: flex; align-items: center; justify-content: center; }
@@ -307,12 +333,17 @@ function init(cfg) {
   buildTitle();
   const stage = document.getElementById('stage');
   E.nodes = []; E.rings = []; E.lungs = []; E.glows = []; E.arms = [];
-  document.body.style.setProperty('--barFill', C.barStyle === 'black' ? '#101018' : '#fff');
-  document.body.style.setProperty('--barLine', C.barStyle === 'black' ? '#fff' : '#101018');
+  document.body.classList.add('bar-' + (C.barStyle || 'white'));
+  E.fill = $('div', '', stage); E.fill.id = 'fill';
+  E.bulb = $('div', '', stage); E.bulb.id = 'bulb';
+  if (C.barStyle === 'black') { document.body.style.setProperty('--barFill', '#101018'); document.body.style.setProperty('--barLine', '#fff'); }
   for (let i = 0; i < 4; i++) {
     E.arms.push($('div', 'arm', stage));
     E.rings.push($('div', 'ring', stage));
-    E.nodes.push($('div', 'node', stage));
+    const node = $('div', 'node', stage);
+    if (C.barStyle === 'seconds') node.textContent = Math.round(C.nodeTimes[i]) + 's';
+    if (C.barStyle === 'rainbow') node.style.background = ['#ff6b5b', '#ffb800', '#2ee66b', '#1ec8ff'][i];
+    E.nodes.push(node);
     E.glows.push($('div', 'glow', stage));
     const l = $('div', 'lung', stage);
     if (C.lungImages) { const img = $('img', '', l); img.src = C.lungImages[i]; }
@@ -342,6 +373,13 @@ function render(t) {
   const y = ballY(t);
   E.ball.style.left = C.geo.barX + 'px';
   E.ball.style.top = y + 'px';
+  // bars that fill up behind the ball
+  if (C.barStyle === 'fill' || C.barStyle === 'thermo') {
+    const L = C.geo, w = C.barStyle === 'thermo' ? 22 : 20;
+    if (C.barStyle === 'thermo') { E.bulb.style.left = L.barX + 'px'; E.bulb.style.top = (L.bottom + 30) + 'px'; }
+    E.fill.style.cssText = `left:${L.barX - w / 2}px; width:${w}px; top:${L.top + 6}px; height:${Math.max(0, y - L.top - 6)}px`;
+  }
+  E.nodes.forEach((nd, i) => nd.classList.toggle('hit', t >= C.nodeTimes[i]));
   E.face.textContent = C.ballFaces[Math.min(n, C.ballFaces.length - 1)];
   // gentle wobble while holding, a squash when it hits each lung
   let sc = t < C.dropTime ? ease(t / C.dropTime) * (1 + 0.25 * Math.sin(t / C.dropTime * Math.PI)) : 1, rot = Math.sin(t * 2.2) * 5;

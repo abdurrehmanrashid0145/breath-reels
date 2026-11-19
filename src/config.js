@@ -16,6 +16,8 @@ const GRID_MODES = ['wave', 'grid', 'diagonal', 'rays', 'classic'];
 // which way a grid moves for the whole reel, in screen degrees
 const GRID_DIRS = { down: 90, up: -90, right: 0, left: 180, diagonal: 60 };
 const BAR_STYLES = ['white', 'black'];
+// every timer bar design the template can draw (set "barStyle" in a config); only BAR_STYLES rotate automatically
+const BAR_DESIGNS = ['white', 'black', 'neon', 'diamond', 'fill', 'thermo', 'candy', 'seconds', 'glass', 'dots', 'rainbow'];
 // how often a reel gets an on-screen title (the best-performing reels mostly have none)
 const TITLE_CHANCE = 0.3;
 
@@ -208,7 +210,7 @@ function resolve(user = {}, choose = plainPicker()) {
     titleColor: rand(user.titleColor, () => (['yellow', 'orange'].includes(family) ? '#ffffff' : pick(r, BANK.titleColors))),
     // no title on most reels; when there is one it's small (template.html)
     title: user.title === undefined ? (r() < TITLE_CHANCE ? choose(r, 'title', BANK.titles) : []) : fresh(user.title, 'title', BANK.titles),
-    barStyle: family === 'black' ? 'white' : fresh(user.barStyle, 'barStyle', BAR_STYLES),
+    barStyle: user.barStyle && user.barStyle !== 'random' ? (family === 'black' && user.barStyle === 'black' ? 'white' : user.barStyle) : family === 'black' ? 'white' : fresh(undefined, 'barStyle', BAR_STYLES),
     arms: user.arms ?? true,
     lungs, lungImages: user.lungImages ?? lungImages(lungs),
     ballFaces: fresh(user.ballFaces, 'ballFaces', BANK.ballFaces),
@@ -220,4 +222,4 @@ function resolve(user = {}, choose = plainPicker()) {
   };
 }
 
-module.exports = { GRID_MODES, GRID_DIRS, resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };
+module.exports = { BAR_DESIGNS, GRID_MODES, GRID_DIRS, resolve, rng, freshPicker, nodeTimes, parseScript, estimateSpeech, lungSets, BANK, SCRIPTS, FONTS };

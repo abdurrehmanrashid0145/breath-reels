@@ -68,7 +68,7 @@ See `scripts/example-script.txt`. `{n1}`..`{n4}` still say the tier names.
 | Thing | Options |
 |---|---|
 | Background | 5 designs × 8 colour families (`bank.json` `shades`; a batch spreads across both). Designs (`gridMode`): `wave` (rippling grid), `grid` (square), `diagonal` (60° grid), `rays` (turning sunburst), `classic` (original faint grid with ECG lines and icons). Grids move one way per reel (`gridDir`: `up`, `down`, `left`, `right` or `diagonal`). `npm run sheet` makes a picture of every background |
-| Bar | white or black (`barStyle`), arms to each lung (`"arms": false` turns them off) |
+| Bar | white or black rotate automatically (`barStyle`). More designs can be set by hand: `neon`, `diamond`, `fill`, `thermo`, `candy`, `seconds`, `glass`, `dots`, `rainbow`. Arms to each lung (`"arms": false` turns them off) |
 | Title | none on about 2 in 3 reels (`"title": []` forces none), otherwise small; 20 titles (`bank.json` `titles`), 4 comic fonts (Bangers, Luckiest Guy, Titan One, Lilita One) |
 | Bar side | left or right |
 | Ball | 12 sets of yellow emoji faces (one per lung reached) |
